@@ -1,0 +1,60 @@
+#!/usr/bin/python3
+
+"""
+Le, na entrada padrao, um programa na linguagem de montagem da maquina
+virtual e retorna um programa em C que executa este programa.
+
+Uso:
+    montador < entrada > saida
+"""
+from sys import stdin
+
+l = stdin.readline()
+ip = 0
+
+tabsim = {}
+
+print("#include<stdio.h>")
+print("#include " + "\"maq.h\" \n")
+
+
+print("INSTR prog[] = {")
+while l:
+    label = op = ""
+    arg   = 0
+    try:
+        l = l[:l.index('#')]
+    except:
+        pass
+    keys = l.split()
+    if len(keys) > 0 and keys[0].endswith(":"):
+        label = keys[0][:-1]              #jogando fora o ':'
+        tabsim[label]=ip
+        keys.pop(0)
+    if len(keys) > 0:
+        op = keys.pop(0)
+    if len(keys) > 0:
+        arg = keys.pop(0)
+        if arg in tabsim:
+            arg = tabsim[arg]
+    if op != "" and op!=" ":
+        print("  {%s, %s},"%(op,arg))
+        ip += 1
+    else:
+        print("")
+    l = stdin.readline()
+    
+print("};\n")
+
+print("int main(int ac, char **av) { \n")
+print("  Maquina *maq = cria_maquina(prog); \n  exec_maquina(maq, 1000); \n  puts(\"---\"); \n  exec_maquina(maq, 1000); \n")
+print("  puts(\"---\"); \n  destroi_maquina(maq); \n")
+print("  return 0; \n}")
+    
+
+
+
+
+# Local variables:
+# mode: python
+# End:
