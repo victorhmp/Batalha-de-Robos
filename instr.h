@@ -12,8 +12,6 @@ typedef enum {
   JIF,
   CALL,
   RET,
-  //STS,
-  //RCS,
   EQ,
   GT,
   GE,
@@ -28,11 +26,11 @@ typedef enum {
   RCE,
   SAVE,
   ALC,
-  FRE
+  FRE,
+  ATR
 } OpCode;
 
 /* Tipos dos operandos */
-/* no momento, são todos inteiros */
 typedef enum {
   NUM,
   ACAO,
@@ -40,15 +38,17 @@ typedef enum {
 } Tipo;
 
 /* Operando */
-/* typedef struct { */
-/*   Tipo t; */
-/*   union { */
-/* 	int n; */
-/* 	int ac; */
-/* 	int v; */
-/*   }; */
-/* } OPERANDO; */
-typedef int OPERANDO;
+typedef struct { 
+    // indicador do tipo
+    Tipo t; 
+    union { // valores
+   	  int n; 
+   	  int ac; 
+   	  int v; 
+    }; 
+} OPERANDO;
+
+// typedef int OPERANDO;
 
 /* Instrução */
 typedef struct {

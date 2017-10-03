@@ -35,7 +35,8 @@ char *CODES[] = {
   "RCE",
   "SAVE",
   "ALC",
-  "FRE"
+  "FRE",
+  "ATR"
   };
 #else
 #  define D(X)
@@ -191,6 +192,9 @@ void exec_maquina(Maquina *m, int n) {
 		break;
 	case FRE:
 		exec->topo -= arg;
+		break;
+	case ATR:
+		// get object atribute
 		break;
 	}
 	D(imprime(pil,5));

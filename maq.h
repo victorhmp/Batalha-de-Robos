@@ -9,6 +9,13 @@ typedef struct {
   INSTR *prog;
   int ip; // instru pointer
   int rbp; // base register
+
+  // new robot atributes
+  int cristals;
+  int hp;
+  // position (i,j)
+  int i;
+  int j;
 } Maquina;
 
 Maquina *cria_maquina(INSTR *p);
