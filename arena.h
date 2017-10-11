@@ -5,7 +5,7 @@ Prototipo da arena
 ***********************/
 #include "maq.h"
 #define MAXRO 100
-#define MAXSIZE 15
+#define MAXSIZE 20
 
 
 typedef struct{
