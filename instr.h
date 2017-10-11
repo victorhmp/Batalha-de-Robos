@@ -34,14 +34,15 @@ typedef enum {
 typedef enum {
   NUM,
   ACAO,
-  VAR
+  VAR,
+  CEL
 } Tipo;
 
 /* Operando */
 typedef struct { 
     // indicador do tipo
     Tipo t; 
-    union { // valores
+    union { // atributos (3)
    	  int n; 
    	  int ac; 
    	  int v; 

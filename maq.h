@@ -13,7 +13,7 @@ typedef struct {
   // new robot atributes
   int cristals;
   int hp;
-  // position (i,j)
+  // position in the grid(i,j)
   int i;
   int j;
 } Maquina;

@@ -2,20 +2,26 @@
 #include <stdlib.h>
 #include "arena.h"
 
+// size  (0-15)
 Arena *cria_arena(int size){
-	// creates array representation for an hexagonal grid
+	// cria o "array hexagonal"
+	int i;
+	Celula arena[size][size];
+	for(i = 0; i<size; i++){
+		
+	}
 }
 
-void atualiza(){
-	// move robots && refresh system status
+void atualiza(int ciclos){
+	// move os robos e atualiza o status do sistema
 }
 
-void insere_exercito(int color, int i, int j){
-	// insert new robot of color at position (i,j)
+void insere_exercito(int team){
+	// insere novo exercito de cor=color
 }
 
 void remove_exercito(int i, int j){
-	// removes a fallen robot
+	// remove um robo derrotado
 }
 
 int sistema(int op){
