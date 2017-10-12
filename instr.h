@@ -35,7 +35,8 @@ typedef enum {
   NUM,
   ACAO,
   VAR,
-  CEL
+  CEL, // celula
+  DIR // direção
 } Tipo;
 
 /* Operando */

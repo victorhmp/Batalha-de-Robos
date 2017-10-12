@@ -33,9 +33,8 @@
 
 Arena arena;
 
-// MAXSIZE = 20
+// MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
-
 Arena cria_arena(int size, POSICAO b[], POSICAO c[], int n[], POSICAO ter[]){
 	int i;
 	int j;
@@ -123,8 +122,8 @@ void insere_exercito(int t, POSICAO p[]){
 		
 }
 
+// remove um exercito derrotado
 void remove_exercito(int t){
-	// remove um exercito derrotado
 	int i;
 	for(i = 0; i < NUMROBOS;i++){
 		if(rob[i]->team == t) destroi_maquina(rob[i]);
@@ -133,8 +132,72 @@ void remove_exercito(int t){
 	}
 }
 
-int sistema(int op){
-	// especial call to coordenate the game
+// Função recebe um int que codifica a instrução
+// 1  = Mover / 2 = Recolhe / 3 = Deposita / arg >= 4 -> TipoAtaque
+// o código para TipoAtaque já descreve seu alcance e sua força, sendo na forma (arg-3)
+// a força do ataque é 10 vezes o seu alcance, pode ser modificado futuramente
+// Assume que o argumento (Direção) está no topo da pilha de dados
+// Direção = SUL || NOR || NOD || SOE || SUD || NOE (baixo-cima-diagonais)
+int sistema(int op, Maquina robo){
+	POSICAO nova_pos;
+	if(desempilha(robo->pil) == "SUL"){
+		nova_pos->i = robo->pI + 2;
+		nova_pos->j = robo->pJ;
+	}
+	if(desempilha(robo->pil) == "NOR"){
+		nova_pos->i = robo->pI - 2;
+		nova_pos->j = robo->pJ;
+	}
+	if(desempilha(robo->pil) == "NOD"){
+		nova_pos->i = robo->pI - 1;
+		nova_pos->j = robo->pJ + 1;
+	}
+	if(desempilha(robo->pil) == "SOE"){
+		nova_pos->i = robo->pI + 1;
+		nova_pos->j = robo->pJ - 1;
+	}
+	if(desempilha(robo->pil) == "SUD"){
+		nova_pos->i = robo->pI + 1;
+		nova_pos->j = robo->pJ + 1;
+	}
+	if(desempilha(robo->pil) == "NOE"){
+		nova_pos->i = robo->pI - 1;
+		nova_pos->j = robo->pJ - 1;
+	}
+
+	switch(op){
+		case 1:
+			if( (hex[nova_pos->i][nova_pos->j]->ocup) == 0){
+				robo->i = nova_pos->i;
+				robo->j = nova_pos->j;
+				return 1;
+			}
+			else 
+				return 0;
+			break;
+		case 2:
+			if( (hex[nova_pos->i][nova_pos->j]->cristais) > 0){
+				robo->cristais += hex[nova_pos->i][nova_pos->j]->cristais;
+				(hex[nova_pos->i][nova_pos->j]->cristais) = 0;
+				return 1;
+			}
+			else
+				return 0;
+			break;
+		case 3:
+			if( (hex[nova_pos->i][nova_pos->j]->ocup) == 0){
+				(hex[nova_pos->i][nova_pos->j]->cristais)++;
+				robo->cristais--;
+				return 1;
+			}
+			else
+				return 0;
+			break;
+		default:
+			int force = op*10;
+			
+			break;
+	}
 }
 
 

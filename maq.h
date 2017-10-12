@@ -36,3 +36,4 @@ void destroi_maquina(Maquina *m);
 void exec_maquina(Maquina *m, int n);
 
 
+
