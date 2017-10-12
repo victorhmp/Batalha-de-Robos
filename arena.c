@@ -27,7 +27,7 @@
 #define pJ (pos->j)
 
 // define o numero de robos em cada exercito
-#define NUMROBO 10
+#define NUMROBOS 10
 
 Arena arena;
 
@@ -49,7 +49,7 @@ Arena *cria_arena(int size){
 	}
 
 	// inicializa os robos sem time
-	for (int i = 0; i < NUMROBO; i++){
+	for (int i = 0; i < NUMROBOS; i++){
 		rob[i]->team = 0;
 	}
 
@@ -60,7 +60,7 @@ Arena *cria_arena(int size){
 // avança o tempo
 void atualiza(int ciclos){
 	int i;
-	for(i = 0; i < NUMROBO; i++){
+	for(i = 0; i < NUMROBOS; i++){
 		if(rob[i]->hp > 0) // check if the robot is still active
 			exec_maquina(rob[i], ciclos);
 	}
@@ -69,15 +69,13 @@ void atualiza(int ciclos){
 
 // insere cada exercito t com os robos nas posiçoes
 // dados no array p[] recebidos externamente
+// numero de robos facilmente alteravel pelo parâmetro NUMROBOSS
 void insere_exercito(int t, POSICAO p[]){
-	// insere novo exercito (de 5 robos)
-	// facilmente alteravel pelo parâmetro NUMROBOS
-
 	// checa se t é o primeiro time ou o segundo
 	int is_first = 1;
 	if(rob[0]->team != t) is_first = 0;
 	if(!is_first){
-		for(int i = NUMROBO/2; i<NUMROBO; i++){
+		for(int i = NUMROBOS/2; i<NUMROBOS; i++){
 			rob[i]->team = t;
 			rob[i]->hp = 100;
 			rob[i]->pI = p[i]->i;
@@ -86,7 +84,7 @@ void insere_exercito(int t, POSICAO p[]){
 		}
 	}
 	else{
-		for(int i = 0; i < NUMROBO/2; i++){
+		for(int i = 0; i < NUMROBOS/2; i++){
 			rob[i]->team = t;
 			rob[i]->hp = 100;
 			rob[i]->pI = p[i]->i;
@@ -100,7 +98,7 @@ void insere_exercito(int t, POSICAO p[]){
 void remove_exercito(int t){
 	// remove um exercito derrotado
 	int i;
-	for(i = 0; i < NUMROBO;i++){
+	for(i = 0; i < NUMROBOS;i++){
 		if(rob[i]->team == t) destroi_maquina(rob[i]);
 		rob[i]->hp = 0;
 		hex[rob[i]->pI][rob[i]->pJ]->ocup = 0;

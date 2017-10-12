@@ -55,6 +55,9 @@ Maquina *cria_maquina(INSTR *p) {
   m->ip = 0;
   m->rbp = 0;
   m->prog = p;
+  m->cristais = 0;
+  m->hp = 0;
+  m->team = 0;
   return m;
 }
 

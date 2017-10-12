@@ -1,8 +1,3 @@
-/***********************
-
-Prototipo da arena
-
-***********************/
 #include "maq.h"
 #define MAXRO 100
 #define MAXSIZE 20
