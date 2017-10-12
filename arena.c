@@ -36,6 +36,7 @@ Arena arena;
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
 Arena cria_arena(int size, POSICAO b[], POSICAO c[], int n[], POSICAO ter[]){
+	
 	int i;
 	int j;
 
