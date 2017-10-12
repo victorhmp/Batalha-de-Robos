@@ -26,7 +26,7 @@
 #define pI (pos->i)
 #define pJ (pos->j)
 
-// define o numero de robos em cada exercito
+// define o numero de robos na arena
 #define NUMROBOS 10
 // define o numeros de instruções por ciclo
 #define CICLOS 50
@@ -134,10 +134,12 @@ void remove_exercito(int t){
 
 // Função recebe um int que codifica a instrução
 // 1  = Mover / 2 = Recolhe / 3 = Deposita / arg >= 4 -> TipoAtaque
-// o código para TipoAtaque já descreve seu alcance e sua força, sendo na forma (arg-3)
+// o código para TipoAtaque já descreve seu alcance e sua força
 // a força do ataque é 10 vezes o seu alcance, pode ser modificado futuramente
 // Assume que o argumento (Direção) está no topo da pilha de dados
 // Direção = SUL || NOR || NOD || SOE || SUD || NOE (baixo-cima-diagonais)
+// return 1 se o sistema autorizar o que o robo pede
+// return 0 se o sistema não autorizar
 int sistema(int op, Maquina robo){
 	POSICAO nova_pos;
 	if(desempilha(robo->pil) == "SUL"){
@@ -193,11 +195,20 @@ int sistema(int op, Maquina robo){
 			else
 				return 0;
 			break;
+		// Por enquanto, alcance do ataque é igual a 1, por simplicidade.
+		// Será modificado posteriormente
 		default:
 			int force = op*10;
-			
+			if( (hex[nova_pos->i][nova_pos->j]->ocup) == 1 ){
+				for(int i=0;i<NUMROBOS;i++){
+					if( (rob[i]->pI == nova_pos->i) && (rob->pJ == nova_pos->j) )
+						rob[i]->hp -= force; 
+				}
+			}
+			return 1;
 			break;
 	}
+	return 1;
 }
 
 
