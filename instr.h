@@ -40,6 +40,8 @@ typedef enum {
 } Tipo;
 
 /* Operando */
+
+/*
 typedef struct { 
     // indicador do tipo
     Tipo t; 
@@ -50,7 +52,9 @@ typedef struct {
     }; 
 } OPERANDO;
 
-// typedef int OPERANDO;
+*/
+
+ typedef int OPERANDO;
 
 /* Instrução */
 typedef struct {

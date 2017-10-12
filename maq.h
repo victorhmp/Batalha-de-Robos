@@ -2,6 +2,11 @@
 
 #define MAXMEM 100
 
+typedef struct{
+  int i;
+  int j;
+} POSICAO;
+
 typedef struct {
   Pilha pil;
   Pilha exec;
@@ -11,7 +16,7 @@ typedef struct {
   int rbp; // base register
 
   // atributos do robo
-  int cristals;
+  int cristais;
   int hp;
 
   // posição na grid
@@ -24,10 +29,7 @@ typedef struct {
   int team;
 } Maquina;
 
-typedef struct{
-  int i;
-  int j;
-} POSICAO;
+
 
 Maquina *cria_maquina(INSTR *p);
 

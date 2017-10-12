@@ -1,4 +1,4 @@
-motor: maq.o pilha.o  motor.o
+motor: maq.o pilha.o  motor.o arena.o
 
 clean:
 	
