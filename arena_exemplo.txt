@@ -1,0 +1,40 @@
+/*************************************************
+	Esse é um exemplo de arquivo .txt que deverá
+fornecer a configuração inicial da arena para o
+jogo. Deverá ser lido pelo motor do jogo.
+
+*************************************************/
+
+
+
+******* Posição dos exércitos (para 10 robos/exército) *******
+i0 j0
+i1 j1
+i2 j2
+i3 j3
+i4 j4
+i5 j5
+i6 j6
+i7 j7
+i8 j8
+i9 j9
+
+******* Posição das bases (para 2 nesse caso) *******
+i0 j0
+i1 j1
+
+******* Posição dos cristais e número em cada posição *******
+i0 j0 n0
+i1 j1 n1
+i2 j2 n2
+.  .  .
+.  .  .
+.  .  .
+
+******* Posição dos terrenos rugosos *******
+i0 j0
+i1 j1
+i2 j2
+.  .
+.  .
+.  .
