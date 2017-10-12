@@ -24,7 +24,7 @@ typedef struct{
 	int is_base;
 } Celula;
 
-Arena *cria_arena(int size);
+Arena cria_arena(int size);
 
 void atualiza(int ciclos);
 

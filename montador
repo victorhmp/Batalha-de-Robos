@@ -47,7 +47,7 @@ while l:
 print("};\n")
 
 print("int main(int ac, char **av) { \n")
-print("  Maquina *maq = cria_maquina(prog); \n  exec_maquina(maq, 1000); \n  puts(\"---\"); \n  exec_maquina(maq, 1000); \n")
+print("  Maquina *maq = cria_maquina(prog);\n exec_maquina(maq, 1000); \n  puts(\"---\"); \n  exec_maquina(maq, 1000); \n")
 print("  puts(\"---\"); \n  destroi_maquina(maq); \n")
 print("  return 0; \n}")
     
