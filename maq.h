@@ -10,13 +10,24 @@ typedef struct {
   int ip; // instru pointer
   int rbp; // base register
 
-  // new robot atributes
+  // atributos do robo
   int cristals;
   int hp;
-  // position in the grid(i,j)
+
+  // posição na grid
+  POSICAO pos;
+
+  // time do robo
+  // team = 1 || team = 2
+  // team == 0 -> robo sem time
+  // (não inserido ainda ou inativo)
+  int team;
+} Maquina;
+
+typedef struct{
   int i;
   int j;
-} Maquina;
+} POSICAO;
 
 Maquina *cria_maquina(INSTR *p);
 

@@ -9,9 +9,12 @@ Prototipo da arena
 
 
 typedef struct{
-	int robots[MAXRO];
-	int time;
+	// array com os exercitos ativos
+	// a posicao de cada robo é um parametro
+	// da maquina virtual
+	Maquina robo[MAXRO];
 
+	int tempo;
 	// array que representa a arena
 	Celula hexagon[MAXSIZE][MAXSIZE];
 } Arena;
@@ -26,8 +29,10 @@ typedef struct{
 	int is_base;
 } Celula;
 
-typedef struct{
-	// position
-	int i;
-	int j;
-} ROBOT;
+Arena *cria_arena(int size);
+
+void atualiza(int ciclos);
+
+void insere_exercito(int team);
+
+int sistema(int op);
