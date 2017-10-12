@@ -19,8 +19,6 @@ char *CODES[] = {
   "JIF",
   "CALL",
   "RET",
-  //"STS",
-  //"RCS",
   "EQ",
   "GT",
   "GE",
