@@ -12,8 +12,8 @@ typedef struct {
   Pilha exec;
   OPERANDO Mem[MAXMEM];
   INSTR *prog;
-  int ip; // instru pointer
-  int rbp; // base register
+  OPERANDO ip; // instru pointer
+  OPERANDO rbp; // base register
 
   // atributos do robo
   int cristais;
