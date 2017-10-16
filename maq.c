@@ -83,6 +83,9 @@ void exec_maquina(Maquina *m, int n) {
 
 	switch (opc) {
 	  OPERANDO tmp;
+	  OPERANDO op1;
+	  OPERANDO op2;
+	  OPERANDO res;
 	case PUSH:
 	  empilha(pil, arg);
 	  break;
@@ -95,31 +98,65 @@ void exec_maquina(Maquina *m, int n) {
 	  empilha(pil, tmp);
 	  break;
 	case ADD:
-	  empilha(pil, desempilha(pil)+desempilha(pil));
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if(op1.t==NUM && op2.t==NUM){
+	  	res.t = NUM;
+	  	res.val.n = op1.val.n + op2.val.n;
+	  	empilha(pil, res);
+	  }
 	  break;
 	case SUB:
-	  tmp = desempilha(pil);
-	  empilha(pil, desempilha(pil)-tmp);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if(op1.t==NUM && op2.t==NUM){
+	  	res.t = NUM;
+	  	res.val.n = op1.val.n - op2.val.n;
+	  	empilha(pil, res);
+	  }
 	  break;
 	case MUL:
-	  empilha(pil, desempilha(pil)*desempilha(pil));
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if(op1.t==NUM && op2.t==NUM){
+	  	res.t = NUM;
+	  	res.val.n = op1.val.n * op2.val.n;
+	  	empilha(pil, res);
+	  }
 	  break;
 	case DIV:
-	  tmp = desempilha(pil);
-	  empilha(pil, desempilha(pil)/tmp);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if(op1.t==NUM && op2.t==NUM && op2.val.n != 0){
+	  	res.t = NUM;
+	  	res.val.n = op1.val.n / op2.val.n;
+	  	empilha(pil, res);
+	  }
 	  break;
 	case JMP:
-	  ip = arg;
+	  if(arg.t == NUM) {
+	  	ip = arg.val.n;
+	  }
 	  continue;
 	case JIT:
-	  if (desempilha(pil) != 0) {
-		ip = arg;
+	  if (arg.t == NUM) {
+	  	op1 = desempilha(pil);
+	  	if (op1.val.n != 0) {
+			ip = arg.val.n;
+		}
 		continue;
 	  }
 	  break;
 	case JIF:
-	  if (desempilha(pil) == 0) {
-		ip = arg;
+	  if (arg.t == NUM) {
+	  	op1 = desempilha(pil);
+	  	if (op1.val.n == 0) {
+			ip = arg.val.n;
+		}
 		continue;
 	  }
 	  break;
@@ -127,7 +164,8 @@ void exec_maquina(Maquina *m, int n) {
 		empilha(exec, m->rbp);
 	  	empilha(exec, ip);
 	  	m->rbp = exec->topo - 1;
-	  	ip = arg;
+	  	if(arg.t==NUM)
+	  		ip = arg.val.n;
 	  continue;
 	case RET:
 	  ip = desempilha(exec);
@@ -196,6 +234,9 @@ void exec_maquina(Maquina *m, int n) {
 		break;
 	case ATR:
 		// get object atribute
+		break;
+	case SIS:
+		// chama o sistema
 		break;
 	}
 	D(imprime(pil,5));

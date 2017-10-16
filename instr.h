@@ -27,7 +27,8 @@ typedef enum {
   SAVE,
   ALC,
   FRE,
-  ATR
+  ATR,
+  SIS
 } OpCode;
 
 /* Tipos dos operandos */
@@ -36,12 +37,22 @@ typedef enum {
   ACAO,
   VAR,
   CEL, // celula
-  DIR // direção
 } Tipo;
+
+typedef struct{
+  // 1 = terreno plano 3 = terreno rugoso
+  int terreno;
+  // numero de cristais
+  int cristais;
+  int ocup;
+  // 0 = não base / 1 = base time 1 / 2 = base time 2
+  int is_base;
+  //int team;
+} Celula;
 
 /* Operando */
 
-/*
+
 typedef struct { 
     // indicador do tipo
     Tipo t; 
@@ -49,12 +60,11 @@ typedef struct {
    	  int n; 
    	  int ac; 
    	  int v; 
-    }; 
+    } val; 
 } OPERANDO;
 
-*/
 
- typedef int OPERANDO;
+//typedef int OPERANDO;
 
 /* Instrução */
 typedef struct {

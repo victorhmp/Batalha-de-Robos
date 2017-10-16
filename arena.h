@@ -1,17 +1,6 @@
 #include "maq.h"
-#define MAXRO 100
+#define MAXRO 50
 #define MAXSIZE 20
-
-typedef struct{
-	// 1 = terreno plano 3 = terreno rugoso
-	int terreno;
-	// numero de cristais
-	int cristais;
-	int ocup;
-	// 0 = não base / 1 = base time 1 / 2 = base time 2
-	int is_base;
-	int team;
-} Celula;
 
 typedef struct{
 	// array com os exercitos ativos
