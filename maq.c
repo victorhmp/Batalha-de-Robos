@@ -34,7 +34,8 @@ char *CODES[] = {
   "SAVE",
   "ALC",
   "FRE",
-  "ATR"
+  "ATR",
+  "SIS"
   };
 #else
 #  define D(X)
