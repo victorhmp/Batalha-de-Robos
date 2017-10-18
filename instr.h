@@ -50,6 +50,18 @@ typedef struct{
     //int team;
 } Celula;
 
+typedef enum{
+    MOVE,
+    RECOLHE,
+    DEPOSITA,
+    TIPOATAQUE
+} Comando;
+
+typedef struct{
+    Comando c;
+    char *dir;
+} Acao;
+
 /* Operando */
 
 
@@ -61,6 +73,7 @@ typedef struct {
         int ac;
         int v;
         Celula c;
+        Acao aca;
     } val;
 } OPERANDO;
 
