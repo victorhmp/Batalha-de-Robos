@@ -33,9 +33,9 @@ typedef enum {
 
 /* Tipos dos operandos */
 typedef enum {
-    NUM,
-    ACAO,
-    VAR,
+    NUM,  // numero inteiro
+    ACAO, // ação
+    VAR,  // variável
     CEL, // celula
 } Tipo;
 
@@ -50,6 +50,7 @@ typedef struct{
     //int team;
 } Celula;
 
+// enum Comando são as possíveis ações que o robo executa
 typedef enum{
     MOVE,
     RECOLHE,
@@ -57,18 +58,19 @@ typedef enum{
     TIPOATAQUE
 } Comando;
 
+// Acao faz parte de chamadas do comando SIS
+// simplesmente diz qual ação estamos tentando executar
+// e sua direção
 typedef struct{
     Comando c;
     char *dir;
 } Acao;
 
-/* Operando */
-
 
 typedef struct {
     // indicador do tipo
     Tipo t;
-    union { // atributos (3)
+    union { // possíveis valores para o par {Tipo, Valor}
         int n;
         int ac;
         int v;
@@ -76,9 +78,6 @@ typedef struct {
         Acao aca;
     } val;
 } OPERANDO;
-
-
-//typedef int OPERANDO;
 
 /* Instrução */
 typedef struct {

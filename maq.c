@@ -4,6 +4,7 @@
 
 // #define DEBUG
 
+// função para debuging da máquina
 #ifdef DEBUG
 #  define D(X) X
 char *CODES[] = {
@@ -53,6 +54,8 @@ static void Fatal(char *msg, int cod) {
 Maquina *cria_maquina(INSTR *p) {
     Maquina *m = (Maquina*)malloc(sizeof(Maquina));
     if (!m) Fatal("Memória insuficiente",4);
+
+    // inicializando os parâmetros de cada robô
     m->ip.val.n = 0;
     m->rbp.val.n = 0;
     m->prog = p;
@@ -73,7 +76,7 @@ void destroi_maquina(Maquina *m) {
 #define prg (m->prog)
 #define rbp (m->rbp)
 
-
+// função que faz o robô (máquina) executar um número n de instruções
 void exec_maquina(Maquina *m, int n) {
     int i;
     
@@ -81,6 +84,10 @@ void exec_maquina(Maquina *m, int n) {
     for (i = 0; i < n; i++) {
         OpCode   opc = prg[ip.val.n].instr;
         OPERANDO arg = prg[ip.val.n].op;
+
+        // OPERANDO possui tipos de dados diferentes
+        // instruções devem ser passadas na forma INSTR TIPO VALOR
+        // exemplo: {PUSH NUM 10}
         
         D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
         
@@ -287,22 +294,22 @@ void exec_maquina(Maquina *m, int n) {
             case PRN:
                 printf("%d\n", desempilha(pil));
                 break;
-            case STL: // store local
+            case STL: // guarda a posição do ip na pilha de execução
                 if (arg.t == NUM && rbp.t == NUM) {
                     exec->val[arg.val.n+ rbp.val.n] = desempilha(pil);
                 }
                 break;
-            case RCE: // restore local
+            case RCE: // restaura o ip
                 if (arg.t == NUM && rbp.t == NUM) {
                     empilha(pil, exec->val[arg.val.n+ rbp.val.n]);
                 }
                 break;
-            case SAVE:
+            case SAVE: // função desativada
                 break;
-            case ALC:
+            case ALC: // aloca espaço na pilha de execução para variáveis locais
                 exec->topo += arg.val.n;
                 break;
-            case FRE:
+            case FRE: // oposta a ALC, livra espaço na pilha de execução
                 exec->topo -= arg.val.n;
                 break;
             case ATR:
@@ -322,13 +329,14 @@ void exec_maquina(Maquina *m, int n) {
                     empilha(pil, res);
                 }
                 break;
+            // SIS tem um funcionamento diferenciado
+            // instruções SIS devem estar na forma SIS ACAO COMANDO ARG
+            // exemplo: {SIS ACAO {MOVE SUL}}
             case SIS:
-                // chama o sistema
                 if(arg.t == ACAO){
                     switch(arg.val.aca.c){
                         case MOVE:
                             sistema(1, *m, arg);
-
                             break;
                         case RECOLHE:
                             sistema(2, *m, arg);
