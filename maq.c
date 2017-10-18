@@ -318,18 +318,34 @@ void exec_maquina(Maquina *m, int n) {
                         res.val.n = op1.val.c.ocup;
                     if (arg.val.n == 3)
                         res.val.n = op1.val.c.is_base;
+
+                    empilha(pil, res);
                 }
-                empilha(pil, res);
-                // get object atribute
                 break;
-                case SIS:
-                    // chama o sistema
-                    break;
+            case SIS:
+                // chama o sistema
+                if(arg.t == ACAO){
+                    switch(arg.val.aca.c){
+                        case MOVE:
+                            sistema(1, *m, arg);
+
+                            break;
+                        case RECOLHE:
+                            sistema(2, *m, arg);
+                            break;
+                        case DEPOSITA:
+                            sistema(3, *m, arg);
+                            break;
+                        case TIPOATAQUE:
+                            sistema(4, *m, arg);
+                            break;
+                    }
                 }
-                D(imprime(pil,5));
-                D(imprime(exec,20));
-                D(puts("\n"));
-                
-                ip.val.n++;
+                break;
+            }
+            D(imprime(pil,5));
+            D(imprime(exec,20));
+            D(puts("\n"));                
+            ip.val.n++;
         }
     }

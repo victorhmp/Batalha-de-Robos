@@ -21,4 +21,4 @@ void atualiza(int ciclos);
 
 void insere_exercito(int t, POSICAO p[]);
 
-int sistema(int op, Maquina *robo);
+int sistema(int op, Maquina *robo, OPERANDO dir);
