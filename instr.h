@@ -41,23 +41,22 @@ typedef enum {
 
 /* Operando */
 
-/*
+
 typedef struct { 
     // indicador do tipo
     Tipo t; 
-    union { // atributos (3)
+    union { // atributos
    	  int n; 
    	  int ac; 
    	  int v; 
-    }; 
+    } val; 
 } OPERANDO;
 
-*/
-
- typedef int OPERANDO;
+// typedef int OPERANDO;
 
 /* Instrução */
 typedef struct {
   OpCode instr;
+  Tipo t;
   OPERANDO op;
 } INSTR;

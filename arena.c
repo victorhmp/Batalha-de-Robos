@@ -140,6 +140,8 @@ void remove_exercito(int t){
 // Direção = SUL || NOR || NOD || SOE || SUD || NOE (baixo-cima-diagonais)
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
+
+/*
 int sistema(int op, Maquina *robo){
 	POSICAO nova_pos;
 	int force = op*10;
@@ -210,4 +212,6 @@ int sistema(int op, Maquina *robo){
 			break;
 	}
 	return 1;
-}
+
+
+} */

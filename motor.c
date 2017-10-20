@@ -2,29 +2,29 @@
 #include "maq.h" 
 
 INSTR fat[] = {
-    {PUSH, 8},  // 0
-    {CALL, 4},  // 1
-    {PRN,  0},  // 2
-    {END,  0},  // 3
+    {PUSH, NUM, 8},  // 0
+    {CALL, NUM, 4},  // 1
+    {PRN,  NUM, 0},  // 2
+    {END,  NUM, 0},  // 3
 
     // FAT
-    {ALC,  1},  // 4
-    {DUP,  0},  // 5
-    {STL,  1},  // 6 n
-    {PUSH, 1},  // 7
-    {EQ,   0},  // 8 n == 1 ?
-    {JIF, 13},  // 9
-    {PUSH, 1},  // 10
-    {FRE,  1},  // 11
-    {RET,  0},  // 12
-    {RCE,  1},  // 13 n
-    {PUSH, 1},  // 14
-    {SUB,  0},  // 15 n-1
-    {CALL, 4},  // 16 fat(n-1)
-    {RCE,  1},  // 17 n
-    {MUL,  0},  // 18 n * fat(n-1)
-    {FRE,  1},  // 19
-    {RET,  0}   // 20
+    {ALC, NUM, 1},  // 4
+    {DUP, NUM, 0},  // 5
+    {STL, NUM, 1},  // 6 n
+    {PUSH, NUM, 1},  // 7
+    {EQ, NUM,  0},  // 8 n == 1 ?
+    {JIF,NUM, 13},  // 9
+    {PUSH,NUM, 1},  // 10
+    {FRE,NUM,  1},  // 11
+    {RET,NUM,  0},  // 12
+    {RCE,NUM,  1},  // 13 n
+    {PUSH,NUM, 1},  // 14
+    {SUB,NUM,  0},  // 15 n-1
+    {CALL, NUM,4},  // 16 fat(n-1)
+    {RCE,  NUM,1},  // 17 n
+    {MUL,  NUM,0},  // 18 n * fat(n-1)
+    {FRE,  NUM,1},  // 19
+    {RET,  NUM,0}   // 20
 };
 
 int main(int ac, char **av) { 
