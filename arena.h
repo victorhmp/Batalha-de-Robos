@@ -23,3 +23,4 @@ void insere_exercito(int t, POSICAO p[]);
 
 int sistema(int op, Maquina *robo, OPERANDO dir);
 
+extern Arena *arena;

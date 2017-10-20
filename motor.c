@@ -8,29 +8,28 @@ INSTR fat[] = {
     {END,  NUM, 0},  // 3
 
     // FAT
-    {ALC, NUM, 1},  // 4
-    {DUP, NUM, 0},  // 5
-    {STL, NUM, 1},  // 6 n
+    {ALC,  NUM, 1},  // 4
+    {DUP,  NUM, 0},  // 5
+    {STL,  NUM, 1},  // 6 n
     {PUSH, NUM, 1},  // 7
-    {EQ, NUM,  0},  // 8 n == 1 ?
-    {JIF,NUM, 13},  // 9
-    {PUSH,NUM, 1},  // 10
-    {FRE,NUM,  1},  // 11
-    {RET,NUM,  0},  // 12
-    {RCE,NUM,  1},  // 13 n
-    {PUSH,NUM, 1},  // 14
-    {SUB,NUM,  0},  // 15 n-1
-    {CALL, NUM,4},  // 16 fat(n-1)
-    {RCE,  NUM,1},  // 17 n
-    {MUL,  NUM,0},  // 18 n * fat(n-1)
-    {FRE,  NUM,1},  // 19
-    {RET,  NUM,0}   // 20
+    {EQ,   NUM, 0},  // 8 n == 1 ?
+    {JIF, NUM, 13},  // 9
+    {PUSH, NUM, 1},  // 10
+    {FRE,  NUM, 1},  // 11
+    {RET,  NUM, 0},  // 12
+    {RCE,  NUM, 1},  // 13 n
+    {PUSH, NUM, 1},  // 14
+    {SUB,  NUM, 0},  // 15 n-1
+    {CALL, NUM, 4},  // 16 fat(n-1)
+    {RCE,  NUM, 1},  // 17 n
+    {MUL,  NUM, 0},  // 18 n * fat(n-1)
+    {FRE,  NUM, 1},  // 19
+    {RET,  NUM, 0}   // 20
 };
 
 int main(int ac, char **av) { 
 
   Maquina *maq = cria_maquina(fat);
-  //printf("%d\n", &exec->topo);
   exec_maquina(maq, 1000); 
   puts("---"); 
   //exec_maquina(maq, 1000); 

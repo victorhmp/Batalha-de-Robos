@@ -27,7 +27,8 @@ typedef enum {
   SAVE,
   ALC,
   FRE,
-  ATR
+  ATR,
+  SIS
 } OpCode;
 
 /* Tipos dos operandos */
@@ -36,11 +37,31 @@ typedef enum {
   ACAO,
   VAR,
   CEL, // celula
-  DIR // direção
 } Tipo;
 
-/* Operando */
+typedef struct{
+  // 1 = terreno plano 3 = terreno rugoso
+  // facilmente expansível
+  int terreno;
+  // numero de cristais
+  int cristais;
+  int ocup;
+  // 0 = não base / 1 = base time 1 / 2 = base time 2
+  int is_base;
+} Celula;
 
+//enum Comando são as possíveis ações que o robo executa
+typedef enum{
+  MOVE,
+  RECOLHE,
+  DEPOSITA,
+  TIPOATAQUE
+} Comando;
+
+typedef struct{
+  Comando c;
+  char *dir;
+} Acao;
 
 typedef struct { 
     // indicador do tipo
@@ -48,15 +69,14 @@ typedef struct {
     union { // atributos
    	  int n; 
    	  int ac; 
-   	  int v; 
+   	  int v;
+      Celula c;
+      Acao acao;
     } val; 
 } OPERANDO;
-
-// typedef int OPERANDO;
 
 /* Instrução */
 typedef struct {
   OpCode instr;
-  Tipo t;
   OPERANDO op;
 } INSTR;

@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "arena.h"
 
 #define hex (arena->hexagon)
@@ -52,11 +53,11 @@ Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[])
 	// recebidas via .txt fornecido quando o programa é executado
 	// assume q a primeira base é do time 1 e a segunda do time 2
 	hex[b[0]->i][b[0]->j].is_base = 1;
-	hex[b[0]->i][b[0]->j].team = 1;
+	//hex[b[0]->i][b[0]->j].team = 1;
 	hex[b[0]->i][b[0]->j].ocup = 1;
 
-	hex[b[1]->i][b[1]->j].is_base = 1;
-	hex[b[1]->i][b[1]->j].team = 2;
+	hex[b[1]->i][b[1]->j].is_base = 2;
+	//hex[b[1]->i][b[1]->j].team = 2;
 	hex[b[1]->i][b[1]->j].ocup = 1;
 
 	// atualiza o grid com os cristais em suas posições
@@ -141,31 +142,30 @@ void remove_exercito(int t){
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
 
-/*
-int sistema(int op, Maquina *robo){
+int sistema(int op, Maquina *robo, OPERANDO dir){
 	POSICAO nova_pos;
 	int force = op*10;
-	if(desempilha(&robo->pil) == "SUL"){
+	if(strncmp(dir.val.acao.dir, "SUL", 3)==0){
 		nova_pos.i = robo->pos.i + 2;
 		nova_pos.j = robo->pos.j;
 	}
-	if(desempilha(&robo->pil) == "NOR"){
+	if(strncmp(dir.val.acao.dir, "NOR", 3)==0){
 		nova_pos.i = robo->pos.i - 2;
 		nova_pos.j = robo->pos.j;
 	}
-	if(desempilha(&robo->pil) == "NOD"){
+	if(strncmp(dir.val.acao.dir, "NOD", 3)==0){
 		nova_pos.i = robo->pos.i - 1;
 		nova_pos.j = robo->pos.j + 1;
 	}
-	if(desempilha(&robo->pil) == "SOE"){
+	if(strncmp(dir.val.acao.dir, "SOE", 3)==0){
 		nova_pos.i = robo->pos.i + 1;
 		nova_pos.j = robo->pos.j - 1;
 	}
-	if(desempilha(&robo->pil) == "SUD"){
+	if(strncmp(dir.val.acao.dir, "SUD", 3)==0){
 		nova_pos.i = robo->pos.i + 1;
 		nova_pos.j = robo->pos.j + 1;
 	}
-	if(desempilha(&robo->pil) == "NOE"){
+	if(strncmp(dir.val.acao.dir, "NOE", 3)==0){
 		nova_pos.i = robo->pos.i - 1;
 		nova_pos.j = robo->pos.j - 1;
 	}
@@ -212,6 +212,4 @@ int sistema(int op, Maquina *robo){
 			break;
 	}
 	return 1;
-
-
-} */
+}

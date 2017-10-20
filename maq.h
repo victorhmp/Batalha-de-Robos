@@ -2,18 +2,22 @@
 
 #define MAXMEM 100
 
+// struct simples para guardar a posição de um robô
+// poderia ser implementada com um array de duas posições
+// sem evidentes vantagens ou desvantagens
 typedef struct{
   int i;
   int j;
 } POSICAO;
 
+// Maquina virtual / robô
 typedef struct {
   Pilha pil;
   Pilha exec;
   OPERANDO Mem[MAXMEM];
   INSTR *prog;
-  OPERANDO ip; // instru pointer
-  OPERANDO rbp; // base register
+  int ip; // instru pointer
+  int rbp; // base register
 
   // atributos do robo
   int cristais;
