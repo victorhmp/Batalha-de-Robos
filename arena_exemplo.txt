@@ -8,6 +8,7 @@ jogo. Deverá ser lido pelo motor do jogo.
 
 
 ******* Posição dos exércitos (para 10 robos/exército) *******
+Time 1
 i0 j0
 i1 j1
 i2 j2
@@ -19,6 +20,17 @@ i7 j7
 i8 j8
 i9 j9
 
+Time 2
+i10 j10
+i11 j11
+i12 j12
+i13 j13
+i14 j14
+i15 j15
+i16 j16
+i17 j17
+i18 j18
+i19 j19
 ******* Posição das bases (para 2 nesse caso) *******
 i0 j0
 i1 j1
