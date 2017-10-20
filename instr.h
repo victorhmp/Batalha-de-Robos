@@ -24,7 +24,6 @@ typedef enum {
   PRN,
   STL,
   RCE,
-  SAVE,
   ALC,
   FRE,
   ATR,

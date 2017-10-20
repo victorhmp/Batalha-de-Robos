@@ -32,7 +32,6 @@ char *CODES[] = {
 	"PRN",
 	"STL",
 	"RCE",
-	"SAVE",
 	"ALC",
 	"FRE",
 	"ATR",
@@ -99,6 +98,7 @@ void exec_maquina(Maquina *m, int n) {
 		//  posição do IP, código da instrução, tipo do argumento e valor do argumento
 		D(printf("%3d: %-4.4s  %-4.4s %d\n     ", ip, CODES[opc], TYPE[arg.t], arg.val.n));
 
+		// implementação das funções do robô
 		switch (opc) {
 			OPERANDO tmp;
 			OPERANDO op1;
@@ -110,97 +110,113 @@ void exec_maquina(Maquina *m, int n) {
 			case POP:
 				desempilha(pil);
 				break;
-			case DUP:
+			case DUP: // duplica elemento no topo da pilha
 				tmp = desempilha(pil);
 				empilha(pil, tmp);
 				empilha(pil, tmp);
 				break;
-			case ADD:
+			case ADD: // soma os dois OPERANDOs no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
-
+				// apenas se ambos os OPERANDOs forem do tipo NUM
 				if(op1.t==NUM && op2.t==NUM){
 					resp.t = NUM;
 					resp.val.n = op1.val.n + op2.val.n;
 					empilha(pil, resp);
 				}
 				break;
-			case SUB:
+			case SUB: // subtrai os dois OPERANDOs no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
-
+				// apenas se ambos forem do tipo NUM
 				if(op1.t==NUM && op2.t==NUM){
 					resp.t = NUM;
 					resp.val.n = op2.val.n - op1.val.n;
 					empilha(pil, resp);
 				}
 				break;
-			case MUL:
+			case MUL: // multiplica os dois OPERANDOs no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
-
+				// apenas se ambos forem do tipo NUM
 				if(op1.t==NUM && op2.t==NUM){
 					resp.t = NUM;
 					resp.val.n = op1.val.n * op2.val.n;
 					empilha(pil, resp);
 				}
 				break;
-			case DIV:
+			case DIV: // empilha o quociente dos dois OPERANDOs no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
-
+				// apenas se ambos forem do tipo NUM e op2 é não-nulo
 				if(op1.t==NUM && op2.t==NUM && op2.val.n != 0){
 					resp.t = NUM;
 					resp.val.n = op1.val.n / op2.val.n;
 					empilha(pil, resp);
 				}
 				break;
-			case JMP:
+			case JMP: // JUMP
 				if(arg.t == NUM) {
 					ip = arg.val.n;
 					continue;
 				}
-			case JIT:
+			case JIT: // JUMP IF TRUE
 				if (arg.t == NUM) {
 					op1 = desempilha(pil);
+					// faz o JUMP se o elemento no topo da pilha é 1
 					if (op1.val.n != 0) {
 						ip = arg.val.n;
 						continue;
 					}
 				}
 				break;
-			case JIF:
+			case JIF: // JUMP IF FALSE
 				if (arg.t == NUM) {
 					op1 = desempilha(pil);
+					// faz o JUMP se o elemento no topo da pilha é 0
 					if (op1.val.n == 0) {
 						ip = arg.val.n;
 						continue;
 					}
 				}
 				break;
-			case CALL:
+			case CALL: // chamada de função
+
+				// empilha o valor do RBP na pilha de execução
 				op1.t = NUM;
 				op1.val.n = m->rbp;
 				empilha(exec, op1);
+
+				// empilha o valor do IP na pilha de execução
 				op2.t = NUM;
 				op2.val.n = ip;
 				empilha(exec, op2);
+
+				// faz o RBP apontar para o topo de exec
 				m->rbp = exec->topo - 1;
+
+				// se o argumento for válido
+				// faz o IP apontar para o começo da função
 				if(arg.t==NUM)
 					ip = arg.val.n;
 				continue;
 			case RET:
+				// desempilha o IP
 				op1 = desempilha(exec);
 				if(op1.t == NUM)
-					ip = op1.val.n; 
+					ip = op1.val.n;
+
+				// desempilha o RBP
 				op2 = desempilha(exec);
 				if(op2.t==NUM)
 					m->rbp = op2.val.n;
 				break;
-			case EQ:
+			case EQ: // compara (igualdade) os dois elementos no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
+
+				// empilha o resultado da comparação (0 = false / 1 = true)
 				if( op1.val.n == op2.val.n){
 					resp.val.n = 1;
 					empilha(pil, resp);
@@ -210,10 +226,12 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case GT:
+			case GT: // compara (>) os dois elementos no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
+
+				// empilha o resultado da comparação (0 = false / 1 = true)
 				if(op1.t==NUM && op2.t==NUM && op1.val.n < op2.val.n){
 					resp.val.n = 1;
 					empilha(pil, resp);
@@ -223,10 +241,12 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case GE:
+			case GE: // compara (>=) os dois elementos no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
+
+				// empilha o resultado da comparação (0 = false / 1 = true)
 				if(op1.t==NUM && op2.t==NUM && op1.val.n <= op2.val.n){
 					resp.val.n = 1;
 					empilha(pil, resp);
@@ -236,10 +256,12 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case LT:
+			case LT: // compara (<) os dois elementos no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
+
+				// empilha o resultado da comparação (0 = false / 1 = true)
 				if(op1.t==NUM && op2.t==NUM && op1.val.n > op2.val.n){
 					resp.val.n = 1;
 					empilha(pil, resp);
@@ -249,10 +271,12 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case LE:
+			case LE: // compara (<=) os dois elementos no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
+
+				// empilha o resultado da comparação (0 = false / 1 = true)
 				if(op1.t==NUM && op2.t==NUM && op1.val.n >= op2.val.n){
 					resp.val.n = 1;
 					empilha(pil, resp);
@@ -262,10 +286,12 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case NE:
+			case NE: // compara (!=) os dois elementos no topo da pilha
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
+
+				// empilha o resultado da comparação (0 = false / 1 = true)
 				if(op1.t==NUM && op2.t==NUM && op1.val.n != op2.val.n){
 					resp.val.n = 1;
 					empilha(pil, resp);
@@ -275,47 +301,48 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case STO:
+			case STO: // salva na memória o elemento no topo da pilha de dados
 				if(arg.t==NUM){
 					m->Mem[arg.val.n] = desempilha(pil);
 				}
 				break;
-			case RCL:
+			case RCL: // restaura o STO
 				if(arg.t==NUM){
 					empilha(pil,m->Mem[arg.val.n]);
 				}
 				break;
 			case END:
 				return;
-			case PRN:
+			case PRN: // print do valor numérico do OPERANDO no topo da pilha
 				op1 = desempilha(pil);
 				printf("%d\n", op1.val.n);
 				break;
-			case STL: // store local
+			case STL: // salva na pilha de execução o elemento no topo da pilha de dados
 				if(arg.t==NUM){
 					op1 = desempilha(pil);
 					exec->val[arg.val.n + m->rbp] = op1;
 				}
 				break;
-			case RCE: // restore local
+			case RCE: // restaura o STL
 				if(arg.t==NUM){
 					empilha(pil, exec->val[arg.val.n + m->rbp]);
 				}
 				break;
-			case SAVE:
-				break;
-			case ALC:
+			case ALC: // aloca espaço na pilha de execução
 				if(arg.t==NUM){
 					exec->topo += arg.val.n;
 				}
 				break;
-			case FRE:
+			case FRE: // libera espaço da pilha de execução
 				if(arg.t==NUM){
 					exec->topo -= arg.val.n;
 				}
 				break;
-			case ATR:
+			case ATR: // função especial para checar propriedades de uma célula
 				op1 = desempilha(pil);
+
+				// se o elemento do topo da pilha for do tipo Celula
+				// empilho seu atributo de índice arg
 				if(op1.t == CEL && arg.t == NUM){
 					resp.t = NUM;
 					if (arg.val.n == 0)
