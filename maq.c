@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "maq.h"
 
+
 // função para debug
 // #define DEBUG
 
@@ -41,7 +42,8 @@ char *TYPE[] = {
 	"NUM",
 	"ACAO",
 	"VAR",
-	"CEL"
+	"CEL",
+    "DIR", // ADICIONADO
 };
 #else
 #  define D(X)
@@ -56,7 +58,7 @@ static void Fatal(char *msg, int cod) {
 	exit(cod);
 }
 
-Maquina *cria_maquina(INSTR *p) {
+Maquina* cria_maquina(INSTR *p) {
 	Maquina *m = (Maquina*)malloc(sizeof(Maquina));
 	if (!m) Fatal("Memória insuficiente",4);
 	m->ip = 0;
@@ -92,7 +94,7 @@ void exec_maquina(Maquina *m, int n) {
 
 		// OPERANDO possui tipos de dados diferentes
 		// instruções devem ser passadas na forma INSTR TIPO ARG
-		// exemplo: {PUSH NUM 8}
+		// exemplo: {PUSH, NUM, 8}
 
 		// imprime no modo DEBUG:
 		//  posição do IP, código da instrução, tipo do argumento e valor do argumento
@@ -104,10 +106,10 @@ void exec_maquina(Maquina *m, int n) {
 			OPERANDO op1;
 			OPERANDO op2;
 			OPERANDO resp;
-			case PUSH:
+			case PUSH: // empilha elemento no topo da pilha (aceita OPERANDOs de qualquer tipo)
 				empilha(pil, arg);
 				break;
-			case POP:
+			case POP: // desempilha topo da pilha
 				desempilha(pil);
 				break;
 			case DUP: // duplica elemento no topo da pilha
@@ -155,25 +157,25 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case JMP: // JUMP
+			case JMP: // JUMP - requer OPERANDO do tipo NUM
 				if(arg.t == NUM) {
 					ip = arg.val.n;
 					continue;
 				}
-			case JIT: // JUMP IF TRUE
+			case JIT: // JUMP IF TRUE - requer OPERANDO do tipo NUM
 				if (arg.t == NUM) {
 					op1 = desempilha(pil);
-					// faz o JUMP se o elemento no topo da pilha é 1
+					// faz o JUMP se o elemento no topo da pilha é 1 (true)
 					if (op1.val.n != 0) {
 						ip = arg.val.n;
 						continue;
 					}
 				}
 				break;
-			case JIF: // JUMP IF FALSE
+			case JIF: // JUMP IF FALSE - requer OPERANDO do tipo NUM
 				if (arg.t == NUM) {
 					op1 = desempilha(pil);
-					// faz o JUMP se o elemento no topo da pilha é 0
+					// faz o JUMP se o elemento no topo da pilha é 0 (false)
 					if (op1.val.n == 0) {
 						ip = arg.val.n;
 						continue;
@@ -200,7 +202,7 @@ void exec_maquina(Maquina *m, int n) {
 				if(arg.t==NUM)
 					ip = arg.val.n;
 				continue;
-			case RET:
+			case RET: // retorno da função
 				// desempilha o IP
 				op1 = desempilha(exec);
 				if(op1.t == NUM)
@@ -226,7 +228,7 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case GT: // compara (>) os dois elementos no topo da pilha
+			case GT: // compara (>) os dois elementos no topo da pilha  - requer OPERANDOs do tipo NUM
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
@@ -241,7 +243,7 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case GE: // compara (>=) os dois elementos no topo da pilha
+			case GE: // compara (>=) os dois elementos no topo da pilha  - requer OPERANDOs do tipo NUM
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
@@ -256,7 +258,7 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case LT: // compara (<) os dois elementos no topo da pilha
+			case LT: // compara (<) os dois elementos no topo da pilha - requer OPERANDOs do tipo NUM
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
@@ -271,7 +273,7 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case LE: // compara (<=) os dois elementos no topo da pilha
+			case LE: // compara (<=) os dois elementos no topo da pilha  - requer OPERANDOs do tipo NUM
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
@@ -286,7 +288,7 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case NE: // compara (!=) os dois elementos no topo da pilha
+			case NE: // compara (!=) os dois elementos no topo da pilha  - requer OPERANDOs do tipo NUM
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
 				resp.t = NUM;
@@ -301,39 +303,39 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case STO: // salva na memória o elemento no topo da pilha de dados
+			case STO: // salva na memória o elemento no topo da pilha de dados  - requer OPERANDO do tipo NUM
 				if(arg.t==NUM){
 					m->Mem[arg.val.n] = desempilha(pil);
 				}
 				break;
-			case RCL: // restaura o STO
+			case RCL: // restaura o STO  - requer OPERANDO do tipo NUM
 				if(arg.t==NUM){
 					empilha(pil,m->Mem[arg.val.n]);
 				}
 				break;
-			case END:
+			case END: // fim da execução
 				return;
 			case PRN: // print do valor numérico do OPERANDO no topo da pilha
 				op1 = desempilha(pil);
 				printf("%d\n", op1.val.n);
 				break;
-			case STL: // salva na pilha de execução o elemento no topo da pilha de dados
+			case STL: // salva na pilha de execução o elemento no topo da pilha de dados  - reque OPERANDOs do tipo NUM
 				if(arg.t==NUM){
 					op1 = desempilha(pil);
 					exec->val[arg.val.n + m->rbp] = op1;
 				}
 				break;
-			case RCE: // restaura o STL
+			case RCE: // restaura o STL  - requer OPERANDO do tipo NUM
 				if(arg.t==NUM){
 					empilha(pil, exec->val[arg.val.n + m->rbp]);
 				}
 				break;
-			case ALC: // aloca espaço na pilha de execução
+			case ALC: // aloca espaço na pilha de execução  - requer OPERANDO do tipo NUM
 				if(arg.t==NUM){
 					exec->topo += arg.val.n;
 				}
 				break;
-			case FRE: // libera espaço da pilha de execução
+			case FRE: // libera espaço da pilha de execução  - requer OPERANDO do tipo NUM
 				if(arg.t==NUM){
 					exec->topo -= arg.val.n;
 				}
@@ -342,7 +344,7 @@ void exec_maquina(Maquina *m, int n) {
 				op1 = desempilha(pil);
 
 				// se o elemento do topo da pilha for do tipo Celula
-				// empilho seu atributo de índice arg
+				// empilha seu atributo de índice arg
 				if(op1.t == CEL && arg.t == NUM){
 					resp.t = NUM;
 					if (arg.val.n == 0)
@@ -357,25 +359,29 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, resp);
 				}
 				break;
-			case SIS:
-				if(arg.t == ACAO){
-					switch(arg.val.acao.c){
+			case SIS: // chamadas ao sistema - requer OPERANDO do tipo ACAO
+                printf("sys");
+                op1 = desempilha(pil); // ADICIONADO
+                
+				if(/*arg.t == ACAO &&*/ op1.t == DIR){
+                    printf("sys");
+					switch(arg.val.acao.c){ // ALTERADO
 						int ok = 0;
-						case MOVE:
-							if(sistema(1, *m, arg)) ok = 1;
+						case MOVE: // movimentação do robô para a direção dada pelo argumento
+							if(sistema(1, *m, arg.val.dir)) ok = 1;
 							break;
-						case RECOLHE:
-							if(sistema(2, *m, arg)) ok = 1;
+						case RECOLHE: // recolhe o cristal conforme a direção dada pelo argumento
+							if(sistema(2, *m, arg.val.dir)) ok = 1;
 							break;
-						case DEPOSITA:
-							if(sistema(3, *m, arg)) ok = 1;
+                        case DEPOSITA: // deposita o cristal conforme a direção dada pelo argumento
+							if(sistema(3, *m, arg.val.dir)) ok = 1;
 							break;
-						case TIPOATAQUE:
-							if(sistema(4, *m, arg)) ok = 1;
+                        case TIPOATAQUE: // realiza um ataque do tipo indicado na direção
+							if(sistema(4, *m, arg.val.dir)) ok = 1;
 							break;
 					}
 				}
-				break;
+                
 		}
 		D(imprime(pil,5));
 		D(imprime(exec,20));

@@ -15,12 +15,12 @@ typedef struct{
 
 
 
-Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[]);
+Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[], INSTR inst_robos1[], INSTR inst_robos2[]);
 
 void atualiza(int ciclos);
 
 void insere_exercito(int t, POSICAO p[]);
 
-int sistema(int op, Maquina *robo, OPERANDO dir);
+int sistema(int op, Maquina *robo, Dir dir); // ALTERADO
 
 extern Arena *arena;
