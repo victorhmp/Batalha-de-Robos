@@ -36,7 +36,6 @@ typedef enum {
   ACAO,
   VAR,
   CEL, // celula
-  DIR, // ADICIONADO
 } Tipo;
 
 typedef struct{
@@ -63,15 +62,6 @@ typedef struct{
   char *dir;
 } Acao;
 
-typedef enum { // ADICIONADO
-  SUL,
-  NOR,
-  NOD,
-  SOE,
-  SUD,
-  NOE
-} Dir;
-
 typedef struct { 
     // indicador do tipo
     Tipo t; 
@@ -81,7 +71,6 @@ typedef struct {
    	  int v;
       Celula c;
       Acao acao;
-      Dir dir; // ADICIONADO
     } val; 
 } OPERANDO;
 

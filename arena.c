@@ -21,12 +21,12 @@
 #include <string.h>
 #include "arena.h"
 
-//#define hex (arena->hexagon)
+#define hex (arena->hexagon)
 #define rob (arena->robo)
 #define tempo (arena->tempo)
 
 // define o numero de robos na arena
-#define NUMROBOS 3
+#define NUMROBOS 10
 // define o numeros de instruções por ciclo
 #define CICLOS 50
 
@@ -34,8 +34,8 @@ Arena *arena;
 
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
-Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[], INSTR inst_robos1[], INSTR inst_robos2[]){
-    
+Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[]){
+	
 	int i;
 	int j;
 
@@ -56,15 +56,9 @@ Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[],
 	//hex[b[0]->i][b[0]->j].team = 1;
 	hex[b[0]->i][b[0]->j].ocup = 1;
 
-    
-    // Para os testes (que verificam o funcionamentos das novas instruções),
-    // haverá apenas um time. Assim, atribuições relacionadas ao segundo time
-    // ficam comentadas, por enquanto
-    
-	/*hex[b[1]->i][b[1]->j].is_base = 2;
+	hex[b[1]->i][b[1]->j].is_base = 2;
 	//hex[b[1]->i][b[1]->j].team = 2;
 	hex[b[1]->i][b[1]->j].ocup = 1;
-     */
 
 	// atualiza o grid com os cristais em suas posições
 	// n[i] é o numero de cristais na posição c[i]
@@ -83,9 +77,7 @@ Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[],
 	// serve como "função de registro"
 	for (int i = 0; i < NUMROBOS; i++){
 		// cada robo é inicializado com seu conjunto de instruções
-        // teste com apenas dois robôs, então há apenas inst_robos1 e inst_robos2
-        if (i == 0) rob[i] = *cria_maquina(inst_robos1);
-        else rob[i] = *cria_maquina(inst_robos2);
+		// rob[i] = cria_maquina(conjunto de instruções);
 	}
 
 	return arena;
@@ -97,7 +89,7 @@ int ciclos = CICLOS;
 void atualiza(int ciclos){
 	int i;
 	for(i = 0; i < NUMROBOS; i++){
-		if(rob[i].hp > 0) // checa se o robô ainda está ativo
+		if(rob[i].hp > 0) // check if the robot is still active
 			exec_maquina(&rob[i], ciclos);
 	}
 	tempo+=CICLOS;
@@ -145,40 +137,38 @@ void remove_exercito(int t){
 // 1  = Mover / 2 = Recolhe / 3 = Deposita / arg >= 4 -> TipoAtaque
 // o código para TipoAtaque já descreve seu alcance e sua força
 // a força do ataque é 10 vezes o seu alcance, pode ser modificado futuramente
+// Assume que o argumento (Direção) está no topo da pilha de dados
 // Direção = SUL || NOR || NOD || SOE || SUD || NOE (baixo-cima-diagonais)
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
 
-int sistema(int op, Maquina *robo, Dir dir){ //ALTERADO NO COMEÇO
+int sistema(int op, Maquina *robo, OPERANDO dir){
 	POSICAO nova_pos;
 	int force = op*10;
-    
-    switch(dir) { // ADICIONADO
-        case SUL:
-            nova_pos.i = robo->pos.i + 2;
-            nova_pos.j = robo->pos.j;
-            break;
-        case NOR:
-            nova_pos.i = robo->pos.i - 2;
-            nova_pos.j = robo->pos.j;
-            break;
-        case NOD:
-            nova_pos.i = robo->pos.i - 1;
-            nova_pos.j = robo->pos.j + 1;
-            break;
-        case SOE:
-            nova_pos.i = robo->pos.i + 1;
-            nova_pos.j = robo->pos.j - 1;
-            break;
-        case SUD:
-            nova_pos.i = robo->pos.i + 1;
-            nova_pos.j = robo->pos.j + 1;
-            break;
-        case NOE:
-            nova_pos.i = robo->pos.i - 1;
-            nova_pos.j = robo->pos.j - 1;
-            break;
-    }
+	if(strncmp(dir.val.acao.dir, "SUL", 3)==0){
+		nova_pos.i = robo->pos.i + 2;
+		nova_pos.j = robo->pos.j;
+	}
+	if(strncmp(dir.val.acao.dir, "NOR", 3)==0){
+		nova_pos.i = robo->pos.i - 2;
+		nova_pos.j = robo->pos.j;
+	}
+	if(strncmp(dir.val.acao.dir, "NOD", 3)==0){
+		nova_pos.i = robo->pos.i - 1;
+		nova_pos.j = robo->pos.j + 1;
+	}
+	if(strncmp(dir.val.acao.dir, "SOE", 3)==0){
+		nova_pos.i = robo->pos.i + 1;
+		nova_pos.j = robo->pos.j - 1;
+	}
+	if(strncmp(dir.val.acao.dir, "SUD", 3)==0){
+		nova_pos.i = robo->pos.i + 1;
+		nova_pos.j = robo->pos.j + 1;
+	}
+	if(strncmp(dir.val.acao.dir, "NOE", 3)==0){
+		nova_pos.i = robo->pos.i - 1;
+		nova_pos.j = robo->pos.j - 1;
+	}
 
 	switch(op){
 		case 1:
