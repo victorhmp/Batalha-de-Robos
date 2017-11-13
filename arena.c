@@ -34,7 +34,7 @@ Arena *arena;
 
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
-Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[]){
+Arena *cria_arena(int size, POSICAO *c[], int n[], POSICAO *ter[]){
 	
 	int i;
 	int j;
@@ -52,21 +52,29 @@ Arena *cria_arena(int size, POSICAO *b[], POSICAO *c[], int n[], POSICAO *ter[])
 	// atualiza o grid com o atributo is_base = 1 para as bases
 	// recebidas via .txt fornecido quando o programa é executado
 	// assume q a primeira base é do time 1 e a segunda do time 2
-	hex[b[0]->i][b[0]->j].is_base = 1;
+	hex[size-1][0].is_base = 1;
 	//hex[b[0]->i][b[0]->j].team = 1;
-	hex[b[0]->i][b[0]->j].ocup = 1;
+	hex[size-1][0].ocup = 1;
 
-	hex[b[1]->i][b[1]->j].is_base = 2;
+	hex[0][size-1].is_base = 2;
 	//hex[b[1]->i][b[1]->j].team = 2;
-	hex[b[1]->i][b[1]->j].ocup = 1;
+	hex[0][size-1].ocup = 1;
 
 	// atualiza o grid com os cristais em suas posições
 	// n[i] é o numero de cristais na posição c[i]
-	int num_crist = sizeof(*c)/sizeof(c[0]);
-	for (int k = 0; k < num_crist; k++){
-		hex[c[k]->i][c[k]->j].cristais = n[k];
+	int crist = (size*size)/8;
+	for(int i=0;i<crist; i++){
+		int valid = 0;
+		int rand_intI, rand_intJ;
+		while(!valid){
+			rand_intI = rand() % size;
+			rand_intJ = rand() % size;
+			if(((rand_intJ % 2 == 0 && rand_intI % 2 == 0) || (rand_intI % 2 != 0 && rand_intJ % 2 != 0)) && (hex[rand_intI][rand_intJ].is_base==0)){
+				valid = 1;
+				hex[rand_intI][rand_intJ].cristais++;
+			}
+		}
 	}
-
 	// atualiza o grid com os terrenos rugosos
 	int num_terrenos = sizeof(*ter)/sizeof(ter[0]);
 	for (int k = 0; k < num_crist; k++){
