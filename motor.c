@@ -27,9 +27,15 @@ INSTR fat[] = {
     {RET,  NUM, 0}   // 20
 };
 
+INSTR new[] = {
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, RECOLHE},
+    {END},
+};
+
 int main(int ac, char **av) { 
 
-  Maquina *maq = cria_maquina(fat);
+  Maquina *maq = cria_maquina(new);
   exec_maquina(maq, 1000); 
   puts("---"); 
   //exec_maquina(maq, 1000); 
