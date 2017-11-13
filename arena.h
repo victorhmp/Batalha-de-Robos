@@ -13,9 +13,7 @@ typedef struct{
 	Celula hexagon[MAXSIZE][MAXSIZE];
 } Arena;
 
-
-
-void cria_arena(int size, POSICAO *c[]);
+void cria_arena(int size, INSTR *prog);
 
 void atualiza(int ciclos);
 

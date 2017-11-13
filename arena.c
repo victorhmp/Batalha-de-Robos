@@ -26,15 +26,15 @@
 #define tempo (arena->tempo)
 
 // define o numero de robos na arena
-#define NUMROBOS 10
+#define NUMROBOS 2
 // define o numeros de instruções por ciclo
-#define CICLOS 50
+#define CICLOS 100
 
 Arena *arena;
 
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
-void cria_arena(int size, POSICAO *c[]){
+void cria_arena(int size, INSTR *prog){
 	
 	int i;
 	int j;
@@ -77,24 +77,19 @@ void cria_arena(int size, POSICAO *c[]){
 			}
 		}
 	}
-	// inicializa os robos
-	// serve como "função de registro"
-	for (int i = 0; i < NUMROBOS; i++){
-		// cada robo é inicializado com seu conjunto de instruções
-		// rob[i] = cria_maquina(conjunto de instruções);
-	}
 
-	//return arena;
+	for(int i = 0; i < NUMROBOS; i++){
+		rob[i] = *cria_maquina(prog);
+	}
 }
 
 // faz com que cada robo execute um numero certo de instruções(CICLOS)
 // e avança o tempo
-int ciclos = CICLOS;
-void atualiza(int ciclos){
+void atualiza(){
 	int i;
 	for(i = 0; i < NUMROBOS; i++){
 		if(rob[i].hp > 0) // check if the robot is still active
-			exec_maquina(&rob[i], ciclos);
+			exec_maquina(&rob[i], CICLOS);
 	}
 	tempo+=CICLOS;
 }
