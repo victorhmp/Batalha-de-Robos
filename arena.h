@@ -15,7 +15,7 @@ typedef struct{
 
 
 
-Arena *cria_arena(int size, POSICAO *c[], int n[], POSICAO *ter[]);
+void cria_arena(int size, POSICAO *c[]);
 
 void atualiza(int ciclos);
 

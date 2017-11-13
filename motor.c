@@ -34,7 +34,7 @@ INSTR new[] = {
 };
 
 int main(int ac, char **av) { 
-
+  cria_arena();
   Maquina *maq = cria_maquina(new);
   exec_maquina(maq, 1000); 
   puts("---"); 

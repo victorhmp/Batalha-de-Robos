@@ -34,10 +34,12 @@ Arena *arena;
 
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
-Arena *cria_arena(int size, POSICAO *c[], int n[], POSICAO *ter[]){
+void cria_arena(int size, POSICAO *c[]){
 	
 	int i;
 	int j;
+
+	arena = malloc(sizeof(Arena));
 
 	for(i = 0; i<size; i++){
 		for(j=0;j<size;j+=2){
@@ -75,12 +77,6 @@ Arena *cria_arena(int size, POSICAO *c[], int n[], POSICAO *ter[]){
 			}
 		}
 	}
-	// atualiza o grid com os terrenos rugosos
-	int num_terrenos = sizeof(*ter)/sizeof(ter[0]);
-	for (int k = 0; k < num_crist; k++){
-		hex[ter[k]->i][ter[k]->j].terreno = 3;
-	}
-
 	// inicializa os robos
 	// serve como "função de registro"
 	for (int i = 0; i < NUMROBOS; i++){
@@ -88,7 +84,7 @@ Arena *cria_arena(int size, POSICAO *c[], int n[], POSICAO *ter[]){
 		// rob[i] = cria_maquina(conjunto de instruções);
 	}
 
-	return arena;
+	//return arena;
 }
 
 // faz com que cada robo execute um numero certo de instruções(CICLOS)
