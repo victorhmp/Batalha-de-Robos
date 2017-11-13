@@ -142,33 +142,35 @@ void remove_exercito(int t){
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
 
-int sistema(int op, Maquina *robo, OPERANDO dir){
+int sistema(int op, Maquina *robo, Dir dir){
 	POSICAO nova_pos;
 	int force = op*10;
-	if(strncmp(dir.val.acao.dir, "SUL", 3)==0){
-		nova_pos.i = robo->pos.i + 2;
-		nova_pos.j = robo->pos.j;
-	}
-	if(strncmp(dir.val.acao.dir, "NOR", 3)==0){
-		nova_pos.i = robo->pos.i - 2;
-		nova_pos.j = robo->pos.j;
-	}
-	if(strncmp(dir.val.acao.dir, "NOD", 3)==0){
-		nova_pos.i = robo->pos.i - 1;
-		nova_pos.j = robo->pos.j + 1;
-	}
-	if(strncmp(dir.val.acao.dir, "SOE", 3)==0){
-		nova_pos.i = robo->pos.i + 1;
-		nova_pos.j = robo->pos.j - 1;
-	}
-	if(strncmp(dir.val.acao.dir, "SUD", 3)==0){
-		nova_pos.i = robo->pos.i + 1;
-		nova_pos.j = robo->pos.j + 1;
-	}
-	if(strncmp(dir.val.acao.dir, "NOE", 3)==0){
-		nova_pos.i = robo->pos.i - 1;
-		nova_pos.j = robo->pos.j - 1;
-	}
+    switch(dir) { // ADICIONADO
+        case SUL:
+            nova_pos.i = robo->pos.i + 2;
+            nova_pos.j = robo->pos.j;
+            break;
+        case NOR:
+            nova_pos.i = robo->pos.i - 2;
+            nova_pos.j = robo->pos.j;
+            break;
+        case NOD:
+            nova_pos.i = robo->pos.i - 1;
+            nova_pos.j = robo->pos.j + 1;
+            break;
+        case SOE:
+            nova_pos.i = robo->pos.i + 1;
+            nova_pos.j = robo->pos.j - 1;
+            break;
+        case SUD:
+            nova_pos.i = robo->pos.i + 1;
+            nova_pos.j = robo->pos.j + 1;
+            break;
+        case NOE:
+            nova_pos.i = robo->pos.i - 1;
+            nova_pos.j = robo->pos.j - 1;
+            break;
+    }
 
 	switch(op){
 		case 1:
@@ -177,7 +179,7 @@ int sistema(int op, Maquina *robo, OPERANDO dir){
 				robo->pos.j = nova_pos.j;
 				return 1;
 			}
-			else 
+			else
 				return 0;
 			break;
 		case 2:

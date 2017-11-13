@@ -21,6 +21,6 @@ void atualiza(int ciclos);
 
 void insere_exercito(int t, POSICAO p[]);
 
-int sistema(int op, Maquina *robo, OPERANDO dir);
+int sistema(int op, Maquina *robo, Dir dir);
 
 extern Arena *arena;
