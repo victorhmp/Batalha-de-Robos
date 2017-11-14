@@ -28,18 +28,20 @@
 // define o numero de robos na arena
 #define NUMROBOS 2
 // define o numeros de instruções por ciclo
-#define CICLOS 100
+#define CICLOS 1000
 
 Arena *arena;
 
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
-void cria_arena(int size, INSTR *prog){
+void cria_arena(int size){
 	
 	int i;
 	int j;
 
 	arena = malloc(sizeof(Arena));
+
+	arena->times = 0;
 
 	for(i = 0; i<size; i++){
 		for(j=0;j<size;j+=2){
@@ -82,32 +84,31 @@ void cria_arena(int size, INSTR *prog){
 
 // faz com que cada robo execute um numero certo de instruções(CICLOS)
 // e avança o tempo
-void atualiza(int rodadas){
+void atualiza(){
 	int i;
-	//for(int j=0;j<rodadas;j++){
-		for(i = 0; i < NUMROBOS; i++){
-			if(rob[i]->hp > 0) // check if the robot is still active
-				exec_maquina(rob[i], CICLOS);
-			if(rob[i]->hp <= 0)
-				destroi_maquina(rob[i]);
-		}
-	//}
+	for(i = 0; i < NUMROBOS; i++){
+		if(rob[i]->hp > 0 && rob[i]!=NULL) // check if the robot is still active
+			exec_maquina(rob[i], CICLOS);
+		if(rob[i]->hp <= 0 && rob[i]!=NULL)
+			destroi_maquina(rob[i]);
+	}
 	tempo+=CICLOS;
 }
 
 // insere cada exercito t com os robos nas posiçoes
 // dados no array p[] recebidos externamente (via .txt)
 // numero de robos facilmente alteravel pelo parâmetro NUMROBOS
-void insere_exercito(int t, POSICAO p[]){
+void insere_exercito(POSICAO p, INSTR *prog){
 	arena->times++;
 	// checa se t é o primeiro time ou o segundo a ser adicionado
-	for(int i = (arena->times-1)*NUMROBOS; i<NUMROBOS; i++){
-			rob[i]->team = t;
-			rob[i]->hp = 100;
-			rob[i]->pos.i = p[i].i;
-			rob[i]->pos.j = p[i].j;
+	for(int i = (arena->times-1)*NUMROBOS/2; i<((NUMROBOS/2)*arena->times); i++){
+			rob[i] = cria_maquina(prog);
+			rob[i]->team = arena->times;
+			rob[i]->hp = 100-i;
+			rob[i]->pos.i = p.i;
+			rob[i]->pos.j = p.j;
 			hex[rob[i]->pos.i][rob[i]->pos.j].ocup = 1;
-			printf("Robo %d, do time %d adicionado OK \n", i, t);
+			printf("Robo %d, do time %d adicionado OK \n", i, arena->times);
 			printf("time: %d, hp: %d, posição: %d %d\n", rob[i]->team, rob[i]->hp, rob[i]->pos.i, rob[i]->pos.j);
 	}		
 }

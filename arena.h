@@ -13,14 +13,12 @@ typedef struct{
 	int times;
 } Arena;
 
-
-
 extern Arena *arena;
 
-void cria_arena(int size, INSTR *prog);
+void cria_arena(int size);
 
 void atualiza(int ciclos);
 
-void insere_exercito(int t, POSICAO p[]);
+void insere_exercito(POSICAO p, INSTR *prog);
 
 int sistema(int op, Maquina *robo, Dir dir);

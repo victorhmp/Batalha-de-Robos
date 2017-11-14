@@ -72,15 +72,12 @@ int main(int ac, char **av) {
   POSICAO robos[1] = {r1};
   POSICAO robos2[1] = {r2};
 
-  insere_exercito(1, robos, fat);
-  insere_exercito(2, robos2, fat);
+  insere_exercito(r1, rob1);
+  insere_exercito(r2, rob2);
 
   atualiza();
 
-  //Maquina *maq = cria_maquina(rob2);
-  //exec_maquina(maq, 1000); 
   puts("---"); 
-  //destroi_maquina(maq); 
 
   return 0; 
 }
