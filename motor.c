@@ -7,7 +7,7 @@
 */
 
 #include<stdio.h>
-#include "maq.h" 
+#include"arena.h"
 
 INSTR fat[] = {
     {PUSH, NUM, 8},  // 0
@@ -75,7 +75,13 @@ int main(int ac, char **av) {
   insere_exercito(r1, rob1);
   insere_exercito(r2, rob2);
 
+  printf("Posição dos robôs (original): %d %d e %d %d\n", 
+    arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
+
   atualiza();
+
+  printf("Posição dos robôs: %d %d e %d %d\n", 
+    arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
 
   puts("---"); 
 

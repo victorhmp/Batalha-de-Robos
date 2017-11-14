@@ -17,8 +17,8 @@ extern Arena *arena;
 
 void cria_arena(int size);
 
-void atualiza(int ciclos);
+void atualiza();
 
 void insere_exercito(POSICAO p, INSTR *prog);
 
-int sistema(int op, Maquina *robo, Dir dir);
+int sistema(int op, Maquina* robo, Dir dir);

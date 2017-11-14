@@ -40,6 +40,7 @@ void cria_arena(int size){
 	int j;
 
 	arena = malloc(sizeof(Arena));
+	//if(!arena) Fatal("Erro na criação, falta de espaço.");
 
 	arena->times = 0;
 
@@ -96,7 +97,7 @@ void atualiza(){
 }
 
 // insere cada exercito t com os robos nas posiçoes
-// dados no array p[] recebidos externamente (via .txt)
+// robos carregados com o mesmo conjunto de instruções
 // numero de robos facilmente alteravel pelo parâmetro NUMROBOS
 void insere_exercito(POSICAO p, INSTR *prog){
 	arena->times++;
@@ -108,8 +109,8 @@ void insere_exercito(POSICAO p, INSTR *prog){
 			rob[i]->pos.i = p.i;
 			rob[i]->pos.j = p.j;
 			hex[rob[i]->pos.i][rob[i]->pos.j].ocup = 1;
-			printf("Robo %d, do time %d adicionado OK \n", i, arena->times);
-			printf("time: %d, hp: %d, posição: %d %d\n", rob[i]->team, rob[i]->hp, rob[i]->pos.i, rob[i]->pos.j);
+			//printf("Robo %d, do time %d adicionado OK \n", i, arena->times);
+			//printf("time: %d, hp: %d, posição: %d %d\n", rob[i]->team, rob[i]->hp, rob[i]->pos.i, rob[i]->pos.j);
 	}		
 }
 
@@ -132,7 +133,7 @@ void remove_exercito(int t){
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
 
-int sistema(int op, Maquina *robo, Dir dir){
+int sistema(int op, Maquina* robo, Dir dir){
 	POSICAO nova_pos;
 	int force = op*10;
     switch(dir) { // ADICIONADO

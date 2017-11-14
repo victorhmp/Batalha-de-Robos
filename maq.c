@@ -359,20 +359,21 @@ void exec_maquina(Maquina *m, int n) {
                 }
                 break;
             case SIS:
+                op1 = desempilha(pil);
                 if(arg.t == ACAO && op1.t == DIR){
                     switch(arg.val.acao.c){
                             int ok = 0;
                         case MOVE:
-                            if(sistema(1, *m, arg.val.dir)) ok = 1;
+                            if(sistema(1, m, op1.val.dir)) ok = 1;
                             break;
                         case RECOLHE:
-                            if(sistema(2, *m, arg.val.dir)) ok = 1;
+                            if(sistema(2, m, op1.val.dir)) ok = 1;
                             break;
                         case DEPOSITA:
-                            if(sistema(3, *m, arg.val.dir)) ok = 1;
+                            if(sistema(3, m, op1.val.dir)) ok = 1;
                             break;
                         case TIPOATAQUE:
-                            if(sistema(4, *m, arg.val.dir)) ok = 1;
+                            if(sistema(4, m, op1.val.dir)) ok = 1;
                             break;
                     }
                 }
