@@ -77,20 +77,21 @@ void cria_arena(int size, INSTR *prog){
 			}
 		}
 	}
-
-	for(int i = 0; i < NUMROBOS; i++){
-		rob[i] = *cria_maquina(prog);
-	}
+	*rob = malloc(NUMROBOS * sizeof(Maquina));
 }
 
 // faz com que cada robo execute um numero certo de instruções(CICLOS)
 // e avança o tempo
-void atualiza(){
+void atualiza(int rodadas){
 	int i;
-	for(i = 0; i < NUMROBOS; i++){
-		if(rob[i].hp > 0) // check if the robot is still active
-			exec_maquina(&rob[i], CICLOS);
-	}
+	//for(int j=0;j<rodadas;j++){
+		for(i = 0; i < NUMROBOS; i++){
+			if(rob[i]->hp > 0) // check if the robot is still active
+				exec_maquina(rob[i], CICLOS);
+			if(rob[i]->hp <= 0)
+				destroi_maquina(rob[i]);
+		}
+	//}
 	tempo+=CICLOS;
 }
 
@@ -98,37 +99,26 @@ void atualiza(){
 // dados no array p[] recebidos externamente (via .txt)
 // numero de robos facilmente alteravel pelo parâmetro NUMROBOS
 void insere_exercito(int t, POSICAO p[]){
+	arena->times++;
 	// checa se t é o primeiro time ou o segundo a ser adicionado
-	int is_first = 1;
-	if(rob[0].team != 0) is_first = 0;
-	if(!is_first){
-		for(int i = NUMROBOS/2; i<NUMROBOS; i++){
-			rob[i].team = t;
-			rob[i].hp = 100;
-			rob[i].pos.i = p[i].i;
-			rob[i].pos.j = p[i].j;
-			hex[rob[i].pos.i][rob[i].pos.j].ocup = 1;
-		}
-	}
-	else{
-		for(int i = 0; i < NUMROBOS/2; i++){
-			rob[i].team = t;
-			rob[i].hp = 100;
-			rob[i].pos.i = p[i].i;
-			rob[i].pos.j = p[i].j;
-			hex[rob[i].pos.i][rob[i].pos.j].ocup = 1;
-		}
-	}
-		
+	for(int i = (arena->times-1)*NUMROBOS; i<NUMROBOS; i++){
+			rob[i]->team = t;
+			rob[i]->hp = 100;
+			rob[i]->pos.i = p[i].i;
+			rob[i]->pos.j = p[i].j;
+			hex[rob[i]->pos.i][rob[i]->pos.j].ocup = 1;
+			printf("Robo %d, do time %d adicionado OK \n", i, t);
+			printf("time: %d, hp: %d, posição: %d %d\n", rob[i]->team, rob[i]->hp, rob[i]->pos.i, rob[i]->pos.j);
+	}		
 }
 
 // remove um exercito derrotado
 void remove_exercito(int t){
 	int i;
 	for(i = 0; i < NUMROBOS;i++){
-		if(rob[i].team == t) destroi_maquina(&rob[i]);
-		rob[i].hp = 0;
-		hex[rob[i].pos.i][rob[i].pos.j].ocup = 0;
+		if(rob[i]->team == t) destroi_maquina(rob[i]);
+		rob[i]->hp = 0;
+		hex[rob[i]->pos.i][rob[i]->pos.j].ocup = 0;
 	}
 }
 
@@ -205,8 +195,8 @@ int sistema(int op, Maquina *robo, Dir dir){
 			//int force = op*10;
 			if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 ){
 				for(int i=0;i<NUMROBOS;i++){
-					if( (rob[i].pos.i == nova_pos.i) && (rob[i].pos.j == nova_pos.j) )
-						rob[i].hp -= force; 
+					if( (rob[i]->pos.i == nova_pos.i) && (rob[i]->pos.j == nova_pos.j) )
+						rob[i]->hp -= force; 
 				}
 			}
 			return 1;

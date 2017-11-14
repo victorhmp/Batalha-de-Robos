@@ -59,6 +59,10 @@ INSTR new[] = {
     {END},
 };
 
+// MAXRO 50
+// MAXSIZE 20
+// NUMROBOS 2
+// CICLOS 100
 int main(int ac, char **av) { 
   cria_arena(15);
 
@@ -71,7 +75,7 @@ int main(int ac, char **av) {
   insere_exercito(1, robos, fat);
   insere_exercito(2, robos2, fat);
 
-  //atualiza();
+  atualiza();
 
   //Maquina *maq = cria_maquina(rob2);
   //exec_maquina(maq, 1000); 

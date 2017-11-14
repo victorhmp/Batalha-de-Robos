@@ -84,7 +84,7 @@ void exec_maquina(Maquina *m, int n) {
     int i;
     
     // garantia de que o topo é inicializado em 0
-    // problemas observados, sem essa linha, no MacOS
+    // problemas observados sem essa linha, no MacOS
     exec->topo = 0;
     
     for (i = 0; i < n; i++) {
