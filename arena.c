@@ -102,11 +102,13 @@ void atualiza(){
 void insere_exercito(int size, INSTR *prog, int time){
     
     for (int k = 0; k < NUMROBOS; k++) {
-        rob[k] = cria_maquina(prog);
-        rob[k]->team = arena->times;
-        rob[k]->hp = 100-k;
         
         if (time == 1) {
+
+		rob[k] = cria_maquina(prog);
+        rob[k]->team = arena->times;
+        rob[k]->hp = 100-k;
+
             switch (k) {
                 case 0:
                     rob[k]->pos.i = size-3;
@@ -131,26 +133,30 @@ void insere_exercito(int size, INSTR *prog, int time){
             }
         }
         else if (time == 2) {
+			ob[k + NUMROBOS] = cria_maquina(prog);
+       	 	rob[k + NUMROBOS]->team = arena->times;
+        	rob[k + NUMROBOS]->hp = 100-k;
+
             switch (k) {
                 case 0:
-                    rob[k]->pos.i = 2;
-                    rob[k]->pos.j = size-1;
+                    rob[k + NUMROBOS]->pos.i = 2;
+                    rob[k + NUMROBOS]->pos.j = size-1;
                     break;
                 case 1:
-                    rob[k]->pos.i = 4;
-                    rob[k]->pos.j = size-1;
+                    rob[k + NUMROBOS]->pos.i = 4;
+                    rob[k + NUMROBOS]->pos.j = size-1;
                     break;
                 case 2:
-                    rob[k]->pos.i = 1;
-                    rob[k]->pos.j = size-2;
+                    rob[k + NUMROBOS]->pos.i = 1;
+                    rob[k + NUMROBOS]->pos.j = size-2;
                     break;
                 case 3:
-                    rob[k]->pos.i = 0;
-                    rob[k]->pos.j = size-3;
+                    rob[k + NUMROBOS]->pos.i = 0;
+                    rob[k + NUMROBOS]->pos.j = size-3;
                     break;
                 case 4:
-                    rob[k]->pos.i = 2;
-                    rob[k]->pos.j = size-5;
+                    rob[k + NUMROBOS]->pos.i = 2;
+                    rob[k + NUMROBOS]->pos.j = size-5;
                     break;
             }
         }

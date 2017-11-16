@@ -74,15 +74,16 @@ int main(int ac, char **av) {
 
     insere_exercito(SIZE, teste, 1);
     insere_exercito(SIZE, teste, 2);
-    
-    printf("Posição dos robôs (original): %d %d e %d %d\n",
-           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
+
+    for (int i = 0; i < 10; i++) {
+    	printf("Posição dos robôs (original): %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j)
+    }
     
     atualiza();
     
-    printf("Posição dos robôs: %d %d e %d %d\n",
-           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
-    
+     for (int i = 0; i < 10; i++) {
+    	printf("Posição dos robôs: %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j)
+    }
     puts("---");
     
     return 0;
