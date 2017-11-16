@@ -252,22 +252,24 @@ int sistema(int op, Maquina* robo, Dir dir){
             if( (hex[nova_pos.i][nova_pos.j].cristais) > 0){
                 //Adiciona aos cristais carregados pelo robo o número de cristais presentes na célula alvo.
                 robo->cristais += hex[nova_pos.i][nova_pos.j].cristais;
-                hex[nova_pos.i][nova_pos.j].cristais = 0;//Zera os cristais na célula alvo.
+                hex[nova_pos.i][nova_pos.j].cristais = 0;
+                
                 //Atualiza os cristais da célula alvo na interface gráfica.
                 fprintf(display, "clean %d %d\n", nova_pos.i, nova_pos.j);
                 fflush(display);
             }
             else if((hex[nova_pos.i][nova_pos.j].cristais) == 0){
                 printf("Célula vazia.\n");
+                return 0;
             }
             else
                 return 0;
             break;
         case 3:
-            if(hex[nova_pos.i][nova_pos.j].ocup == 0){ //Se a célula estiver desocupada.              
+            if(hex[nova_pos.i][nova_pos.j].ocup == 0){               
                 hex[nova_pos.i][nova_pos.j].cristais += robo->cristais;     
-                robo->cristais = 0;//Zerar os cristais carregados pelo robo.
-                //printf("Depositou na celula [%1d][%1d].\n", tmp.x, tmp.y);
+                robo->cristais = 0;
+    
                 //Atualiza o número de cristais na célula alvo na interface gráfica.
                 fprintf(display, "cristal %d %d %d\n", nova_pos.i, nova_pos.j, hex[nova_pos.i][nova_pos.j].cristais);
                 fflush(display);

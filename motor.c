@@ -78,7 +78,7 @@ int main(int ac, char **av) {
     insere_exercito(SIZE, rob1, 1);
     insere_exercito(SIZE, teste, 2);
 
-    fprintf(display, "rob ~/visual/roboA.png\nrob ~/visual/roboB.png\n");
+    //fprintf(display, "rob ~/visual/roboA.png\nrob ~/visual/roboB.png\n");
     
 
     for (int i = 0; i < 10; i++) {
