@@ -65,23 +65,31 @@ INSTR teste[] = {
     {END}
 };
 
-// MAXRO 50
-// MAXSIZE 20
-// NUMROBOS 5
-// CICLOS 100
+
 int main(int ac, char **av) {
     cria_arena(SIZE);
+    display = popen("./apres", "w");
 
-    insere_exercito(SIZE, teste, 1);
+    if (display == NULL) {
+        fprintf(stderr,"Não encontrei o programa de exibição\n");
+        return 1;
+    }
+
+    insere_exercito(SIZE, rob1, 1);
     insere_exercito(SIZE, teste, 2);
+
+    fprintf(display, "rob ~/visual/roboA.png\nrob ~/visual/roboB.png\n");
     
+    /*
     printf("Posição dos robôs (original): %d %d e %d %d\n",
            arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
+    for(int i=0;i<100;i++){
+        atualiza();
+    }
+    */
     
-    atualiza();
-    
-    printf("Posição dos robôs: %d %d e %d %d\n",
-           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
+    //printf("Posição dos robôs: %d %d e %d %d\n",
+    //     arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
     
     puts("---");
     

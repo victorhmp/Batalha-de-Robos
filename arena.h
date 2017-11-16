@@ -14,6 +14,7 @@ typedef struct{
 } Arena;
 
 extern Arena *arena;
+extern FILE *display;
 
 void cria_arena(int size);
 

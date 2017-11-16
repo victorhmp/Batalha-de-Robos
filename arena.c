@@ -31,6 +31,8 @@
 #define CICLOS 1000
 
 Arena *arena;
+FILE *display;
+int r = -1;
 
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
@@ -89,11 +91,11 @@ void atualiza(){
     int i;
     for(i = 0; i < NUMROBOS; i++){
         if(rob[i]->hp > 0 && rob[i]!=NULL) // check if the robot is still active
-        exec_maquina(rob[i], CICLOS);
+            exec_maquina(rob[i], CICLOS);
         if(rob[i]->hp <= 0 && rob[i]!=NULL)
-        destroi_maquina(rob[i]);
+            destroi_maquina(rob[i]);
     }
-    tempo+=CICLOS;
+    tempo++;
 }
 
 // insere cada exercito t com os robos nas posiçoes
@@ -102,9 +104,11 @@ void atualiza(){
 void insere_exercito(int size, INSTR *prog, int time){
     
     for (int k = 0; k < NUMROBOS; k++) {
+        r++;
         rob[k] = cria_maquina(prog);
         rob[k]->team = arena->times;
-        rob[k]->hp = 100-k;
+        rob[k]->hp = 100;
+        rob[k]->reg = r;
         
         if (time == 1) {
             switch (k) {
@@ -180,6 +184,7 @@ void remove_exercito(int t){
 
 int sistema(int op, Maquina* robo, Dir dir){
     POSICAO nova_pos;
+    POSICAO original_pos;
     int force = op*10;
     switch(dir) { // ADICIONADO
         case SUL:
@@ -210,43 +215,70 @@ int sistema(int op, Maquina* robo, Dir dir){
     
     switch(op){
         case 1:
-        if( (hex[nova_pos.i][nova_pos.j].ocup) == 0){
-            robo->pos.i = nova_pos.i;
-            robo->pos.j = nova_pos.j;
-            return 1;
-        }
-        else
-        return 0;
-        break;
+            if( (hex[nova_pos.i][nova_pos.j].ocup) == 0){
+                original_pos.i = robo->pos.i;
+                original_pos.j = robo->pos.j;
+                robo->pos.i = nova_pos.i;
+                robo->pos.j = nova_pos.j;
+                fprintf(display, "%d %d %d %d %d\n",
+                                  robo->reg, original_pos.i, original_pos.j, nova_pos.i, nova_pos.j);
+                fflush(display);
+
+                if(hex[original_pos.i][original_pos.j].cristais > 0){
+                    fprintf(display, "cristal %d %d %d\n", original_pos.i, original_pos.j, hex[original_pos.i][original_pos.j].cristais);
+                    fflush(display);
+                }
+
+                //Desocupar a célula que o robo saiu e ocupar a célula para qual o robo se moveu.
+                hex[original_pos.i][original_pos.j].ocup = 0;            
+                hex[nova_pos.i][nova_pos.j].ocup = 1;  
+                return 1;
+            }
+            else{
+                printf("Célula de destino ocupada.\n");
+                return 0;
+            }
+            break;
         case 2:
-        if( (hex[nova_pos.i][nova_pos.j].cristais) > 0){
-            robo->cristais += hex[nova_pos.i][nova_pos.j].cristais;
-            (hex[nova_pos.i][nova_pos.j].cristais) = 0;
-            return 1;
-        }
-        else
-        return 0;
-        break;
+            if( (hex[nova_pos.i][nova_pos.j].cristais) > 0){
+                //Adiciona aos cristais carregados pelo robo o número de cristais presentes na célula alvo.
+                robo->cristais += hex[nova_pos.i][nova_pos.j].cristais;
+                hex[nova_pos.i][nova_pos.j].cristais = 0;//Zera os cristais na célula alvo.
+                //Atualiza os cristais da célula alvo na interface gráfica.
+                fprintf(display, "clean %d %d\n", nova_pos.i, nova_pos.j);
+                fflush(display);
+            }
+            else if((hex[nova_pos.i][nova_pos.j].cristais) == 0){
+                printf("Célula vazia.\n");
+            }
+            else
+                return 0;
+            break;
         case 3:
-        if( (hex[nova_pos.i][nova_pos.j].ocup) == 0){
-            (hex[nova_pos.i][nova_pos.j].cristais)++;
-            robo->cristais--;
-            return 1;
-        }
-        else
-        return 0;
-        break;
+            if(hex[nova_pos.i][nova_pos.j].ocup == 0){ //Se a célula estiver desocupada.              
+                hex[nova_pos.i][nova_pos.j].cristais += robo->cristais;     
+                robo->cristais = 0;//Zerar os cristais carregados pelo robo.
+                //printf("Depositou na celula [%1d][%1d].\n", tmp.x, tmp.y);
+                //Atualiza o número de cristais na célula alvo na interface gráfica.
+                fprintf(display, "cristal %d %d %d\n", nova_pos.i, nova_pos.j, hex[nova_pos.i][nova_pos.j].cristais);
+                fflush(display);
+                return 1;
+                break;
+            }
+            else
+                return 0;
+            break;
         // Por enquanto, alcance do ataque é igual a 1, por simplicidade.
         // Será modificado posteriormente
         default:
-        //int force = op*10;
-        if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 ){
-            for(int i=0;i<NUMROBOS;i++){
-                if( (rob[i]->pos.i == nova_pos.i) && (rob[i]->pos.j == nova_pos.j) )
-                rob[i]->hp -= force; 
+            //int force = op*10;
+            if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 ){
+                for(int i=0;i<NUMROBOS;i++){
+                    if( (rob[i]->pos.i == nova_pos.i) && (rob[i]->pos.j == nova_pos.j) )
+                    rob[i]->hp -= force; 
+                }
             }
-        }
-        return 1;
+            return 1;
         break;
     }
     return 1;

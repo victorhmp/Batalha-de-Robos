@@ -31,6 +31,10 @@ typedef struct {
   // team == 0 -> robo sem time
   // (não inserido ainda ou inativo)
   int team;
+
+  // inteiro para identificar o robo
+  // necessário para visualização
+  int reg;
 } Maquina;
 
 
