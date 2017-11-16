@@ -76,16 +76,16 @@ int main(int ac, char **av) {
     }
 
     insere_exercito(SIZE, rob1, 1);
-    insere_exercito(SIZE, teste, 2);
-
-    //fprintf(display, "rob ~/visual/roboA.png\nrob ~/visual/roboB.png\n");
+    insere_exercito(SIZE, rob1, 2);
     
 
     for (int i = 0; i < 10; i++) {
     	printf("Posição dos robôs (original): %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j);
     }
     
-    atualiza();
+    for(int i=0;i<100;i++){
+        atualiza();
+    }
     
      for (int i = 0; i < 10; i++) {
     	printf("Posição dos robôs: %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j);

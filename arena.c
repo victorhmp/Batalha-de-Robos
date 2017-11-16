@@ -26,7 +26,7 @@
 #define tempo (arena->tempo)
 
 // define o numero de robos na arena
-#define NUMROBOS 10
+#define NUMROBOS 5
 // define o numeros de instruções por ciclo
 #define CICLOS 1000
 
@@ -57,14 +57,11 @@ void cria_arena(int size){
     }
     
     // atualiza o grid com o atributo is_base = 1 para as bases
-    // recebidas via .txt fornecido quando o programa é executado
     // assume q a primeira base é do time 1 e a segunda do time 2
     hex[size-1][0].is_base = 1;
-    //hex[b[0]->i][b[0]->j].team = 1;
     hex[size-1][0].ocup = 1;
     
     hex[0][size-1].is_base = 2;
-    //hex[b[1]->i][b[1]->j].team = 2;
     hex[0][size-1].ocup = 1;
     
     // atualiza o grid com os cristais em suas posições
@@ -111,10 +108,9 @@ void insere_exercito(int size, INSTR *prog, int time){
         rob[k]->reg = r;
         
         if (time == 1) {
-
-		rob[k] = cria_maquina(prog);
-        rob[k]->team = arena->times;
-        rob[k]->hp = 100-k;
+		    rob[k] = cria_maquina(prog);
+            rob[k]->team = arena->times;
+            rob[k]->hp = 100;
 
             switch (k) {
                 case 0:
@@ -138,6 +134,10 @@ void insere_exercito(int size, INSTR *prog, int time){
                     rob[k]->pos.j = 2;
                     break;
             }
+
+            fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg, rob[k]->pos.i, rob[k]->pos.j);            
+            fflush(display); 
+
         }
         else if (time == 2) {
 			rob[k + NUMROBOS] = cria_maquina(prog);
@@ -166,6 +166,9 @@ void insere_exercito(int size, INSTR *prog, int time){
                     rob[k + NUMROBOS]->pos.j = size-5;
                     break;
             }
+
+            fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);            
+            fflush(display); 
         }
         
         hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
