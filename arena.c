@@ -140,9 +140,9 @@ void insere_exercito(int size, INSTR *prog, int time){
             }
         }
         else if (time == 2) {
-			ob[k + NUMROBOS] = cria_maquina(prog);
+			rob[k + NUMROBOS] = cria_maquina(prog);
        	 	rob[k + NUMROBOS]->team = arena->times;
-        	rob[k + NUMROBOS]->hp = 100-k;
+        	rob[k + NUMROBOS]->hp = 100;
 
             switch (k) {
                 case 0:

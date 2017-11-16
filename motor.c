@@ -82,13 +82,13 @@ int main(int ac, char **av) {
     
 
     for (int i = 0; i < 10; i++) {
-    	printf("Posição dos robôs (original): %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j)
+    	printf("Posição dos robôs (original): %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j);
     }
     
     atualiza();
     
      for (int i = 0; i < 10; i++) {
-    	printf("Posição dos robôs: %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j)
+    	printf("Posição dos robôs: %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j);
     }
     puts("---");
     
