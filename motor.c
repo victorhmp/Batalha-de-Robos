@@ -9,8 +9,6 @@
 #include<stdio.h>
 #include"arena.h"
 
-#define SIZE 15
-
 INSTR fat[] = {
     {PUSH, NUM, 8},  // 0
     {CALL, NUM, 4},  // 1
@@ -37,59 +35,109 @@ INSTR fat[] = {
     {RET,  NUM, 0}   // 20
 };
 
-// robô recolhe um cristal, se movimenta e o deposita novamente
+
+INSTR rob0 [] = {
+    {PUSH, DIR, NOD},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, NOR},
+    {SIS, ACAO, MOVE},
+    {END}
+};
+
 INSTR rob1 [] = {
+    {PUSH, DIR, NOR},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, NOR},
+    {SIS, ACAO, RECOLHE},
+    {END}
+};
+
+INSTR rob2 [] = {
+    {PUSH, DIR, NOE},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, SUD},
+    {SIS, ACAO, MOVE},
+    {END}
+};
+
+INSTR rob3 [] = {
+    {END}
+};
+
+INSTR rob4 [] = {
+    {PUSH, DIR, NOD},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, NOR},
+    {SIS, ACAO, TIPOATAQUE},
+    {END}
+};
+
+INSTR rob5 [] = {
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, RECOLHE},
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, NOD},
+    {SIS, ACAO, DEPOSITA},
+    {END}
+};
+
+INSTR rob6 [] = {
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, MOVE},
+    {END}
+};
+
+INSTR rob7 [] = {
+    {END}
+};
+
+INSTR rob8 [] = {
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, MOVE},
+    {PUSH, DIR, SOE},
+    {SIS, ACAO, TIPOATAQUE},
+    {END}
+};
+
+INSTR rob9 [] = {
     {PUSH, DIR, SOE},
     {SIS, ACAO, MOVE},
     {PUSH, DIR, NOE},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, SUL},
-    {SIS, ACAO, MOVE},
-    {END, NUM, 0}
-};
-
-// robô tenta atacar
-INSTR rob2 [] = {
-    {PUSH, DIR, SOE},
-    {SIS, ACAO, TIPOATAQUE},
-    {END, NUM, 0}
-};
-
-INSTR new[] = {
     {PUSH, DIR, SOE},
     {SIS, ACAO, RECOLHE},
-    {END},
-};
-
-INSTR teste[] = {
+    {PUSH, DIR, SUD},
+    {SIS, ACAO, DEPOSITA},
     {END}
 };
 
 
+// MAXRO 50
+// MAXSIZE 20
+// NUMROBOS 5
+// CICLOS 100
 int main(int ac, char **av) {
-    cria_arena(SIZE);
-    display = popen("./apres", "w");
-
-    if (display == NULL) {
-        fprintf(stderr,"Não encontrei o programa de exibição\n");
-        return 1;
-    }
-
-    insere_exercito(SIZE, rob1, 1);
-    insere_exercito(SIZE, rob1, 2);
+    int size = 9;
+    cria_arena(size);
     
-
-    for (int i = 0; i < 10; i++) {
-    	printf("Posição dos robôs (original): %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j);
-    }
+    insere_exercito(size, rob0, rob1, rob2, rob3, rob4, 1);
+    insere_exercito(size, rob5, rob6, rob7, rob8, rob9, 2);
     
-    for(int i=0;i<100;i++){
-        atualiza();
-    }
+    printf("Posição dos robôs (original): %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d\n",
+           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j, arena->robo[2]->pos.i, arena->robo[2]->pos.j, arena->robo[3]->pos.i, arena->robo[3]->pos.j, arena->robo[4]->pos.i, arena->robo[4]->pos.j, arena->robo[5]->pos.i, arena->robo[5]->pos.j, arena->robo[6]->pos.i, arena->robo[6]->pos.j, arena->robo[7]->pos.i, arena->robo[7]->pos.j, arena->robo[8]->pos.i, arena->robo[8]->pos.j, arena->robo[9]->pos.i, arena->robo[9]->pos.j);
     
-     for (int i = 0; i < 10; i++) {
-    	printf("Posição dos robôs: %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j);
-    }
+    atualiza();
+    
+    printf("Posição dos robôs: %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d\n",
+           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j, arena->robo[2]->pos.i, arena->robo[2]->pos.j, arena->robo[3]->pos.i, arena->robo[3]->pos.j, arena->robo[4]->pos.i, arena->robo[4]->pos.j, arena->robo[5]->pos.i, arena->robo[5]->pos.j, arena->robo[6]->pos.i, arena->robo[6]->pos.j, arena->robo[7]->pos.i, arena->robo[7]->pos.j, arena->robo[8]->pos.i, arena->robo[8]->pos.j, arena->robo[9]->pos.i, arena->robo[9]->pos.j);
+    
     puts("---");
     
     return 0;
