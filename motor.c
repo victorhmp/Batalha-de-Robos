@@ -9,6 +9,8 @@
 #include<stdio.h>
 #include"arena.h"
 
+#define SIZE 15
+
 INSTR fat[] = {
     {PUSH, NUM, 8},  // 0
     {CALL, NUM, 4},  // 1
@@ -68,11 +70,10 @@ INSTR teste[] = {
 // NUMROBOS 5
 // CICLOS 100
 int main(int ac, char **av) {
-    int size = 15;
-    cria_arena(size);
+    cria_arena(SIZE);
 
-    insere_exercito(size, teste, 1);
-    insere_exercito(size, teste, 2);
+    insere_exercito(SIZE, teste, 1);
+    insere_exercito(SIZE, teste, 2);
     
     printf("Posição dos robôs (original): %d %d e %d %d\n",
            arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);

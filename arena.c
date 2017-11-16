@@ -26,7 +26,7 @@
 #define tempo (arena->tempo)
 
 // define o numero de robos na arena
-#define NUMROBOS 5
+#define NUMROBOS 10
 // define o numeros de instruções por ciclo
 #define CICLOS 1000
 
@@ -109,56 +109,53 @@ void insere_exercito(int size, INSTR *prog, int time){
         if (time == 1) {
             switch (k) {
                 case 0:
-                rob[k]->pos.i = size-3;
-                rob[k]->pos.j = 0;
-                break;
+                    rob[k]->pos.i = size-3;
+                    rob[k]->pos.j = 0;
+                    break;
                 case 1:
-                rob[k]->pos.i = size-5;
-                rob[k]->pos.j = 0;
-                break;
+                    rob[k]->pos.i = size-5;
+                    rob[k]->pos.j = 0;
+                    break;
                 case 2:
-                rob[k]->pos.i = size-2;
-                rob[k]->pos.j = 1;
-                break;
+                    rob[k]->pos.i = size-2;
+                    rob[k]->pos.j = 1;
+                    break;
                 case 3:
-                rob[k]->pos.i = size-1;
-                rob[k]->pos.j = 2;
-                break;
+                    rob[k]->pos.i = size-1;
+                    rob[k]->pos.j = 2;
+                    break;
                 case 4:
-                rob[k]->pos.i = size-3;
-                rob[k]->pos.j = 2;
-                break;
-                
+                    rob[k]->pos.i = size-3;
+                    rob[k]->pos.j = 2;
+                    break;
             }
         }
         else if (time == 2) {
             switch (k) {
                 case 0:
-                rob[k]->pos.i = 2;
-                rob[k]->pos.j = size-1;
-                break;
+                    rob[k]->pos.i = 2;
+                    rob[k]->pos.j = size-1;
+                    break;
                 case 1:
-                rob[k]->pos.i = 4;
-                rob[k]->pos.j = size-1;
-                break;
+                    rob[k]->pos.i = 4;
+                    rob[k]->pos.j = size-1;
+                    break;
                 case 2:
-                rob[k]->pos.i = 1;
-                rob[k]->pos.j = size-2;
-                break;
+                    rob[k]->pos.i = 1;
+                    rob[k]->pos.j = size-2;
+                    break;
                 case 3:
-                rob[k]->pos.i = 0;
-                rob[k]->pos.j = size-3;
-                break;
+                    rob[k]->pos.i = 0;
+                    rob[k]->pos.j = size-3;
+                    break;
                 case 4:
-                rob[k]->pos.i = 2;
-                rob[k]->pos.j = size-5;
-                break;
+                    rob[k]->pos.i = 2;
+                    rob[k]->pos.j = size-5;
+                    break;
             }
         }
         
         hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
-        //printf("Robo %d, do time %d adicionado OK \n", i, arena->times);
-        //printf("time: %d, hp: %d, posição: %d %d\n", rob[i]->team, rob[i]->hp, rob[i]->pos.i, rob[i]->pos.j);
     }
 }
 
