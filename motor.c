@@ -80,17 +80,16 @@ int main(int ac, char **av) {
 
     fprintf(display, "rob ~/visual/roboA.png\nrob ~/visual/roboB.png\n");
     
-    /*
-    printf("Posição dos robôs (original): %d %d e %d %d\n",
-           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
-    for(int i=0;i<100;i++){
-        atualiza();
+
+    for (int i = 0; i < 10; i++) {
+    	printf("Posição dos robôs (original): %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j)
     }
-    */
     
-    //printf("Posição dos robôs: %d %d e %d %d\n",
-    //     arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
+    atualiza();
     
+     for (int i = 0; i < 10; i++) {
+    	printf("Posição dos robôs: %d %d\n", arena->robo[i]->pos.i, arena->robo[i]->pos.j)
+    }
     puts("---");
     
     return 0;
