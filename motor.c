@@ -4,7 +4,7 @@
  inserir uma instrução {PUSH, DIR, direcao} e, depois, a instrução
  {SIS, ACAO, nome da acao}. Exemplo: {PUSH, DIR, SUL},
  {SIS, ACAO, MOVE}
-*/
+ */
 
 #include<stdio.h>
 #include"arena.h"
@@ -14,7 +14,7 @@ INSTR fat[] = {
     {CALL, NUM, 4},  // 1
     {PRN,  NUM, 0},  // 2
     {END,  NUM, 0},  // 3
-
+    
     // FAT
     {ALC,  NUM, 1},  // 4
     {DUP,  NUM, 0},  // 5
@@ -36,7 +36,7 @@ INSTR fat[] = {
 };
 
 // robô recolhe um cristal, se movimenta e o deposita novamente
-INSTR rob1[] = {
+INSTR rob1 [] = {
     {PUSH, DIR, SOE},
     {SIS, ACAO, MOVE},
     {PUSH, DIR, NOE},
@@ -59,31 +59,30 @@ INSTR new[] = {
     {END},
 };
 
+INSTR teste[] = {
+    {END}
+};
+
 // MAXRO 50
 // MAXSIZE 20
-// NUMROBOS 2
+// NUMROBOS 5
 // CICLOS 100
-int main(int ac, char **av) { 
-  cria_arena(15);
+int main(int ac, char **av) {
+    int size = 15;
+    cria_arena(size);
 
-  // posição dos robôs
-  POSICAO r1 = {5, 2};
-  POSICAO r2 = {1, 3};
-  POSICAO robos[1] = {r1};
-  POSICAO robos2[1] = {r2};
-
-  insere_exercito(r1, rob1);
-  insere_exercito(r2, rob2);
-
-  printf("Posição dos robôs (original): %d %d e %d %d\n", 
-    arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
-
-  atualiza();
-
-  printf("Posição dos robôs: %d %d e %d %d\n", 
-    arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
-
-  puts("---"); 
-
-  return 0; 
+    insere_exercito(size, teste, 1);
+    insere_exercito(size, teste, 2);
+    
+    printf("Posição dos robôs (original): %d %d e %d %d\n",
+           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
+    
+    atualiza();
+    
+    printf("Posição dos robôs: %d %d e %d %d\n",
+           arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j);
+    
+    puts("---");
+    
+    return 0;
 }

@@ -19,6 +19,6 @@ void cria_arena(int size);
 
 void atualiza();
 
-void insere_exercito(POSICAO p, INSTR *prog);
+void insere_exercito(int size, INSTR *prog, int time);
 
 int sistema(int op, Maquina* robo, Dir dir);
