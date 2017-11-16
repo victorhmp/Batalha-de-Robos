@@ -76,6 +76,7 @@ void cria_arena(int size){
             if(((rand_intJ % 2 == 0 && rand_intI % 2 == 0) || (rand_intI % 2 != 0 && rand_intJ % 2 != 0)) && (hex[rand_intI][rand_intJ].is_base==0)){
                 valid = 1;
                 hex[rand_intI][rand_intJ].cristais++;
+                printf("Cristal adicionado em %d %d\n", rand_intI, rand_intJ);
             }
         }
     }
@@ -86,7 +87,7 @@ void cria_arena(int size){
 // e avança o tempo
 void atualiza(){
     int i;
-    for(i = 0; i < NUMROBOS; i++){
+    for(i = 0; i < 2*NUMROBOS; i++){
         if(rob[i]->hp > 0 && rob[i]!=NULL) // check if the robot is still active
             exec_maquina(rob[i], CICLOS);
         if(rob[i]->hp <= 0 && rob[i]!=NULL)
@@ -235,12 +236,12 @@ int sistema(int op, Maquina* robo, Dir dir){
                 fprintf(display, "%d %d %d %d %d\n",
                                   robo->reg, original_pos.i, original_pos.j, nova_pos.i, nova_pos.j);
                 fflush(display);
-
+                
                 if(hex[original_pos.i][original_pos.j].cristais > 0){
                     fprintf(display, "cristal %d %d %d\n", original_pos.i, original_pos.j, hex[original_pos.i][original_pos.j].cristais);
                     fflush(display);
                 }
-
+                
                 //Desocupar a célula que o robo saiu e ocupar a célula para qual o robo se moveu.
                 hex[original_pos.i][original_pos.j].ocup = 0;            
                 hex[nova_pos.i][nova_pos.j].ocup = 1;  
