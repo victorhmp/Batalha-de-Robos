@@ -9,6 +9,8 @@
 #include<stdio.h>
 #include"arena.h"
 
+#define SIZE 15
+
 INSTR fat[] = {
     {PUSH, NUM, 8},  // 0
     {CALL, NUM, 4},  // 1
@@ -124,16 +126,23 @@ INSTR rob9 [] = {
 // NUMROBOS 5
 // CICLOS 100
 int main(int ac, char **av) {
-    int size = 9;
-    cria_arena(size);
+    cria_arena(SIZE);
+    display = popen("./apres", "w");
+
+    if (display == NULL) {
+        fprintf(stderr,"Não encontrei o programa de exibição\n");
+        return 1;
+    }
     
-    insere_exercito(size, rob0, rob1, rob2, rob3, rob4, 1);
-    insere_exercito(size, rob5, rob6, rob7, rob8, rob9, 2);
+    insere_exercito(SIZE, rob0, rob1, rob2, rob3, rob4, 1);
+    insere_exercito(SIZE, rob5, rob6, rob7, rob8, rob9, 2);
     
     printf("Posição dos robôs (original): %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d\n",
            arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j, arena->robo[2]->pos.i, arena->robo[2]->pos.j, arena->robo[3]->pos.i, arena->robo[3]->pos.j, arena->robo[4]->pos.i, arena->robo[4]->pos.j, arena->robo[5]->pos.i, arena->robo[5]->pos.j, arena->robo[6]->pos.i, arena->robo[6]->pos.j, arena->robo[7]->pos.i, arena->robo[7]->pos.j, arena->robo[8]->pos.i, arena->robo[8]->pos.j, arena->robo[9]->pos.i, arena->robo[9]->pos.j);
+    for(int i=0;i<500;i++){
+        atualiza(5);
+    }
     
-    atualiza();
     
     printf("Posição dos robôs: %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d\n",
            arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j, arena->robo[2]->pos.i, arena->robo[2]->pos.j, arena->robo[3]->pos.i, arena->robo[3]->pos.j, arena->robo[4]->pos.i, arena->robo[4]->pos.j, arena->robo[5]->pos.i, arena->robo[5]->pos.j, arena->robo[6]->pos.i, arena->robo[6]->pos.j, arena->robo[7]->pos.i, arena->robo[7]->pos.j, arena->robo[8]->pos.i, arena->robo[8]->pos.j, arena->robo[9]->pos.i, arena->robo[9]->pos.j);
