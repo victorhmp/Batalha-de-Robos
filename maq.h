@@ -35,6 +35,9 @@ typedef struct {
   // inteiro para identificar o robo
   // necessário para visualização
   int reg;
+  // determina se o robô pode executar um comando
+  // ou está ocupada
+  int counter;
 } Maquina;
 
 
