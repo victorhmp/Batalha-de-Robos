@@ -5,6 +5,11 @@ import fileinput
 from math import *
 
 pg.init()                                 # inicialização do sistema
+pg.font.init()
+
+myfont = pg.font.SysFont('Helvetica', 10)
+
+cristal_source = "visual/cristal.png"
 
 # altura e largura da arena, em células
 H, W = 12,12
@@ -14,7 +19,8 @@ l = 30
 # altura da célula
 L = 2*l/sqrt(3)
 
-cristal_source = "visual/cristal.png"
+# hp inicial dos robôs
+robHP = 100
 
 # cria a janela
 scr = pg.display.set_mode((2*W*l+l,int(1.5*L*H+L/2)))
@@ -46,9 +52,9 @@ class Robô(pg.sprite.Sprite):
         s.image = pg.image.load(img)
         s.rect = s.image.get_rect()
 
-    def draw(s, i,j):
+    def draw(s, i,j, hp):
         """
-        Desenha o robô na célula (i,j)
+        Desenha o robô na célula (i,j) com seu hp
         """
         x, y = convert(i,j)
 
@@ -59,6 +65,12 @@ class Robô(pg.sprite.Sprite):
         s.rect.topleft = [x-l1/2,y-h1/2]
         # desenha
         scr.blit(s.image, s.rect)
+
+        # coloca vida do robo
+        #text_hp = myfont.render(str(hp), True, (22, 204, 49)) Tom de verde claro
+        text_hp = myfont.render(str(hp), True, (0, 0, 0)) # preto
+        s.rect.topleft = [x-l1/(3.5),y+h1/2] # alinhamento centralizado em baixo do robô
+        scr.blit(text_hp, s.rect)
 
 class Base(pg.sprite.Sprite):
     """
@@ -115,6 +127,11 @@ class Cristal(pg.sprite.Sprite):
         # desenha
         scr.blit(s.image, s.rect)
 
+        text_cristals = myfont.render(str(s.num), True, (0, 0, 0)) # preto
+        s.rect.topleft = [x-l1/(3.5),y+h1/2] # alinhamento centralizado em baixo do robô
+        scr.blit(text_cristals, s.rect)
+
+
 class cell:
     """
     Representa uma das células da arena
@@ -126,7 +143,7 @@ class cell:
         # Posição do centro
         s.cx, s.cy = convert(i,j)
         # Cor (pode ser passada para o construtor no futuro)
-        s.cor = (200,200,200)
+        s.cor = (208, 255, 0)
 
         # Vértices do hexágono
         s.pontos = (
@@ -175,7 +192,7 @@ for line in fileinput.input():
         robs.append(Robô(r[1], r[2]))
         robIndex, i, j = list(map(int, r[2:]))
         print("Criando robô %d na posição %d %d" %(robIndex, i, j))
-        robs[robIndex].draw(i, j)
+        robs[robIndex].draw(i, j, robHP)
         atu()
         pg.time.wait(500)
         continue
@@ -193,7 +210,7 @@ for line in fileinput.input():
         if(cristais > 0):
             Cristal(cristal_source, cristais).draw(pos_i,pos_j);
         atu();
-        pg.time.wait(500)
+        pg.time.wait(100)
         continue
 
     if r[0] == 'erase':
@@ -214,14 +231,15 @@ for line in fileinput.input():
 
     # linha de movimentação:
     # robô, corrdenadas originais, coordenadas finais
-    ri, oi, oj, di, dj = list(map(int, r))
+    ri, oi, oj, di, dj, newHP = list(map(int, r))
 
     # redesenha a célula original (apaga o robô)
     if 0 <= oi  < W and 0 <= oj < H:
         arena[oi][oj].draw()
     # desenha o robô na célula de destino
     if 0 <= di  < W and 0 <= dj < H and ri < len(robs):
-        robs[ri].draw(di,dj)
+        robs[ri].draw(di,dj, newHP)
+        pg.time.wait(500)
 
     # tempo de espera para atualização, apenas para testes
     pg.time.wait(100)
