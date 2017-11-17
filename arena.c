@@ -47,8 +47,8 @@ void cria_arena(int size){
     arena->times = 1;
 
     for(i = 0; i<size; i++){
-        for(j=0;j<size;j+=2){
-            if(i%2==0 && i>0 && j==0) j=1;
+        for(j=0;j<size;j++){
+            //if(i%2==0 && i>0 && j==0) j=1;
             hex[i][j].terreno = 1;
             hex[i][j].cristais = 0;
             hex[i][j].ocup = 0;
@@ -80,6 +80,8 @@ void cria_arena(int size){
                 int terr = rand() % 4;
                 if(terr != 0) hex[rand_intI][rand_intJ].terreno = terr;
                 else  hex[rand_intI][rand_intJ].terreno = 1;
+
+                hex[rand_intI][rand_intJ].ocup = 0;
 
                 if(terr == 1){
                     fprintf(display, "cel %d %d 232 159 113\n", rand_intI, rand_intJ);
@@ -163,6 +165,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->pos.i = size-3;
                     rob[k]->pos.j = 0;
                     rob[k]->reg = 0;
+                    hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
                     fflush(display);
                     break;
@@ -173,6 +176,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->pos.i = size-5;
                     rob[k]->pos.j = 0;
                     rob[k]->reg = 1;
+                    hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
                     fflush(display);
                     break;
@@ -183,6 +187,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->pos.i = size-2;
                     rob[k]->pos.j = 1;
                     rob[k]->reg = 2;
+                    hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
                     fflush(display);
                     break;
@@ -193,6 +198,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->pos.i = size-1;
                     rob[k]->pos.j = 2;
                     rob[k]->reg = 3;
+                    hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
                     fflush(display);
                     break;
@@ -203,6 +209,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->pos.i = size-3;
                     rob[k]->pos.j = 2;
                     rob[k]->reg = 4;
+                    hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
                     fflush(display);
                     break;
@@ -218,6 +225,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->pos.i = 2;
                     rob[k + NUMROBOS]->pos.j = size-1;
                     rob[k + NUMROBOS]->reg = 5;
+                    hex[rob[k + NUMROBOS]->pos.i][rob[k + NUMROBOS]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
                     fflush(display);
                     break;
@@ -228,6 +236,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->pos.i = 4;
                     rob[k + NUMROBOS]->pos.j = size-1;
                     rob[k + NUMROBOS]->reg = 6;
+                    hex[rob[k + NUMROBOS]->pos.i][rob[k + NUMROBOS]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
                     fflush(display);
                     break;
@@ -238,6 +247,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->pos.i = 1;
                     rob[k + NUMROBOS]->pos.j = size-2;
                     rob[k + NUMROBOS]->reg = 7;
+                    hex[rob[k + NUMROBOS]->pos.i][rob[k + NUMROBOS]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
                     fflush(display);
                     break;
@@ -248,6 +258,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->pos.i = 0;
                     rob[k + NUMROBOS]->pos.j = size-3;
                     rob[k + NUMROBOS]->reg = 8;
+                    hex[rob[k + NUMROBOS]->pos.i][rob[k + NUMROBOS]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
                     fflush(display);
                     break;
@@ -258,6 +269,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->pos.i = 2;
                     rob[k + NUMROBOS]->pos.j = size-3;
                     rob[k + NUMROBOS]->reg = 9;
+                    hex[rob[k + NUMROBOS]->pos.i][rob[k + NUMROBOS]->pos.j].ocup = 1;
                     fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
                     fflush(display);
                     break;
@@ -289,7 +301,7 @@ void remove_exercito(int t){
 // o código para TipoAtaque já descreve seu alcance e sua força
 // a força do ataque é 10 vezes o seu alcance, pode ser modificado futuramente
 // Assume que o argumento (Direção) está no topo da pilha de dados
-// Direção =  NOD || SOE || SUD || NOE (diagonais)
+// Direção =  LES || OES || NOD || SOE || SUD || NOE (diagonais)
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
 
@@ -300,28 +312,52 @@ int sistema(int op, Maquina* robo, Dir dir){
     switch(dir) {
         case LES:
             nova_pos.i = robo->pos.i;
-            nova_pos.j = robo->pos.j + 2;
+            nova_pos.j = robo->pos.j + 1;
             break;
         case OES:
             nova_pos.i = robo->pos.i;
-            nova_pos.j = robo->pos.j - 2;
+            nova_pos.j = robo->pos.j - 1;
             break;
         case NOD:
-        nova_pos.i = robo->pos.i - 1;
-        nova_pos.j = robo->pos.j + 1;
-        break;
+            if(nova_pos.i % 2 == 0){
+                nova_pos.i = robo->pos.i - 1;
+                nova_pos.j = robo->pos.j;
+            }
+            else{
+                nova_pos.i = robo->pos.i - 1;
+                nova_pos.j = robo->pos.j + 1;
+            }
+            break;
         case SOE:
-        nova_pos.i = robo->pos.i + 1;
-        nova_pos.j = robo->pos.j - 1;
-        break;
+            if(nova_pos.i % 2 == 1){
+                nova_pos.i = robo->pos.i - 1;
+                nova_pos.j = robo->pos.j;
+            }
+            else{
+                nova_pos.i = robo->pos.i - 1;
+                nova_pos.j = robo->pos.j - 1;
+            }
+            break;
         case SUD:
-        nova_pos.i = robo->pos.i + 1;
-        nova_pos.j = robo->pos.j + 1;
-        break;
+            if(nova_pos.i % 2 == 0){
+                nova_pos.i = robo->pos.i + 1;
+                nova_pos.j = robo->pos.j;
+            }
+            else{
+                nova_pos.i = robo->pos.i + 1;
+                nova_pos.j = robo->pos.j + 1;
+            }
+            break;
         case NOE:
-        nova_pos.i = robo->pos.i - 1;
-        nova_pos.j = robo->pos.j - 1;
-        break;
+            if(nova_pos.i % 2 == 1){
+                nova_pos.i = robo->pos.i + 1;
+                nova_pos.j = robo->pos.j;
+            }
+            else{
+                nova_pos.i = robo->pos.i + 1;
+                nova_pos.j = robo->pos.j - 1;
+            }
+            break;
     }
 
     if(robo->counter != 0){
@@ -330,7 +366,7 @@ int sistema(int op, Maquina* robo, Dir dir){
 
     switch(op){
         case 1:
-            if( (hex[nova_pos.i][nova_pos.j].ocup) == 0 ){
+            if( (hex[nova_pos.i][nova_pos.j].ocup) == 0  && nova_pos.i > 0 && nova_pos.j > 0){
                 original_pos.i = robo->pos.i;
                 original_pos.j = robo->pos.j;
                 robo->pos.i = nova_pos.i;
@@ -345,7 +381,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                     fflush(display);
                 }
 
-                robo->counter = hex[nova_pos.i][nova_pos.j].terreno;
+                robo->counter = hex[nova_pos.i][nova_pos.j].terreno-1;
 
                 //Desocupar a célula que o robo saiu e ocupar a célula para qual o robo se moveu.
                 hex[original_pos.i][original_pos.j].ocup = 0;
@@ -353,12 +389,12 @@ int sistema(int op, Maquina* robo, Dir dir){
                 return 1;
             }
             else{
-                printf("Célula de destino ocupada.\n");
+                printf("Célula de destino ocupada ou inválida.\n");
                 return 0;
             }
             break;
         case 2:
-            if( (hex[nova_pos.i][nova_pos.j].cristais) > 0){
+            if( (hex[nova_pos.i][nova_pos.j].cristais) > 0 && nova_pos.i > 0 && nova_pos.j > 0){
                 //Adiciona aos cristais carregados pelo robo o número de cristais presentes na célula alvo.
                 robo->cristais += hex[nova_pos.i][nova_pos.j].cristais;
                 hex[nova_pos.i][nova_pos.j].cristais = 0;
@@ -374,7 +410,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             }
             break;
         case 3:
-            if(hex[nova_pos.i][nova_pos.j].ocup == 0){
+            if(hex[nova_pos.i][nova_pos.j].ocup == 0 && nova_pos.i > 0 && nova_pos.j > 0){
                 hex[nova_pos.i][nova_pos.j].cristais += robo->cristais;
                 robo->cristais = 0;
 
@@ -391,7 +427,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             break;
         case 4:
             //int force = op*10;
-            if( (hex[nova_pos.i][nova_pos.j].ocup) == 1){
+            if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 && nova_pos.i > 0 && nova_pos.j > 0){
                 if(hex[nova_pos.i][nova_pos.j].is_base != 0) printf("Tentativa de ataque em uma base\n");
                 else{
                     for(int i=0;i<NUMROBOS;i++){
