@@ -50,7 +50,7 @@ INSTR rob0 [] = {
 INSTR rob1 [] = {
     {PUSH, DIR, NOE},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOR},
+    {PUSH, DIR, LES},
     {SIS, ACAO, RECOLHE},
     {PUSH, DIR, NOE},
     {SIS, ACAO, RECOLHE},

@@ -82,15 +82,15 @@ void cria_arena(int size){
                 else  hex[rand_intI][rand_intJ].terreno = 1;
 
                 if(terr == 1){
-                    fprintf(display, "cel %d %d 169 169 169\n", rand_intI, rand_intJ);
+                    fprintf(display, "cel %d %d 232 159 113\n", rand_intI, rand_intJ);
                     fflush(display);
                 }
                 if(terr == 2){
-                    fprintf(display, "cel %d %d 139 69 19\n", rand_intI, rand_intJ);
+                    fprintf(display, "cel %d %d 193 156 77\n", rand_intI, rand_intJ);
                     fflush(display);
                 }
                 if(terr == 3){
-                    fprintf(display, "cel %d %d 30 144 255\n", rand_intI, rand_intJ);
+                    fprintf(display, "cel %d %d 119 167 214\n", rand_intI, rand_intJ);
                     fflush(display);
                 }
                 if(terr == 4){
