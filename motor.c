@@ -182,6 +182,7 @@ int main(int ac, char **av) {
    */
 
     puts("---");
+    pclose(display);
 
     return 0;
 }
