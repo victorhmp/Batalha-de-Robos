@@ -198,8 +198,8 @@ for line in fileinput.input():
         continue
 
     if r[0] == 'cel':
-        cel_i, cel_j, cel_r, cel_g, cel_b = list(map(int, r[1:]))
-        arena[cel_i][cel_j].cor = (cel_r, cel_g, cel_b)
+        cel_i, cel_j, r, g, b = list(map(int, r[1:]))
+        arena[cel_i][cel_j].cor = (r, g, b)
         arena[cel_i][cel_j].draw()
         atu()
         continue

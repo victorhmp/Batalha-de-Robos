@@ -64,8 +64,8 @@ typedef struct{
 } Acao;
 
 typedef enum {
-    SUL,
-    NOR,
+    LES,
+    OES,
     NOD,
     SOE,
     SUD,
@@ -82,7 +82,7 @@ typedef struct {
         Celula c;
         Acao acao;
         Dir dir;
-    } val; 
+    } val;
 } OPERANDO;
 
 /* Instrução */

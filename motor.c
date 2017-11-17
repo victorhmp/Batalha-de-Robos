@@ -42,19 +42,19 @@ INSTR fat[] = {
 INSTR rob0 [] = {
     {PUSH, DIR, NOD},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOR},
+    {PUSH, DIR, NOE},
     {SIS, ACAO, MOVE},
     {END}
 };
 
 INSTR rob1 [] = {
-    {PUSH, DIR, NOR},
+    {PUSH, DIR, NOE},
     {SIS, ACAO, MOVE},
     {PUSH, DIR, NOR},
     {SIS, ACAO, RECOLHE},
     {PUSH, DIR, NOE},
     {SIS, ACAO, RECOLHE},
-    {PUSH, DIR, SUL},
+    {PUSH, DIR, SOE},
     {SIS, ACAO, RECOLHE},
     {END}
 };
@@ -74,7 +74,7 @@ INSTR rob3 [] = {
 INSTR rob4 [] = {
     {PUSH, DIR, NOD},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOR},
+    {PUSH, DIR, NOD},
     {SIS, ACAO, TIPOATAQUE},
     {END}
 };

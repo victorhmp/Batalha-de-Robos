@@ -68,6 +68,39 @@ void cria_arena(int size){
 
     fflush(display);
 
+    int especial_cells = 50;
+    for(int i=0;i<especial_cells; i++){
+        int valid = 0;
+        int rand_intI, rand_intJ;
+        while(!valid){
+            rand_intI = rand() % size;
+            rand_intJ = rand() % size;
+            if(((rand_intJ % 2 == 0 && rand_intI % 2 == 0) || (rand_intI % 2 != 0 && rand_intJ % 2 != 0)) && (hex[rand_intI][rand_intJ].is_base==0)){
+                valid = 1;
+                int terr = rand() % 4;
+                if(terr != 0) hex[rand_intI][rand_intJ].terreno = terr;
+                else  hex[rand_intI][rand_intJ].terreno = 1;
+
+                if(terr == 1){
+                    fprintf(display, "cel %d %d 169 169 169\n", rand_intI, rand_intJ);
+                    fflush(display);
+                }
+                if(terr == 2){
+                    fprintf(display, "cel %d %d 139 69 19\n", rand_intI, rand_intJ);
+                    fflush(display);
+                }
+                if(terr == 3){
+                    fprintf(display, "cel %d %d 30 144 255\n", rand_intI, rand_intJ);
+                    fflush(display);
+                }
+                if(terr == 4){
+                    fprintf(display, "cel %d %d 200 200 200\n", rand_intI, rand_intJ);
+                    fflush(display);
+                }
+            }
+        }
+    }
+
     // atualiza o grid com os cristais em suas posições
     // n[i] é o numero de cristais na posição c[i]
     int crist = (size*size)/8;
@@ -88,6 +121,7 @@ void cria_arena(int size){
         }
     }
     *rob = malloc(NUMROBOS * sizeof(Maquina));
+
 }
 
 // faz com que cada robo execute um numero certo de instruções(CICLOS)
@@ -248,7 +282,7 @@ void remove_exercito(int t){
 // o código para TipoAtaque já descreve seu alcance e sua força
 // a força do ataque é 10 vezes o seu alcance, pode ser modificado futuramente
 // Assume que o argumento (Direção) está no topo da pilha de dados
-// Direção = SUL || NOR || NOD || SOE || SUD || NOE (baixo-cima-diagonais)
+// Direção =  NOD || SOE || SUD || NOE (diagonais)
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
 
@@ -256,15 +290,15 @@ int sistema(int op, Maquina* robo, Dir dir){
     POSICAO nova_pos;
     POSICAO original_pos;
     int force = op*10;
-    switch(dir) { // ADICIONADO
-        case SUL:
-        nova_pos.i = robo->pos.i + 2;
-        nova_pos.j = robo->pos.j;
-        break;
-        case NOR:
-        nova_pos.i = robo->pos.i - 2;
-        nova_pos.j = robo->pos.j;
-        break;
+    switch(dir) {
+        case LES:
+            nova_pos.i = robo->pos.i;
+            nova_pos.j = robo->pos.j + 2;
+            break;
+        case OES:
+            nova_pos.i = robo->pos.i;
+            nova_pos.j = robo->pos.j - 2;
+            break;
         case NOD:
         nova_pos.i = robo->pos.i - 1;
         nova_pos.j = robo->pos.j + 1;
@@ -289,7 +323,7 @@ int sistema(int op, Maquina* robo, Dir dir){
 
     switch(op){
         case 1:
-            if( (hex[nova_pos.i][nova_pos.j].ocup) == 0){
+            if( (hex[nova_pos.i][nova_pos.j].ocup) == 0 ){
                 original_pos.i = robo->pos.i;
                 original_pos.j = robo->pos.j;
                 robo->pos.i = nova_pos.i;
