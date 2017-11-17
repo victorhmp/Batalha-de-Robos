@@ -130,8 +130,15 @@ void atualiza(int rodadas){
     int i;
     for(int t = 0;t<rodadas;t++){
         for(i = 0; i < 2*NUMROBOS; i++){
-            if(rob[i]->hp > 0 && rob[i]!=NULL) // check if the robot is still active
-                exec_maquina(rob[i], CICLOS);
+            if(rob[i]->hp > 0 && rob[i]!=NULL){
+                if(rob[i]->counter != 0){
+                    printf("Robô ocupado.\n");
+                    rob[i]->counter--;
+                }
+                else{
+                    exec_maquina(rob[i], CICLOS);
+                }
+            }
             if(rob[i]->hp <= 0 && rob[i]!=NULL)
                 destroi_maquina(rob[i]);
         }
@@ -318,7 +325,7 @@ int sistema(int op, Maquina* robo, Dir dir){
     }
 
     if(robo->counter != 0){
-        printf("Robô ocupado\n");
+        printf("Robô não pode se mover\n");
     }
 
     switch(op){
@@ -337,6 +344,8 @@ int sistema(int op, Maquina* robo, Dir dir){
                     fprintf(display, "cristal %d %d %d\n", original_pos.i, original_pos.j, hex[original_pos.i][original_pos.j].cristais);
                     fflush(display);
                 }
+
+                robo->counter = hex[nova_pos.i][nova_pos.j].terreno;
 
                 //Desocupar a célula que o robo saiu e ocupar a célula para qual o robo se moveu.
                 hex[original_pos.i][original_pos.j].ocup = 0;
