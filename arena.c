@@ -319,7 +319,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             nova_pos.j = robo->pos.j - 1;
             break;
         case NOD:
-            if(nova_pos.i % 2 == 0){
+            if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;
             }
@@ -329,17 +329,17 @@ int sistema(int op, Maquina* robo, Dir dir){
             }
             break;
         case SOE:
-            if(nova_pos.i % 2 == 1){
-                nova_pos.i = robo->pos.i - 1;
+            if(robo->pos.i % 2 == 1){
+                nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
             }
             else{
-                nova_pos.i = robo->pos.i - 1;
+                nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j - 1;
             }
             break;
         case SUD:
-            if(nova_pos.i % 2 == 0){
+            if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
             }
@@ -349,12 +349,12 @@ int sistema(int op, Maquina* robo, Dir dir){
             }
             break;
         case NOE:
-            if(nova_pos.i % 2 == 1){
-                nova_pos.i = robo->pos.i + 1;
+            if(robo->pos.i % 2 == 1){
+                nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;
             }
             else{
-                nova_pos.i = robo->pos.i + 1;
+                nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j - 1;
             }
             break;
@@ -366,7 +366,7 @@ int sistema(int op, Maquina* robo, Dir dir){
 
     switch(op){
         case 1:
-            if( (hex[nova_pos.i][nova_pos.j].ocup) == 0  && nova_pos.i > 0 && nova_pos.j > 0){
+            if( (hex[nova_pos.i][nova_pos.j].ocup) == 0  && nova_pos.i >= 0 && nova_pos.j >= 0){
                 original_pos.i = robo->pos.i;
                 original_pos.j = robo->pos.j;
                 robo->pos.i = nova_pos.i;
@@ -389,12 +389,12 @@ int sistema(int op, Maquina* robo, Dir dir){
                 return 1;
             }
             else{
-                printf("Célula de destino ocupada ou inválida.\n");
+                printf("Célula de destino ocupada ou inválida  %d   %d.\n", nova_pos.i, nova_pos.j);
                 return 0;
             }
             break;
         case 2:
-            if( (hex[nova_pos.i][nova_pos.j].cristais) > 0 && nova_pos.i > 0 && nova_pos.j > 0){
+            if( (hex[nova_pos.i][nova_pos.j].cristais) > 0 && nova_pos.i >= 0 && nova_pos.j >= 0){
                 //Adiciona aos cristais carregados pelo robo o número de cristais presentes na célula alvo.
                 robo->cristais += hex[nova_pos.i][nova_pos.j].cristais;
                 hex[nova_pos.i][nova_pos.j].cristais = 0;
@@ -410,7 +410,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             }
             break;
         case 3:
-            if(hex[nova_pos.i][nova_pos.j].ocup == 0 && nova_pos.i > 0 && nova_pos.j > 0){
+            if(hex[nova_pos.i][nova_pos.j].ocup == 0 && nova_pos.i >= 0 && nova_pos.j >= 0){
                 hex[nova_pos.i][nova_pos.j].cristais += robo->cristais;
                 robo->cristais = 0;
 
@@ -427,7 +427,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             break;
         case 4:
             //int force = op*10;
-            if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 && nova_pos.i > 0 && nova_pos.j > 0){
+            if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 && nova_pos.i >= 0 && nova_pos.j >= 0){
                 if(hex[nova_pos.i][nova_pos.j].is_base != 0) printf("Tentativa de ataque em uma base\n");
                 else{
                     for(int i=0;i<NUMROBOS;i++){
