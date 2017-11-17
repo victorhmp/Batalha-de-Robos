@@ -77,6 +77,8 @@ void cria_arena(int size){
                 valid = 1;
                 hex[rand_intI][rand_intJ].cristais++;
                 printf("Cristal adicionado em %d %d\n", rand_intI, rand_intJ);
+                fprintf(display, "cristal %d %d %d\n", rand_intI, rand_intJ, hex[rand_intI][rand_intJ].cristais);
+
             }
         }
     }

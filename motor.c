@@ -16,7 +16,7 @@ INSTR fat[] = {
     {CALL, NUM, 4},  // 1
     {PRN,  NUM, 0},  // 2
     {END,  NUM, 0},  // 3
-    
+
     // FAT
     {ALC,  NUM, 1},  // 4
     {DUP,  NUM, 0},  // 5
@@ -126,7 +126,6 @@ INSTR rob9 [] = {
 // NUMROBOS 5
 // CICLOS 100
 int main(int ac, char **av) {
-    cria_arena(SIZE);
     display = popen("./apres", "w");
 
     if (display == NULL) {
@@ -134,20 +133,22 @@ int main(int ac, char **av) {
         return 1;
     }
     
+    cria_arena(SIZE);
+
     insere_exercito(SIZE, rob0, rob1, rob2, rob3, rob4, 1);
     insere_exercito(SIZE, rob5, rob6, rob7, rob8, rob9, 2);
-    
+
     printf("Posição dos robôs (original): %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d\n",
            arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j, arena->robo[2]->pos.i, arena->robo[2]->pos.j, arena->robo[3]->pos.i, arena->robo[3]->pos.j, arena->robo[4]->pos.i, arena->robo[4]->pos.j, arena->robo[5]->pos.i, arena->robo[5]->pos.j, arena->robo[6]->pos.i, arena->robo[6]->pos.j, arena->robo[7]->pos.i, arena->robo[7]->pos.j, arena->robo[8]->pos.i, arena->robo[8]->pos.j, arena->robo[9]->pos.i, arena->robo[9]->pos.j);
     for(int i=0;i<500;i++){
         atualiza(5);
     }
-    
-    
+
+
     printf("Posição dos robôs: %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d e %d %d\n",
            arena->robo[0]->pos.i, arena->robo[0]->pos.j, arena->robo[1]->pos.i, arena->robo[1]->pos.j, arena->robo[2]->pos.i, arena->robo[2]->pos.j, arena->robo[3]->pos.i, arena->robo[3]->pos.j, arena->robo[4]->pos.i, arena->robo[4]->pos.j, arena->robo[5]->pos.i, arena->robo[5]->pos.j, arena->robo[6]->pos.i, arena->robo[6]->pos.j, arena->robo[7]->pos.i, arena->robo[7]->pos.j, arena->robo[8]->pos.i, arena->robo[8]->pos.j, arena->robo[9]->pos.i, arena->robo[9]->pos.j);
-    
+
     puts("---");
-    
+
     return 0;
 }

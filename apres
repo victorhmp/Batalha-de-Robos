@@ -175,7 +175,7 @@ for line in fileinput.input():
         robs.append(Robô(r[1], r[2]))
         robIndex, i, j = list(map(int, r[2:]))
         atu()
-        pg.time.wait(100)
+        pg.time.wait(1000)
         continue
 
     if r[0] == 'cel':
@@ -190,7 +190,7 @@ for line in fileinput.input():
         if(cristais > 0):
             Cristal(cristal_source, cristais).draw(pos_i,pos_j);
         atu();
-        pg.time.wait(100)
+        pg.time.wait(1000)
         continue
 
     if r[0] == 'erase':
@@ -224,7 +224,7 @@ for line in fileinput.input():
 
     atu()
 
-pg.quit()
+#pg.quit()
 # Local variables:
 # mode: python
 # End:
