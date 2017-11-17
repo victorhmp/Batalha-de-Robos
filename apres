@@ -7,7 +7,7 @@ from math import *
 pg.init()                                 # inicialização do sistema
 
 # altura e largura da arena, em células
-H, W = 8,8
+H, W = 15,15
 
 # largura da célula
 l = 30
@@ -79,8 +79,6 @@ class Base(pg.sprite.Sprite):
         Desenha a base na célula (i,j)
         """
         x, y = convert(s.i,s.j)
-
-        print(x, y)
 
         # fronteiras do sprite
         l0,h0,l1,h1 = s.rect
@@ -176,6 +174,8 @@ for line in fileinput.input():
     if r[0] == 'rob':
         robs.append(Robô(r[1], r[2]))
         robIndex, i, j = list(map(int, r[2:]))
+        print("Criando robô %d na posição %d %d" %(robIndex, i, j))
+        robs[robIndex].draw(i, j)
         atu()
         pg.time.wait(500)
         continue
@@ -189,6 +189,7 @@ for line in fileinput.input():
 
     if r[0] == 'cristal':
         pos_i, pos_j, cristais = list(map(int, r[1:]))
+        print("%d cristais criado(s) em: %d %d" %(cristais, pos_i, pos_j))
         if(cristais > 0):
             Cristal(cristal_source, cristais).draw(pos_i,pos_j);
         atu();
@@ -204,6 +205,7 @@ for line in fileinput.input():
     if r[0] == 'base':
         baseIndex, i, j = list(map(int, r[2:]))
         baseLog.append(Base(r[1], i, j))
+        print("Base %d criada em %d %d" %(baseIndex, i, j))
 
         arena[i][j].draw()
         baseLog[baseIndex].draw()

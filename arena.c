@@ -112,18 +112,17 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
     for (int k = 0; k < NUMROBOS; k++) {
 
         if (time == 1) {
-
-            /*rob[k] = cria_maquina(prog);
-             rob[k]->team = arena->times;
-             rob[k]->hp = 100-k;*/
-
             switch (k) {
+                //rob[k]->reg = r++;
                 case 0:
                     rob[k] = cria_maquina(rob0);
                     rob[k]->team = arena->times;
                     rob[k]->hp = 100-k;
                     rob[k]->pos.i = size-3;
                     rob[k]->pos.j = 0;
+                    rob[k]->reg = 0;
+                    fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
+                    fflush(display);
                     break;
                 case 1:
                     rob[k] = cria_maquina(rob1);
@@ -131,6 +130,9 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->hp = 100-k;
                     rob[k]->pos.i = size-5;
                     rob[k]->pos.j = 0;
+                    rob[k]->reg = 1;
+                    fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
+                    fflush(display);
                     break;
                 case 2:
                     rob[k] = cria_maquina(rob2);
@@ -138,6 +140,9 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->hp = 100-k;
                     rob[k]->pos.i = size-2;
                     rob[k]->pos.j = 1;
+                    rob[k]->reg = 2;
+                    fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
+                    fflush(display);
                     break;
                 case 3:
                     rob[k] = cria_maquina(rob3);
@@ -145,6 +150,9 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->hp = 100-k;
                     rob[k]->pos.i = size-1;
                     rob[k]->pos.j = 2;
+                    rob[k]->reg = 3;
+                    fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
+                    fflush(display);
                     break;
                 case 4:
                     rob[k] = cria_maquina(rob4);
@@ -152,26 +160,24 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->hp = 100-k;
                     rob[k]->pos.i = size-3;
                     rob[k]->pos.j = 2;
+                    rob[k]->reg = 4;
+                    fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg++, rob[k]->pos.i, rob[k]->pos.j);
+                    fflush(display);
                     break;
-
             }
-
-            fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg, rob[k]->pos.i, rob[k]->pos.j);
-            fflush(display);
         }
         else if (time == 2) {
-
-            /*rob[k + NUMROBOS] = cria_maquina(prog);
-             rob[k + NUMROBOS]->team = arena->times;
-             rob[k + NUMROBOS]->hp = 100-k;*/
-
             switch (k) {
+                rob[k + NUMROBOS]->reg = r++;
                 case 0:
                     rob[k + NUMROBOS] = cria_maquina(rob0);
                     rob[k + NUMROBOS]->team = arena->times;
                     rob[k + NUMROBOS]->hp = 100-k;
                     rob[k + NUMROBOS]->pos.i = 2;
                     rob[k + NUMROBOS]->pos.j = size-1;
+                    rob[k + NUMROBOS]->reg = 5;
+                    fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
+                    fflush(display);
                     break;
                 case 1:
                     rob[k + NUMROBOS] = cria_maquina(rob1);
@@ -179,6 +185,9 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->hp = 100-k;
                     rob[k + NUMROBOS]->pos.i = 4;
                     rob[k + NUMROBOS]->pos.j = size-1;
+                    rob[k + NUMROBOS]->reg = 6;
+                    fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
+                    fflush(display);
                     break;
                 case 2:
                     rob[k + NUMROBOS] = cria_maquina(rob2);
@@ -186,6 +195,9 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->hp = 100-k;
                     rob[k + NUMROBOS]->pos.i = 1;
                     rob[k + NUMROBOS]->pos.j = size-2;
+                    rob[k + NUMROBOS]->reg = 7;
+                    fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
+                    fflush(display);
                     break;
                 case 3:
                     rob[k + NUMROBOS] = cria_maquina(rob3);
@@ -193,6 +205,9 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->hp = 100-k;
                     rob[k + NUMROBOS]->pos.i = 0;
                     rob[k + NUMROBOS]->pos.j = size-3;
+                    rob[k + NUMROBOS]->reg = 8;
+                    fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
+                    fflush(display);
                     break;
                 case 4:
                     rob[k + NUMROBOS] = cria_maquina(rob4);
@@ -200,10 +215,14 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->hp = 100-k;
                     rob[k + NUMROBOS]->pos.i = 2;
                     rob[k + NUMROBOS]->pos.j = size-3;
+                    rob[k + NUMROBOS]->reg = 9;
+                    fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
+                    fflush(display);
                     break;
             }
-            fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
+            /*fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
             fflush(display);
+            */
         }
 
         hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;

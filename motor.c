@@ -9,7 +9,7 @@
 #include<stdio.h>
 #include"arena.h"
 
-#define SIZE 8
+#define SIZE 15
 
 /*
 INSTR fat[] = {
