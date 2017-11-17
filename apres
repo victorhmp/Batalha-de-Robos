@@ -14,6 +14,8 @@ l = 30
 # altura da célula
 L = 2*l/sqrt(3)
 
+cristal_source = "visual/cristal.png"
+
 # cria a janela
 scr = pg.display.set_mode((2*W*l+l,int(1.5*L*H+L/2)))
 # só para simplificar, atualização da imagem
@@ -58,7 +60,61 @@ class Robô(pg.sprite.Sprite):
         # desenha
         scr.blit(s.image, s.rect)
 
-    
+class Base(pg.sprite.Sprite):
+    """
+    Representa uma base, possui uma imagem
+    """
+    def __init__(s, img, pos_i, pos_j):
+        """
+        Construtor, img é o nome do arquivo com a imagem
+        """
+        pg.sprite.Sprite.__init__(s)
+        s.image = pg.image.load(img)
+        s.rect = s.image.get_rect()
+        s.i = pos_i
+        s.j = pos_j
+
+    def draw(s):
+        """
+        Desenha a base na célula (i,j)
+        """
+        x, y = convert(s.i,s.j)
+
+        # fronteiras do sprite
+        l0,h0,l1,h1 = s.rect
+
+        # corrije a posição de acordo com o tamanho do sprite
+        s.rect.topleft = [x-l1/2,y-h1/2]
+        # desenha
+        scr.blit(s.image, s.rect)
+
+class Cristal(pg.sprite.Sprite):
+    """
+    Representa um cristal, possui uma imagem
+    """
+    def __init__(s, img, num):
+        """
+        Construtor, img é o nome do arquivo com a imagem
+        """
+        pg.sprite.Sprite.__init__(s)
+        s.image = pg.image.load(img)
+        s.rect = s.image.get_rect()
+        s.num = num
+
+    def draw(s, i, j):
+        """
+        Desenha o cristal na célula (i,j)
+        """
+        x, y = convert(i,j)
+
+        # fronteiras do sprite
+        l0,h0,l1,h1 = s.rect
+
+        # corrije a posição de acordo com o tamanho do sprite
+        s.rect.topleft = [x-l1/2,y-h1/2]
+        # desenha
+        scr.blit(s.image, s.rect)
+
 class cell:
     """
     Representa uma das células da arena
@@ -81,7 +137,7 @@ class cell:
             (s.cx-l, s.cy+L/2),
             (s.cx-l, s.cy-L/2),
             )
-        
+
     def draw(s) :
         """
         Desenha a célula
@@ -92,14 +148,15 @@ class cell:
 
 # Construção da matriz que representa a arena
 arena = []
-for i in range(15):
+for i in range(H):
     arena.append([])
-    for j in range(15):
+    for j in range(W):
         arena[i].append(cell(i,j))
         arena[i][j].draw()
 
-# lista dos robôs definidos
+# lista dos robôs definidos e das bases
 robs = []
+baseLog = []
 
 # atualiza a janela
 atu()
@@ -113,9 +170,42 @@ for line in fileinput.input():
         break
 
     # linha começando com 'rob', inclui um robô,
-    # o segundo argumento na linha é a imagem   
+    # o segundo argumento na linha é a imagem
     if r[0] == 'rob':
-        robs.append(Robô(r[1]))
+        robs.append(Robô(r[1], r[2]))
+        robIndex, i, j = list(map(int, r[2:]))
+        atu()
+        pq.time.wait(100)
+        continue
+
+    if r[0] == 'cel':
+        cel_i, cel_j, cel_r, cel_g, cel_b = list(map(int, r[1:]))
+        arena[cel_i][cel_j].cor = (cel_r, cel_g, cel_b)
+        arena[cel_i][cel_j].draw()
+        atu()
+        continue
+
+    if r[0] == 'cristal':
+        pos_i, pos_j, cristais = list(map(int, r[1:]))
+        if(cristais > 0):
+            Cristal(cristal_source, cristais).draw(pos_i,pos_j);
+        atu();
+        pg.time.wait(100)
+        continue
+
+    if r[0] == 'erase':
+        i, j = list(map(int, r[1:]))
+        arena[i][j].draw()
+        atu()
+        continue
+
+    if r[0] == 'base':
+        baseIndex, i, j = list(map(int, r[2:]))
+        baseLog.append(Base(r[1], i, j))
+
+        arena[i][j].draw()
+        baseLog[baseIndex-1].draw()
+        atu()
         continue
 
     # linha de movimentação:
