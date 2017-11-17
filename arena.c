@@ -1,9 +1,9 @@
 /********************************
- 
+
     Exemplo de arena (size = 9)
     0 = espaço vazio
     1 = celula
- 
+
     1 0 1 0 1 0 1 0 1
     0 1 0 1 0 1 0 1 0
     1 0 1 0 1 0 1 0 1
@@ -13,7 +13,7 @@
     1 0 1 0 1 0 1 0 1
     0 1 0 1 0 1 0 1 0
     1 0 1 0 1 0 1 0 1
- 
+
  *********************************/
 
 #include <stdio.h>
@@ -37,15 +37,15 @@ int r = -1;
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
 void cria_arena(int size){
-    
+
     int i;
     int j;
-    
+
     arena = malloc(sizeof(Arena));
     //if(!arena) Fatal("Erro na criação, falta de espaço.");
-    
+
     arena->times = 1;
-    
+
     for(i = 0; i<size; i++){
         for(j=0;j<size;j+=2){
             if(i%2==0 && i>0 && j==0) j=1;
@@ -55,15 +55,15 @@ void cria_arena(int size){
             hex[i][j].is_base = 0;
         }
     }
-    
+
     // atualiza o grid com o atributo is_base = 1 para as bases
     // assume q a primeira base é do time 1 e a segunda do time 2
     hex[size-1][0].is_base = 1;
     hex[size-1][0].ocup = 1;
-    
+
     hex[0][size-1].is_base = 2;
     hex[0][size-1].ocup = 1;
-    
+
     // atualiza o grid com os cristais em suas posições
     // n[i] é o numero de cristais na posição c[i]
     int crist = (size*size)/8;
@@ -102,15 +102,15 @@ void atualiza(int rodadas){
 // robos carregados com o mesmo conjunto de instruções
 // numero de robos facilmente alteravel pelo parâmetro NUMROBOS
 void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob3, INSTR *rob4, int time){
-    
+
     for (int k = 0; k < NUMROBOS; k++) {
-        
+
         if (time == 1) {
-            
+
             /*rob[k] = cria_maquina(prog);
              rob[k]->team = arena->times;
              rob[k]->hp = 100-k;*/
-            
+
             switch (k) {
                 case 0:
                     rob[k] = cria_maquina(rob0);
@@ -147,18 +147,18 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k]->pos.i = size-3;
                     rob[k]->pos.j = 2;
                     break;
-                    
+
             }
 
-            fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg, rob[k]->pos.i, rob[k]->pos.j);            
-            fflush(display); 
+            fprintf(display, "rob visual/roboA.png %d %d %d\n", rob[k]->reg, rob[k]->pos.i, rob[k]->pos.j);
+            fflush(display);
         }
         else if (time == 2) {
-            
+
             /*rob[k + NUMROBOS] = cria_maquina(prog);
              rob[k + NUMROBOS]->team = arena->times;
              rob[k + NUMROBOS]->hp = 100-k;*/
-            
+
             switch (k) {
                 case 0:
                     rob[k + NUMROBOS] = cria_maquina(rob0);
@@ -196,10 +196,10 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     rob[k + NUMROBOS]->pos.j = size-3;
                     break;
             }
-            fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);            
-            fflush(display); 
+            fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
+            fflush(display);
         }
-        
+
         hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
         //printf("Robo %d, do time %d adicionado OK \n", i, arena->times);
         //printf("time: %d, hp: %d, posição: %d %d\n", rob[i]->team, rob[i]->hp, rob[i]->pos.i, rob[i]->pos.j);
@@ -256,7 +256,7 @@ int sistema(int op, Maquina* robo, Dir dir){
         nova_pos.j = robo->pos.j - 1;
         break;
     }
-    
+
     switch(op){
         case 1:
             if( (hex[nova_pos.i][nova_pos.j].ocup) == 0){
@@ -267,16 +267,16 @@ int sistema(int op, Maquina* robo, Dir dir){
                 fprintf(display, "%d %d %d %d %d\n",
                                   robo->reg, original_pos.i, original_pos.j, nova_pos.i, nova_pos.j);
                 fflush(display);
-                /*
+
                 if(hex[original_pos.i][original_pos.j].cristais > 0){
                     fprintf(display, "cristal %d %d %d\n", original_pos.i, original_pos.j, hex[original_pos.i][original_pos.j].cristais);
                     fflush(display);
                 }
-                */
-                
+
+
                 //Desocupar a célula que o robo saiu e ocupar a célula para qual o robo se moveu.
-                hex[original_pos.i][original_pos.j].ocup = 0;            
-                hex[nova_pos.i][nova_pos.j].ocup = 1;  
+                hex[original_pos.i][original_pos.j].ocup = 0;
+                hex[nova_pos.i][nova_pos.j].ocup = 1;
                 return 1;
             }
             else{
@@ -290,13 +290,10 @@ int sistema(int op, Maquina* robo, Dir dir){
                 robo->cristais += hex[nova_pos.i][nova_pos.j].cristais;
                 hex[nova_pos.i][nova_pos.j].cristais = 0;
 
-                /*
-                
                 //Atualiza os cristais da célula alvo na interface gráfica.
-                fprintf(display, "clean %d %d\n", nova_pos.i, nova_pos.j);
+                fprintf(display, "erase %d %d\n", nova_pos.i, nova_pos.j);
                 fflush(display);
 
-                */
             }
             else if((hex[nova_pos.i][nova_pos.j].cristais) == 0){
                 printf("Célula vazia.\n");
@@ -306,18 +303,15 @@ int sistema(int op, Maquina* robo, Dir dir){
                 return 0;
             break;
         case 3:
-            if(hex[nova_pos.i][nova_pos.j].ocup == 0){               
-                hex[nova_pos.i][nova_pos.j].cristais += robo->cristais;     
+            if(hex[nova_pos.i][nova_pos.j].ocup == 0){
+                hex[nova_pos.i][nova_pos.j].cristais += robo->cristais;
                 robo->cristais = 0;
 
-                /*
-    
                 //Atualiza o número de cristais na célula alvo na interface gráfica.
                 fprintf(display, "cristal %d %d %d\n", nova_pos.i, nova_pos.j, hex[nova_pos.i][nova_pos.j].cristais);
                 fflush(display);
                 return 1;
 
-                */
                 break;
             }
             else
@@ -330,7 +324,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 ){
                 for(int i=0;i<NUMROBOS;i++){
                     if( (rob[i]->pos.i == nova_pos.i) && (rob[i]->pos.j == nova_pos.j) )
-                    rob[i]->hp -= force; 
+                    rob[i]->hp -= force;
                 }
             }
             return 1;

@@ -38,7 +38,7 @@ class Robô(pg.sprite.Sprite):
     """
     Representa um Robô, possui uma imagem
     """
-    def __init__(s, img):
+    def __init__(s, img, robIndex):
         """
         Construtor, img é o nome do arquivo com a imagem
         """
@@ -175,7 +175,7 @@ for line in fileinput.input():
         robs.append(Robô(r[1], r[2]))
         robIndex, i, j = list(map(int, r[2:]))
         atu()
-        pq.time.wait(100)
+        pg.time.wait(100)
         continue
 
     if r[0] == 'cel':
