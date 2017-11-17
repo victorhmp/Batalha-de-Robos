@@ -62,9 +62,9 @@ void cria_arena(int size){
     hex[0][0].ocup = 1;
     fprintf(display, "base visual/base.png 0 %d %d\n", 0, 0);
 
-    hex[7][7].is_base = 2;
-    hex[7][7].ocup = 1;
-    fprintf(display, "base visual/base.png 1 %d %d\n", 7, 7);
+    hex[11][11].is_base = 2;
+    hex[11][11].ocup = 1;
+    fprintf(display, "base visual/base.png 1 %d %d\n", 11, 11);
 
     fflush(display);
 
