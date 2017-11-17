@@ -58,11 +58,15 @@ void cria_arena(int size){
 
     // atualiza o grid com o atributo is_base = 1 para as bases
     // assume q a primeira base é do time 1 e a segunda do time 2
-    hex[size-1][0].is_base = 1;
-    hex[size-1][0].ocup = 1;
+    hex[0][0].is_base = 1;
+    hex[0][0].ocup = 1;
+    fprintf(display, "base visual/base.png 0 %d %d\n", 0, 0);
 
-    hex[0][size-1].is_base = 2;
-    hex[0][size-1].ocup = 1;
+    hex[7][7].is_base = 2;
+    hex[7][7].ocup = 1;
+    fprintf(display, "base visual/base.png 1 %d %d\n", 7, 7);
+
+    fflush(display);
 
     // atualiza o grid com os cristais em suas posições
     // n[i] é o numero de cristais na posição c[i]
@@ -78,7 +82,7 @@ void cria_arena(int size){
                 hex[rand_intI][rand_intJ].cristais++;
                 printf("Cristal adicionado em %d %d\n", rand_intI, rand_intJ);
                 fprintf(display, "cristal %d %d %d\n", rand_intI, rand_intJ, hex[rand_intI][rand_intJ].cristais);
-
+                fflush(display);
             }
         }
     }
