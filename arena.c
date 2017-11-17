@@ -58,13 +58,13 @@ void cria_arena(int size){
 
     // atualiza o grid com o atributo is_base = 1 para as bases
     // assume q a primeira base é do time 1 e a segunda do time 2
-    hex[0][0].is_base = 1;
-    hex[0][0].ocup = 1;
-    fprintf(display, "base visual/base.png 0 %d %d\n", 0, 0);
+    hex[size-1][0].is_base = 1;
+    hex[size-1][0].ocup = 1;
+    fprintf(display, "base visual/base.png 0 %d %d\n", size-1, 0);
 
-    hex[11][11].is_base = 2;
-    hex[11][11].ocup = 1;
-    fprintf(display, "base visual/base.png 1 %d %d\n", 11, 11);
+    hex[0][size-1].is_base = 2;
+    hex[0][size-1].ocup = 1;
+    fprintf(display, "base visual/base2.png 1 %d %d\n", 0, size-1);
 
     fflush(display);
 
@@ -80,7 +80,7 @@ void cria_arena(int size){
             if(((rand_intJ % 2 == 0 && rand_intI % 2 == 0) || (rand_intI % 2 != 0 && rand_intJ % 2 != 0)) && (hex[rand_intI][rand_intJ].is_base==0)){
                 valid = 1;
                 hex[rand_intI][rand_intJ].cristais++;
-                printf("Cristal adicionado em %d %d\n", rand_intI, rand_intJ);
+                //printf("Cristal adicionado em %d %d\n", rand_intI, rand_intJ);
                 fprintf(display, "cristal %d %d %d\n", rand_intI, rand_intJ, hex[rand_intI][rand_intJ].cristais);
                 fflush(display);
             }
@@ -289,6 +289,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 original_pos.j = robo->pos.j;
                 robo->pos.i = nova_pos.i;
                 robo->pos.j = nova_pos.j;
+                printf("Robo movendo-se de %d %d para %d %d\n", original_pos.i, original_pos.j, nova_pos.i, nova_pos.j);
                 fprintf(display, "%d %d %d %d %d\n",
                                   robo->reg, original_pos.i, original_pos.j, nova_pos.i, nova_pos.j);
                 fflush(display);
