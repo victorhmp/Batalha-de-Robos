@@ -30,9 +30,13 @@ void empilha(Pilha *p, OPERANDO op) {
 }
 
 OPERANDO desempilha(Pilha *p) {
+  OPERANDO err;
   if (p->topo > 0)
      return p->val[--p->topo];
-  else Erro("Pilha vazia");
+  else{
+    Erro("Pilha vazia");
+    return err;
+  }
 }
 
 void imprime(Pilha *p, int n) {

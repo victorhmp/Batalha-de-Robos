@@ -22,4 +22,4 @@ void atualiza();
 
 void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob3, INSTR *rob4, int time);
 
-int sistema(int op, Maquina* robo, Dir dir);
+extern int sistema(int op, Maquina* robo, Dir dir);

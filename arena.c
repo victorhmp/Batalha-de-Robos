@@ -33,6 +33,7 @@
 Arena *arena;
 FILE *display;
 int r = -1;
+int k = 0;
 
 // MAXSIZE = 20, pode ser alterado em "arena.h"
 // inicializa a arena com todos os atributos iniciais
@@ -361,7 +362,7 @@ int sistema(int op, Maquina* robo, Dir dir){
     }
 
     if(robo->counter != 0){
-        printf("Robô não pode se mover\n");
+        printf("Robô não pode se mover. Contador = %d\n", robo->counter);
     }
 
     switch(op){
@@ -371,7 +372,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 original_pos.j = robo->pos.j;
                 robo->pos.i = nova_pos.i;
                 robo->pos.j = nova_pos.j;
-                printf("Robo indo de %d %d para %d %d\n", original_pos.i, original_pos.j, nova_pos.i, nova_pos.j);
+                printf("Robo %d indo de %d %d para %d %d\n", robo->reg, original_pos.i, original_pos.j, nova_pos.i, nova_pos.j);
                 fprintf(display, "%d %d %d %d %d %d\n",
                                   robo->reg, original_pos.i, original_pos.j, nova_pos.i, nova_pos.j, robo->hp);
                 fflush(display);
@@ -397,6 +398,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             if( (hex[nova_pos.i][nova_pos.j].cristais) > 0 && nova_pos.i >= 0 && nova_pos.j >= 0){
                 //Adiciona aos cristais carregados pelo robo o número de cristais presentes na célula alvo.
                 robo->cristais += hex[nova_pos.i][nova_pos.j].cristais;
+                printf("Robô %d recolheu %d cristais\n", robo->reg, hex[nova_pos.i][nova_pos.j].cristais);
                 hex[nova_pos.i][nova_pos.j].cristais = 0;
 
                 //Atualiza os cristais da célula alvo na interface gráfica.
@@ -412,6 +414,7 @@ int sistema(int op, Maquina* robo, Dir dir){
         case 3:
             if(hex[nova_pos.i][nova_pos.j].ocup == 0 && nova_pos.i >= 0 && nova_pos.j >= 0){
                 hex[nova_pos.i][nova_pos.j].cristais += robo->cristais;
+                printf("Robô %d depositou %d cristais em %d %d\n", robo->reg, robo->cristais, nova_pos.i, nova_pos.j);
                 robo->cristais = 0;
 
                 //Atualiza o número de cristais na célula alvo na interface gráfica.
@@ -426,18 +429,19 @@ int sistema(int op, Maquina* robo, Dir dir){
                 return 0;
             break;
         case 4:
-            //int force = op*10;
             if( (hex[nova_pos.i][nova_pos.j].ocup) == 1 && nova_pos.i >= 0 && nova_pos.j >= 0){
                 if(hex[nova_pos.i][nova_pos.j].is_base != 0) printf("Tentativa de ataque em uma base\n");
                 else{
-                    for(int i=0;i<NUMROBOS;i++){
-                        if( (rob[i]->pos.i == nova_pos.i) && (rob[i]->pos.j == nova_pos.j) && rob[i]->team != robo->team)
-                        rob[i]->hp -= force;
-                        fprintf(display, "%d %d %d %d %d %d\n", rob[i]->reg, nova_pos.i, nova_pos.j, nova_pos.i, nova_pos.j, rob[i]->hp);
-                        break;
+                    for(int i=0;i<2*NUMROBOS;i++){
+                        if( (rob[i]->pos.i == nova_pos.i) && (rob[i]->pos.j == nova_pos.j)){
+                            rob[i]->hp -= 10;
+                            k = i;
+                            fprintf(display, "%d %d %d %d %d %d\n", rob[i]->reg, nova_pos.i, nova_pos.j, nova_pos.i, nova_pos.j, rob[i]->hp);
+                            break;
+                        }
                     }
                 }
-                printf("Robô %d atacou a célula %d %d e acertou um robô\n", robo->reg, nova_pos.i, nova_pos.j);
+                printf("Robô %d atacou a célula %d %d e acertou o robô %d. HP do robô atacado: %d\n", robo->reg, nova_pos.i, nova_pos.j, k ,rob[k]->hp);
             }
             else
                 printf("Tentativa de ataque em uma célula sem robô.\n");

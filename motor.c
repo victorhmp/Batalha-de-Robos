@@ -182,6 +182,7 @@ int main(int ac, char **av) {
    */
 
     puts("---");
+    fprintf(display, "fim\n");
     pclose(display);
 
     return 0;
