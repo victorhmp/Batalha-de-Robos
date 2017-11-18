@@ -4,11 +4,14 @@ import fileinput
 
 from math import *
 
-pg.init()                                 # inicialização do sistema
-pg.font.init()
+# inicialização do sistema
+pg.init()
 
+# inicializa a utilização de fontes e define qual vai ser a fonte do texto
+pg.font.init()
 myfont = pg.font.SysFont('Helvetica', 10)
 
+# variável auxiliar para indicar a imagem dos cristais
 cristal_source = "visual/cristal.png"
 
 # altura e largura da arena, em células
@@ -26,7 +29,6 @@ robHP = 100
 scr = pg.display.set_mode((2*W*l+l,int(1.5*L*H+L/2)))
 # só para simplificar, atualização da imagem
 atu = pg.display.update
-
 
 # pinta o fundo da janela
 scr.fill((0,200,0))
@@ -66,12 +68,12 @@ class Robô(pg.sprite.Sprite):
         # desenha
         scr.blit(s.image, s.rect)
 
-        # coloca vida do robo
-        #text_hp = myfont.render(str(hp), True, (22, 204, 49)) Tom de verde claro
+        # coloca o texto HP do robo
         text_hp = myfont.render(str(hp), True, (0, 0, 0)) # preto
         s.rect.topleft = [x-l1/(3.5),y+h1/2] # alinhamento centralizado em baixo do robô
         scr.blit(text_hp, s.rect)
 
+# classe que representa o objeto do tipo Base
 class Base(pg.sprite.Sprite):
     """
     Representa uma base, possui uma imagem
@@ -100,6 +102,7 @@ class Base(pg.sprite.Sprite):
         # desenha
         scr.blit(s.image, s.rect)
 
+# Classe que representa o objeto Cristal
 class Cristal(pg.sprite.Sprite):
     """
     Representa um cristal, possui uma imagem
@@ -131,7 +134,7 @@ class Cristal(pg.sprite.Sprite):
         s.rect.topleft = [x-l1/(3.5),y+h1/2] # alinhamento centralizado em baixo do robô
         scr.blit(text_cristals, s.rect)
 
-
+# Classe que representa o objeto Célula
 class cell:
     """
     Representa uma das células da arena
@@ -214,6 +217,7 @@ for line in fileinput.input():
         #pg.time.wait(100)
         continue
 
+    # Desenha uma célula vazia
     if r[0] == 'erase':
         i, j = list(map(int, r[1:]))
         arena[i][j].draw()
@@ -231,7 +235,7 @@ for line in fileinput.input():
         continue
 
     # linha de movimentação:
-    # robô, corrdenadas originais, coordenadas finais
+    # robô, cordenadas originais, coordenadas finais, HP
     ri, oi, oj, di, dj, newHP = list(map(int, r))
 
     # redesenha a célula original (apaga o robô)

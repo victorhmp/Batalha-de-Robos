@@ -30,8 +30,11 @@
 // define o numeros de instruções por ciclo
 #define CICLOS 1000
 
+// variáveis globais
 Arena *arena;
 FILE *display;
+
+// variáveis auxiliares
 int r = -1;
 int k = 0;
 
@@ -42,14 +45,15 @@ void cria_arena(int size){
     int i;
     int j;
 
+    // aloca espaço de memória para a arena
     arena = malloc(sizeof(Arena));
-    //if(!arena) Fatal("Erro na criação, falta de espaço.");
 
+    // inicia o número de times da arena
     arena->times = 1;
 
+    // inicializa as células da arena
     for(i = 0; i<size; i++){
         for(j=0;j<size;j++){
-            //if(i%2==0 && i>0 && j==0) j=1;
             hex[i][j].terreno = 1;
             hex[i][j].cristais = 0;
             hex[i][j].ocup = 0;
@@ -59,16 +63,18 @@ void cria_arena(int size){
 
     // atualiza o grid com o atributo is_base = 1 para as bases
     // assume q a primeira base é do time 1 e a segunda do time 2
+    // já envia o protocolo de criação das bases na interface gráfica.
     hex[size-1][0].is_base = 1;
     hex[size-1][0].ocup = 1;
     fprintf(display, "base visual/base.png 0 %d %d\n", size-1, 0);
-
     hex[0][size-1].is_base = 2;
     hex[0][size-1].ocup = 1;
     fprintf(display, "base visual/base2.png 1 %d %d\n", 0, size-1);
-
     fflush(display);
 
+    // distribui aleatóriamente as células especiais, que geram penalidades
+    // quando ocupadas. Já desenha cada célula de acordo com seu valor
+    // de penalidade.
     int especial_cells = 50;
     for(int i=0;i<especial_cells; i++){
         int valid = 0;
@@ -104,8 +110,8 @@ void cria_arena(int size){
         }
     }
 
-    // atualiza o grid com os cristais em suas posições
-    // n[i] é o numero de cristais na posição c[i]
+    // atualiza o grid com os cristais em suas posições geradas aleatóriamente
+    // já desenhando cada cristal em sua posição na interface gráfica
     int crist = (size*size)/8;
     for(int i=0;i<crist; i++){
         int valid = 0;
@@ -123,12 +129,14 @@ void cria_arena(int size){
             }
         }
     }
-    *rob = malloc(NUMROBOS * sizeof(Maquina));
 
+    // aloca espaço para o vetor de robôs da arena
+    *rob = malloc(NUMROBOS * sizeof(Maquina));
 }
 
-// faz com que cada robo execute um numero certo de instruções(CICLOS)
-// e avança o tempo
+// faz com que cada robo execute um numero certo de instruções (definido em CICLOS)
+// verificando se o robô está ocupado por penalidade ou está livre
+// caso não esteja livre, diminuo sua penalidade e ele não executa o comando.
 void atualiza(int rodadas){
     int i;
     for(int t = 0;t<rodadas;t++){
@@ -149,9 +157,10 @@ void atualiza(int rodadas){
     }
 }
 
-// insere cada exercito t com os robos nas posiçoes
-// robos carregados com o mesmo conjunto de instruções
-// numero de robos facilmente alteravel pelo parâmetro NUMROBOS
+// insere um exército com os robos nas posiçoes iniciais, já na interface gráfica
+// as insruções de cada robô são passadas como argumento da função
+// os robôs são também registrados pela arena no vetor de robôs
+// assim que o robô é adicionado, a célula é marcada como ocupada
 void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob3, INSTR *rob4, int time){
 
     for (int k = 0; k < NUMROBOS; k++) {
@@ -217,6 +226,7 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
             }
         }
         else if (time == 2) {
+            arena->times = 2;
             switch (k) {
                 rob[k + NUMROBOS]->reg = r++;
                 case 0:
@@ -275,37 +285,31 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
             }
-            /*fprintf(display, "rob visual/roboB.png %d %d %d\n", rob[k + NUMROBOS]->reg, rob[k + NUMROBOS]->pos.i, rob[k + NUMROBOS]->pos.j);
-            fflush(display);
-            */
         }
-
-        hex[rob[k]->pos.i][rob[k]->pos.j].ocup = 1;
-        //printf("Robo %d, do time %d adicionado OK \n", i, arena->times);
-        //printf("time: %d, hp: %d, posição: %d %d\n", rob[i]->team, rob[i]->hp, rob[i]->pos.i, rob[i]->pos.j);
     }
 }
 
 
-// remove um exercito derrotado
+// remove um exercito derrotado do vetor de registro
+// tira os robôs do exército da interface gráfica
 void remove_exercito(int t){
     int i;
     for(i = 0; i < NUMROBOS;i++){
-        if(rob[i]->team == t) destroi_maquina(rob[i]);
-        rob[i]->hp = 0;
-        hex[rob[i]->pos.i][rob[i]->pos.j].ocup = 0;
+        if(rob[i]->team == t){
+            hex[rob[i]->pos.i][rob[i]->pos.j].ocup = 0;
+            fprintf(display, "clean %d %d\n", rob[i]->pos.i, rob[i]->pos.j);
+            destroi_maquina(rob[i]);
+        }
     }
 }
 
 // Função recebe um int que codifica a instrução
-// 1  = Mover / 2 = Recolhe / 3 = Deposita / arg >= 4 -> TipoAtaque
-// o código para TipoAtaque já descreve seu alcance e sua força
-// a força do ataque é 10 vezes o seu alcance, pode ser modificado futuramente
+// 1  = Mover / 2 = Recolhe / 3 = Deposita / 4 = TipoAtaque
+// a força do ataque é de 10 , pode ser modificado futuramente.
 // Assume que o argumento (Direção) está no topo da pilha de dados
-// Direção =  LES || OES || NOD || SOE || SUD || NOE (diagonais)
+// Direção =  LES || OES || NOD || SOE || SUD || NOE (leste-oeste e diagonais)
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
-
 int sistema(int op, Maquina* robo, Dir dir){
     POSICAO nova_pos;
     POSICAO original_pos;
@@ -361,12 +365,16 @@ int sistema(int op, Maquina* robo, Dir dir){
             break;
     }
 
+    // checar se o robô não está penalizado
     if(robo->counter != 0){
         printf("Robô não pode se mover. Contador = %d\n", robo->counter);
     }
 
     switch(op){
         case 1:
+            // Verifica se é possível o robô se mover
+            // se for possível, atualiza a posição do robô na arena
+            // e na interface gráfica
             if( (hex[nova_pos.i][nova_pos.j].ocup) == 0  && nova_pos.i >= 0 && nova_pos.j >= 0){
                 original_pos.i = robo->pos.i;
                 original_pos.j = robo->pos.j;

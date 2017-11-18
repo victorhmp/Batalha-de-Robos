@@ -10,6 +10,7 @@ typedef struct{
     int tempo;
     // array que representa a arena
     Celula hexagon[MAXSIZE][MAXSIZE];
+    // numero de times na arena
     int times;
 } Arena;
 
