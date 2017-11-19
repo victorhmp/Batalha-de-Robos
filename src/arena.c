@@ -307,7 +307,7 @@ void remove_exercito(int t){
 // 1  = Mover / 2 = Recolhe / 3 = Deposita / 4 = TipoAtaque
 // a força do ataque é de 10 , pode ser modificado futuramente.
 // Assume que o argumento (Direção) está no topo da pilha de dados
-// Direção =  L || O || NE || SO || SE || NO (leste-oeste e diagonais)
+// Direção =  LES || OES || NOD || SOE || SUD || NOE (leste-oeste e diagonais)
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
 int sistema(int op, Maquina* robo, Dir dir){
@@ -323,7 +323,7 @@ int sistema(int op, Maquina* robo, Dir dir){
             nova_pos.i = robo->pos.i;
             nova_pos.j = robo->pos.j - 1;
             break;
-        case NE:
+        case NOD:
             if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;
@@ -333,7 +333,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.j = robo->pos.j + 1;
             }
             break;
-        case SO:
+        case SOE:
             if(robo->pos.i % 2 == 1){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
@@ -343,7 +343,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.j = robo->pos.j - 1;
             }
             break;
-        case SE:
+        case SUD:
             if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
@@ -353,7 +353,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.j = robo->pos.j + 1;
             }
             break;
-        case NO:
+        case NOE:
             if(robo->pos.i % 2 == 1){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;

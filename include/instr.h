@@ -64,12 +64,12 @@ typedef struct{
 } Acao;
 
 typedef enum {
-    L,
-    O,
-    NE,
-    SO,
-    SE,
-    NO
+    LES,
+    OES,
+    NOD,
+    SOE,
+    SUD,
+    NOE
 } Dir;
 
 typedef struct {

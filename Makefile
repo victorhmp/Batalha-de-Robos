@@ -12,7 +12,7 @@ CFLAGS=-I$(INCDIR)
 _DEPS = maq.h pilha.h instr.h arena.h
 DEPS = $(patsubst %,$(INCDIR)/%,$(_DEPS))
 
-OBJ = motor.o maq.o arena.o pilha.o
+OBJ = $(OBJDIR)/motor.o $(OBJDIR)/maq.o $(OBJDIR)/arena.o $(OBJDIR)/pilha.o
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
