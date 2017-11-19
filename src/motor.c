@@ -6,82 +6,82 @@
 // Instruções para 10 robôs, testam todas as funções implementadas
 
 INSTR rob0 [] = {
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, RECOLHE},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOE},
+    {PUSH, DIR, NO},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, DEPOSITA},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
     {END}
 };
 
 INSTR rob1 [] = {
-    {PUSH, DIR, NOD},
+    {PUSH, DIR, NE},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOE},
+    {PUSH, DIR, NO},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOD},
+    {PUSH, DIR, NE},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOE},
+    {PUSH, DIR, NO},
     {SIS, ACAO, MOVE},
     {END}
 };
 
 INSTR rob2 [] = {
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, RECOLHE},
-    {PUSH, DIR, OES},
+    {PUSH, DIR, O},
     {SIS, ACAO, DEPOSITA},
     {END}
 };
 
 INSTR rob3 [] = {
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, RECOLHE},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
     {END}
 };
 
 INSTR rob4 [] = {
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, LES},
+    {PUSH, DIR, L},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOD},
+    {PUSH, DIR, NE},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOD},
+    {PUSH, DIR, NE},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOD},
+    {PUSH, DIR, NE},
     {SIS, ACAO, MOVE},
 
     {END}
 };
 
 INSTR rob5 [] = {
-    {PUSH, DIR, SUD},
+    {PUSH, DIR, SE},
     {SIS, ACAO, MOVE},
     {END}
 };
 
 INSTR rob6 [] = {
-    {PUSH, DIR, OES},
+    {PUSH, DIR, O},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, NOE},
+    {PUSH, DIR, NO},
     {SIS, ACAO, RECOLHE},
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, DEPOSITA},
     {END}
 };
@@ -91,27 +91,27 @@ INSTR rob7 [] = {
 };
 
 INSTR rob8 [] = {
-    {PUSH, DIR, OES},
+    {PUSH, DIR, O},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, OES},
+    {PUSH, DIR, O},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, OES},
+    {PUSH, DIR, O},
     {SIS, ACAO, MOVE},
     {END}
 };
 
 INSTR rob9 [] = {
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, RECOLHE},
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, RECOLHE},
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, MOVE},
-    {PUSH, DIR, SOE},
+    {PUSH, DIR, SO},
     {SIS, ACAO, TIPOATAQUE},
     {END}
 };
