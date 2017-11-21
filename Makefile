@@ -20,7 +20,10 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 motor: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
 
-.PHONY: clean
+.PHONY: clean push
 clean:
 	rm -f motor $(OBJDIR)/*.o
+
+push:
+	git add . && git commit && git push
 
