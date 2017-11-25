@@ -27,7 +27,9 @@ typedef enum {
     ALC,
     FRE,
     ATR,
-    SIS
+    SIS,
+	ENTRY,
+	LEAVE
 } OpCode;
 
 /* Tipos dos operandos */

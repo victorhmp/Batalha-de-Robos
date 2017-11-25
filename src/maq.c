@@ -35,7 +35,9 @@ char *CODES[] = {
     "ALC",
     "FRE",
     "ATR",
-    "SIS"
+    "SIS",
+	"ENTRY",
+	"LEAVE"
 };
 char *TYPE[] = {
     "NUM",
@@ -66,11 +68,27 @@ Maquina *cria_maquina(INSTR *p) {
     m->cristais = 0;
     m->hp = 0;
     m->team = 0;
+	m->pil.topo = 0;
+	m->ib = 0;
     return m;
 }
 
 void destroi_maquina(Maquina *m) {
     free(m);
+}
+
+int new_frame(Maquina *m, int n){
+	int ibc = m->ib;
+	if(ibc < MAXFRM-1){
+		m->bp[++m->ib] = n+ibc;
+		return m->ib;
+	}
+	return -1;
+}
+
+int del_frame(Maquina *m){
+	if(m->ib > 0) return --m->ib;
+	return -1;
 }
 
 /* Alguns macros para facilitar a leitura do código */
@@ -304,15 +322,16 @@ void exec_maquina(Maquina *m, int n) {
                 break;
             case STO: // salva na memória o elemento no topo da pilha de dados
                 if(arg.t==NUM){
-                    m->Mem[arg.val.n] = desempilha(pil);
+                    m->Mem[arg.val.n+m->bp[m->ib]] = desempilha(pil);
                 }
                 break;
             case RCL: // restaura o STO
                 if(arg.t==NUM){
-                    empilha(pil,m->Mem[arg.val.n]);
+                    empilha(pil,m->Mem[arg.val.n+m->bp[m->ib]]);
                 }
                 break;
             case END:
+				pil->topo = 0;
                 return;
             case PRN: // print do valor numérico do OPERANDO no topo da pilha
                 op1 = desempilha(pil);
@@ -378,7 +397,14 @@ void exec_maquina(Maquina *m, int n) {
                     }
                 }
                 break;
+			case ENTRY:
+				new_frame(m, arg.val.n);
+				break;
+			case LEAVE:
+				del_frame(m);
+				break;
         }
+
         D(imprime(pil,5));
         D(imprime(exec,20));
         D(puts("\n"));

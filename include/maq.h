@@ -1,6 +1,7 @@
 #include "pilha.h"
 
 #define MAXMEM 100
+#define MAXFRM 100
 
 // struct simples para guardar a posição de um robô
 // poderia ser implementada com um array de duas posições
@@ -18,6 +19,9 @@ typedef struct {
   INSTR *prog;
   int ip; // instru pointer
   int rbp; // base register
+  
+  int ib;
+  int bp[MAXFRM];
 
   // atributos do robo
   int cristais;
