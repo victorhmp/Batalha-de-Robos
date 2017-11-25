@@ -9,29 +9,29 @@ CC=gcc
 CFLAGS=-I$(INCDIR)
 
 
-_DEPS = maq.h pilha.h instr.h arena.h symrec.h
-DEPS = $(patsubst %,$(INCDIR)/%,$(_DEPS))
+DEPS = $(INCDIR)/maq.h $(INCDIR)/pilha.h $(INCDIR)/instr.h $(INCDIR)/arena.h $(INCDIR)/symrec.h
 
-OBJ = $(OBJDIR)/motor.o $(OBJDIR)/maq.o $(OBJDIR)/arena.o $(OBJDIR)/pilha.o compila.tab.o lex.yy.o $(OBJDIR)/symrec.o $(OBJDIR)/acertos.o 
+OBJ =   $(OBJDIR)/symrec.o $(OBJDIR)/acertos.o $(OBJDIR)/motor.o $(OBJDIR)/maq.o $(OBJDIR)/arena.o $(OBJDIR)/pilha.o
+
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+play: $(OBJ) $(OBJDIR)/compila.tab.o $(OBJDIR)/lex.yy.o
+	gcc -o $@ $^  -lm -ll $(CFLAGS)
 
-compila: $(OBJ)
-	gcc -o $@ $^ $(CFLAGS) -lm -lfl 
 
-compila.tab.o: ./src/compila.y
+$(OBJDIR)/compila.tab.o: ./src/compila.y $(INCDIR)/symrec.h
 	bison -d ./src/compila.y
-	gcc -c compila.tab.c $(CFLAGS)
-
-lex.yy.o: ./src/compila.l
+	mv compila.tab.c ./src && mv compila.tab.h ./include
+	gcc -c -o $@ ./src/compila.tab.c $(CFLAGS) 
+$(OBJDIR)/lex.yy.o: ./src/compila.l $(INCDIR)/compila.tab.h
 	flex ./src/compila.l
-	gcc -c lex.yy.c $(CFLAGS)
-
+	mv lex.yy.c ./src
+	gcc -c -o $@ ./src/lex.yy.c $(CFLAGS)
 .PHONY: clean push
 clean:
-	rm -f motor $(OBJDIR)/*.o *.o lex.yy.c compila.tab.c compila.tab.h *~ compia
+	rm -f $(OBJDIR)/*.o *.o lex.yy.c compila.tab.c compila.tab.h *~ play
 
 push:
 	git add . && git commit && git push

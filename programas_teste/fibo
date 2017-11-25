@@ -1,26 +1,13 @@
-          PUSH  1
-	     DUP
-          STO   0 # x 
-          STO   1 # y
+a = 1;
+b = 1;
+n = 10;
 
-          PUSH 10
-          STO   2  # i
-
-  LOOP:   RCL   0
-          RCL   1
-          DUP
-          STO   0 # x' = y
-          ADD     # x+y
-          DUP
-          STO   1 #y = x+y 
-          PRN
-          RCL   2
-          PUSH  1
-          SUB     #i-1
-          DUP
-          STO   2  # i = i-1 
-          PUSH  0
-          EQ       # i == 0?
-          JIF  LOOP
-
-          END
+print(a);
+print(b);
+while (n > 2) {
+  c = a+b;
+  a = b;
+  b = c;
+  print(c);
+  n = n-1;
+}
