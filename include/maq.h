@@ -1,7 +1,7 @@
 #include "pilha.h"
 
 #define MAXMEM 100
-#define MAXFRM 100
+#define MAXFRM 30
 
 // struct simples para guardar a posição de um robô
 // poderia ser implementada com um array de duas posições
@@ -51,3 +51,7 @@ Maquina *cria_maquina(INSTR *p);
 void destroi_maquina(Maquina *m);
 
 void exec_maquina(Maquina *m, int n);
+
+int new_frame(Maquina *m, int pos);
+
+int del_frame(Maquina *m);

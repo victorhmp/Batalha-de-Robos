@@ -44,12 +44,12 @@ typedef enum {
 typedef struct{
     // 1 = terreno plano 3 = terreno rugoso
     // facilmente expansível
-    int terreno;
+    short int terreno;
     // numero de cristais
-    int cristais;
-    int ocup;
+    short int cristais;
+    short int ocup;
     // 0 = não base / 1 = base time 1 / 2 = base time 2
-    int is_base;
+    short int is_base;
 } Celula;
 
 //enum Comando são as possíveis ações que o robo executa
