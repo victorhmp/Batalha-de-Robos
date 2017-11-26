@@ -63,7 +63,7 @@ Comando: Expr EOL
 		 	     AddInstr(LEAVE, 0);
 			     AddInstr(RET,0);
  		      }
-	   /* | EOL {printf("--> %d\n", ip);} */
+	   | EOL {printf("--> %d\n", ip);}
 ;
 
 Expr: NUMt {  AddInstr(PUSH, $1);}

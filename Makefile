@@ -17,7 +17,7 @@ OBJ =   $(OBJDIR)/symrec.o $(OBJDIR)/acertos.o $(OBJDIR)/motor.o $(OBJDIR)/maq.o
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-play: $(OBJ) $(OBJDIR)/compila.tab.o $(OBJDIR)/lex.yy.o
+play: $(OBJDIR)/compila.tab.o $(OBJDIR)/lex.yy.o $(OBJ)  
 	gcc -o $@ $^  -lm -ll $(CFLAGS)
 
 
@@ -31,7 +31,7 @@ $(OBJDIR)/lex.yy.o: ./src/compila.l $(INCDIR)/compila.tab.h
 	gcc -c -o $@ ./src/lex.yy.c $(CFLAGS)
 .PHONY: clean push
 clean:
-	rm -f $(OBJDIR)/*.o *.o lex.yy.c compila.tab.c compila.tab.h *~ play
+	rm -f $(OBJDIR)/*.o *.o ./src/lex.yy.c ./src/compila.tab.c ./include/compila.tab.h *~ play
 
 push:
 	git add . && git commit && git push
