@@ -30,10 +30,12 @@ char *CODES[] = {
     "RCL",
     "END",
     "PRN",
+    /*
     "STL",
     "RCE",
     "ALC",
     "FRE",
+    */
     "ATR",
     "SIS",
 	"ENTRY",
@@ -203,9 +205,11 @@ void exec_maquina(Maquina *m, int n) {
                 
                 // empilha o valor do RBP na pilha de execução
                 op1.t = NUM;
-                op1.val.n = m->rbp;
+                op1.val.n = ip;
                 empilha(exec, op1);
+                ip = arg.val.n;
                 
+                /*
                 // empilha o valor do IP na pilha de execução
                 op2.t = NUM;
                 op2.val.n = ip;
@@ -218,8 +222,11 @@ void exec_maquina(Maquina *m, int n) {
                 // faz o IP apontar para o começo da função
                 if(arg.t==NUM)
                     ip = arg.val.n;
+
+                */
                 continue;
             case RET:
+                /*
                 // desempilha o IP
                 op1 = desempilha(exec);
                 if(op1.t == NUM)
@@ -229,6 +236,8 @@ void exec_maquina(Maquina *m, int n) {
                 op2 = desempilha(exec);
                 if(op2.t==NUM)
                     m->rbp = op2.val.n;
+                */
+                ip = desempilha(exec).val.n;
                 break;
             case EQ: // compara (igualdade) os dois elementos no topo da pilha
                 op1 = desempilha(pil);
@@ -326,9 +335,7 @@ void exec_maquina(Maquina *m, int n) {
                 }
                 break;
             case RCL: // restaura o STO
-                if(arg.t==NUM){
-                    empilha(pil,m->Mem[arg.val.n+m->bp[m->ib]]);
-                }
+                empilha(pil,m->Mem[arg.val.n+m->bp[m->ib]]);
                 break;
             case END:
 				pil->topo = 0;
@@ -337,7 +344,7 @@ void exec_maquina(Maquina *m, int n) {
                 op1 = desempilha(pil);
                 printf("%d\n", op1.val.n);
                 break;
-            case STL: // salva na pilha de execução o elemento no topo da pilha de dados
+            /*case STL: // salva na pilha de execução o elemento no topo da pilha de dados
                 if(arg.t==NUM){
                     op1 = desempilha(pil);
                     exec->val[arg.val.n + m->rbp] = op1;
@@ -358,6 +365,7 @@ void exec_maquina(Maquina *m, int n) {
                     exec->topo -= arg.val.n;
                 }
                 break;
+            */
             case ATR: // função especial para checar propriedades de uma célula
                 op1 = desempilha(pil);
                 

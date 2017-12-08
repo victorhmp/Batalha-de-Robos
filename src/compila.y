@@ -63,7 +63,7 @@ Comando: Expr EOL
 		 	     AddInstr(LEAVE, 0);
 			     AddInstr(RET,0);
  		      }
-	   | EOL {printf("--> %d\n", ip);}
+	   /* | EOL {printf("--> %d\n", ip);} */
 ;
 
 Expr: NUMt {  AddInstr(PUSH, $1);}
@@ -190,17 +190,9 @@ int compilador(FILE *cod, INSTR *dest) {
   int r;
   yyin = cod;
   prog = dest;
+  cleartab();
+  ip = 0;
   r = yyparse();
   AddInstr(END,0);
   return r;
 }
-
-/* int main(int ac, char **av) */
-/* { */
-/*   ac --; av++; */
-/*   if (ac>0) */
-/* 	yyin = fopen(*av,"r"); */
-
-/*   yyparse(); */
-/*   return 0; */
-/* } */
