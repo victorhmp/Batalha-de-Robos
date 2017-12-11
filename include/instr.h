@@ -22,10 +22,11 @@ typedef enum {
     RCL,
     END,
     PRN,
-    STL,
+    /*STL,
     RCE,
     ALC,
     FRE,
+	*/
     ATR,
     SIS,
 	ENTRY,

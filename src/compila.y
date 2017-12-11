@@ -32,6 +32,7 @@ void AddInstr(OpCode op, int val) {
 %token <val>  NUMt
 %token <cod> ID
 %token ADDt SUBt MULt DIVt ASGN OPEN CLOSE RETt EOL
+%token MOVEt DEPOSt RECOt ATAt ATRt
 %token EQt NEt LTt LEt GTt GEt ABRE FECHA SEP
 %token IF WHILE FUNC PRINT
 
@@ -51,6 +52,7 @@ Programa: Comando
 	   ;
 
 Comando: Expr EOL
+       | Sistema EOL /* Acao; */
        | Cond
        | Loop
        | Func
@@ -65,6 +67,12 @@ Comando: Expr EOL
  		      }
 	   /* | EOL {printf("--> %d\n", ip);} */
 ;
+
+Sistema: MOVEt OPEN NUMt CLOSE { }
+	| DEPOSt OPEN NUMt CLOSE { }
+	| RECOt OPEN NUMt CLOSE { }
+	| ATAt OPEN NUMt CLOSE  { }
+	| ATRt OPEN NUMt CLOSE  { }
 
 Expr: NUMt {  AddInstr(PUSH, $1);}
     | ID   {
