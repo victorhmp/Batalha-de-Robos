@@ -3,6 +3,7 @@
 %{
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include "symrec.h"
 #include "acertos.h"
 #include "instr.h"
@@ -15,8 +16,13 @@ static int mem = 6;					/* ponteiro da memória */
 static INSTR *prog;
 static int parmcnt = 0;		/* contador de parâmetros */
 
-void AddInstr(OpCode op, int val) {
-  prog[ip++] = (INSTR) {op,  {NUM, {val}}};
+void AddInstr(OpCode op, int val, char *dir) {
+  if(strncmp(dir, "", 2) == 0) 
+  	prog[ip++] = (INSTR) {op,  {NUM, {val}}};
+  else if(strncmp(dir, "", 2) != 0 && val == -1)
+  	prog[ip++] = (INSTR) {op, {ACAO, {dir}}};
+  else
+  	prog[ip++] = (INSTR) {op, {DIR, {dir}}};
 }
 %}
 
@@ -31,6 +37,7 @@ void AddInstr(OpCode op, int val) {
 
 %token <val>  NUMt
 %token <cod> ID
+%token <cod> DIRt
 %token ADDt SUBt MULt DIVt ASGN OPEN CLOSE RETt EOL
 %token MOVEt DEPOSt RECOt ATAt ATRt
 %token EQt NEt LTt LEt GTt GEt ABRE FECHA SEP
@@ -56,34 +63,42 @@ Comando: Expr EOL
        | Cond
        | Loop
        | Func
-	   | PRINT Expr EOL { AddInstr(PRN, 0);}
+	   | PRINT Expr EOL { AddInstr(PRN, 0, "");}
 	   | RETt EOL {
-		 	     AddInstr(LEAVE, 0);
-			     AddInstr(RET, 0);
+		 	     AddInstr(LEAVE, 0, "");
+			     AddInstr(RET, 0, "");
  			  }
 	   | RETt OPEN  Expr CLOSE EOL {
-		 	     AddInstr(LEAVE, 0);
-			     AddInstr(RET,0);
+		 	     AddInstr(LEAVE, 0, "");
+			     AddInstr(RET,0, "");
  		      }
 	   /* | EOL {printf("--> %d\n", ip);} */
 ;
 
-Sistema: MOVEt OPEN NUMt CLOSE { }
-	| DEPOSt OPEN NUMt CLOSE { }
-	| RECOt OPEN NUMt CLOSE { }
-	| ATAt OPEN NUMt CLOSE  { }
-	| ATRt OPEN NUMt CLOSE  { }
+Sistema: MOVEt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3);
+       				 AddInstr(SIS, -1, "MOVE");
+		}
+	| DEPOSt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3);
+				   AddInstr(SIS, -1, "DEPOSITA");
+		}
+	| RECOt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3);
+			          AddInstr(SIS, -1, "RECOLHE");
+		}
+	| ATAt OPEN DIRt CLOSE  { AddInstr(PUSH, 0, $3);
+				  AddInstr(SIS, -1, "TIPOATAQUE");
+		}
+	/* | ATRt OPEN DIRt CLOSE  { } */
 
-Expr: NUMt {  AddInstr(PUSH, $1);}
+Expr: NUMt {  AddInstr(PUSH, $1, "");}
     | ID   {
 	         symrec *s = getsym($1);
 			 if (s==0) s = putsym($1); /* não definida */
-			 AddInstr(RCL, s->val);
+			 AddInstr(RCL, s->val, "");
 	       }
 	| ID ASGN Expr {
 	         symrec *s = getsym($1);
 			 if (s==0) s = putsym($1); /* não definida */
-			 AddInstr(STO, s->val);
+			 AddInstr(STO, s->val, "");
  		 }
 	/* | ID PONTO NUMt  {  % v.4 */
 	/*          symrec *s = getsym($1); */
@@ -92,33 +107,33 @@ Expr: NUMt {  AddInstr(PUSH, $1);}
 	/* 		 AddInstr(ATR, $3); */
  	/* 	 } */
 	| Chamada 
-    | Expr ADDt Expr { AddInstr(ADD,  0);}
-	| Expr SUBt Expr { AddInstr(SUB,  0);}
-	| Expr MULt Expr { AddInstr(MUL,  0);}
-	| Expr DIVt Expr { AddInstr(DIV,  0);}
+    | Expr ADDt Expr { AddInstr(ADD,  0, "");}
+	| Expr SUBt Expr { AddInstr(SUB,  0, "");}
+	| Expr MULt Expr { AddInstr(MUL,  0, "");}
+	| Expr DIVt Expr { AddInstr(DIV,  0, "");}
     | '-' Expr %prec NEG  { printf("  {CHS,  0},\n"); }
 	| OPEN Expr CLOSE
-	| Expr LTt Expr  { AddInstr(LT,   0);}
-	| Expr GTt Expr  { AddInstr(GT,   0);}
-	| Expr LEt Expr  { AddInstr(LE,   0);}
-	| Expr GEt Expr  { AddInstr(GE,   0);}
-	| Expr EQt Expr  { AddInstr(EQ,   0);}
-	| Expr NEt Expr  { AddInstr(NE,   0);}
+	| Expr LTt Expr  { AddInstr(LT,   0, "");}
+	| Expr GTt Expr  { AddInstr(GT,   0, "");}
+	| Expr LEt Expr  { AddInstr(LE,   0, "");}
+	| Expr GEt Expr  { AddInstr(GE,   0, "");}
+	| Expr EQt Expr  { AddInstr(EQ,   0, "");}
+	| Expr NEt Expr  { AddInstr(NE,   0, "");}
 ;
 
 Cond: IF OPEN  Expr {
   	  	 	   salva_end(ip);
-			   AddInstr(JIF,  0);
+			   AddInstr(JIF,  0, "");
  		 }
 		 CLOSE  Bloco {
 		   prog[pega_end()].op.val.n = ip;
 		 };
 
 Loop: WHILE OPEN  {salva_end(ip);}
-	  		Expr  { salva_end(ip); AddInstr(JIF,0); }
+	  		Expr  { salva_end(ip); AddInstr(JIF,0, ""); }
 	  		CLOSE Bloco {
 			  int ip2 = pega_end();
-			  AddInstr(JMP, pega_end());
+			  AddInstr(JMP, pega_end(), "");
 			  prog[ip2].op.val.n = ip;
 			}; 
 
@@ -131,7 +146,7 @@ Comandos: Comando
 Func: FUNC ID
 	  {
 		salva_end(ip);
-		AddInstr(JMP,  0);
+		AddInstr(JMP,  0, "");
 		symrec *s = getsym($2);
 		if (s==0) s = putsym($2);
 		else {
@@ -145,8 +160,8 @@ Func: FUNC ID
 	  }
 	  Args CLOSE  Bloco
 	  {
-		AddInstr(LEAVE, 0);
-		AddInstr(RET, 0);
+		AddInstr(LEAVE, 0, "");
+		AddInstr(RET, 0, "");
 		prog[pega_end()].op.val.n = ip;
 		deltab();
 	  }
@@ -173,11 +188,11 @@ Chamada: ID OPEN
 			 yyerror("Função não definida\n");
 			 YYABORT;
 		   }
-		   AddInstr(ENTRY, lastval());
+		   AddInstr(ENTRY, lastval(), "");
 		   /* Cópia dos parâmetros */
 		   while (parmcnt > 0) 
-			 AddInstr( STO, --parmcnt);
-		   AddInstr(CALL, s->val);
+			 AddInstr( STO, --parmcnt, "");
+		   AddInstr(CALL, s->val, "");
 		 }
 	  	 CLOSE ;
 
@@ -201,6 +216,6 @@ int compilador(FILE *cod, INSTR *dest) {
   cleartab();
   ip = 0;
   r = yyparse();
-  AddInstr(END,0);
+  AddInstr(END,0, "");
   return r;
 }

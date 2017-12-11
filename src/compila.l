@@ -11,6 +11,7 @@ E [Ee][+-]?{D}+
 
 %%
 {D}*[.]?{D}+{E}?	{ yylval.val = atof(yytext); return NUMt; }
+Leste|Noroeste|Sudoeste|Nordeste|Oeste|Sudeste { strncpy(yylval.cod, yytext, 30); return DIRt; }
 
 ret(urn)?  { return RETt; }
 
@@ -18,6 +19,13 @@ if      { return IF; }
 while	{ return WHILE; }
 func|def { return FUNC; }
 print   { return PRINT; }
+
+move          { return MOVEt; }   /* Comando de movimento */
+deposita      { return DEPOSt; }  /* Comando para depositar cristais */
+pega_cristal  { return RECOt; }   /* Comando para recolher cristais */
+ataque        { return ATAt; }    /* Comando para atacar outro robô */
+cel_atributo  { return ATRt; }    /* Comando para ler um atributo da célula em uma certa
+ direção */
 
 {L}{H}* { 
   strncpy(yylval.cod, yytext, 30);
@@ -45,12 +53,6 @@ print   { return PRINT; }
 "<="		{ return LEt; }
 ">"		{ return GTt; }
 ">="		{ return GEt; }
-
-move		{ return MOVEt; }   /* Comando de movimento */
-deposita	{ return DEPOSt; }  /* Comando para depositar cristais */
-pega_cristal	{ return RECOt; }   /* Comando para recolher cristais */
-ataque		{ return ATAt; }    /* Comando para atacar outro robô */
-cel_atributo	{ return ATRt; }    /* Comando para ler um atributo da célula em uma certa direção */
 
 .		{  fprintf(stderr, "Entrada ignorada\n-->%s\n", yytext); }
 
