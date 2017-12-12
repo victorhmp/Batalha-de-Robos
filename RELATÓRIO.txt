@@ -1,0 +1,164 @@
+
+Arthur Kubagawa 	8589843
+Lucas Civile Nagamine	7083142
+Victor Hugo Miranda	10297720
+
+							TRABALHO DE TECPROG I - BATALHA DE ROBÔS
+
+Este relatório discorre sobre as quatro fases do projeto separadamente, de forma a corrigir a ausência de documentação nas primeiras fases.
+
+
+—— 1ª FASE ——
+
+Para a 1ª fase, houve leves alterações na implementação de algumas instruções no maq.c, de forma que as operações lógicas e aritméticas e os desvios passassem a trabalhar em harmonia com as pilhas (de execução e de dados), por meio do uso de “variáveis locais para funções”, como solicitado no pdf. Foi adicionado, também, um novo registrador de base para a máquina virtual.
+
+Duas novas instruções, STL e RCE, foram adicionadas ao conjunto de instruções de maq.c. Seguem suas implementações:
+
+	case STL:
+	  	(exec)->val[arg + rbp - 1] = desempilha(pil); 
+	  	break;
+	case RCE:
+	  	empilha(pil, (exec)->val[arg + rbp - 1]);
+	  	break;
+
+A instrução RET foi modificada. Seu registrador de base não era setado corretamente antes do pop do endereço de retorno. Isso foi corrigido de forma simples, como segue:
+
+	case RET:
+	  	rbp = desempilha(exec);
+	 	ip = desempilha(exec);
+	 	break;
+
+Adaptações menores foram feitas nos outros programas (pilha.c, pilha.h, etc.) para adequá-los às instruções.
+
+Foi criado o arquivo montador, que lê, na entrada padrão, um programa na linguagem de montagem da máquina virtual e retorna um código em C para executar esse programa. A execução do montador se dá na forma “montador < entrada > saída”.
+
+Os testes foram feitos por meio dos conjuntos de instruções “fat” e “fibo”, fornecidos pelos monitores e professor. Houve problemas na execução do “fibo”, corrigidos após uma revisão das instruções na monitoria.
+
+Assim, ao fim da 1ª fase, tudo funcionava conforme planejado.
+
+
+
+—— 2ª FASE ——
+
+Nesta fase, foram elaborados os esqueletos da arena e das máquinas virtuais (robôs), como segue: 
+
+**máquinas virtuais**
+
+Quase todas as instruções de maq.c sofreram alterações em suas implementações, uma vez que, para esta nova fase, nem todas as variáveis eram dotadas do mesmo tipo (numérico). Dessa forma, o programa passou a receber não só a variável, mas também o seu tipo. Foram implementadas conferências de tipo (exemplo: as instruções aritméticas somente seriam executadas se as variáveis do topo da pilha de execução fossem do tipo NUM). Dessa maneira, a forma como as instruções são dadas foi modificada. Exemplo:
+
+	ANTES			DEPOIS
+	{PUSH, 8};		{PUSH, NUM, 8};
+	{END};			{END, NUM, 0} ou {END};
+
+Isso será especialmente útil nas próximas fases, em que lidaremos com outros tipos de dados, como DIR (relativo à direção dos robôs) e ACAO (relativo às ações a serem executadas pelos robôs nas chamadas ao sistema, que foram implementadas nesta 2ª fase: DEPOSITA, RECOLHE, TIPOATAQUE e MOVE).
+
+Foi adicionada a instrução ATR, relativa aos atributos das células do grid.
+
+Além disso, cada objeto (robô) passou a contar com novos atributos, como solicitado no pdf: posição no grid, quantidade de cristais e vida (0-100).
+
+**arena**
+
+A arena (um grid hexagonal) foi representada em uma matriz quadrada em que as células válidas e inválidas se alternam, como segue:
+
+	1 0 1 0 1 0 1 0 1
+    	0 1 0 1 0 1 0 1 0
+    	1 0 1 0 1 0 1 0 1	0: Inválida
+    	0 1 0 1 0 1 0 1 0	1: Válida
+    	1 0 1 0 1 0 1 0 1	
+   	0 1 0 1 0 1 0 1 0
+   	1 0 1 0 1 0 1 0 1
+   	0 1 0 1 0 1 0 1 0
+   	1 0 1 0 1 0 1 0 1
+
+Dessa maneira, as direções de deslocamento possíveis passaram a ser Oeste, Leste, Noroeste, Nordeste, Sudoeste, Sudeste. O tamanho foi fixado em 12x12 células válidas (total: 144). As células podem assumir diferentes terrenos: água, terra e regular.
+
+Cada célula possui uma série de atributos próprios: número de cristais, terreno e ocupação por algum robô. 
+
+Foram inseridas as funções concernentes a manipulação dos exércitos dentro da arena: Atualiza(), InsereExercito(), RemoveExercito() e Sistema (int op) - todas tal como solicitado no pdf do professor.
+
+
+
+—— 3ª FASE ——
+
+A 3ª fase foi dividida em dois tópicos, de acordo com o pdf do professor: sistema de jogo e apresentação gráfica. Aos detalhes:
+
+**sistema de jogo**
+
+A classe referente aos robôs foi terminada, com todos os seus atributos (vida, número de cristais, etc.) e a possibilidade de inicialização dos objetos sem complicações, uma vez que na fase anterior ainda havia algumas complicações no que tangia a inserção na arena. Seguiu-se o requerimento de o robô não poder alterar seu próprio estado por meio da máquina virtual. A movimentação dos robôs foi modificada., em função de uma alteração na implementação do grid (explicada no próximo parágrafo). Segue um exemplo da implementação da movimentação para Sudoeste:
+
+	case SOE:
+            if(robo->pos.i % 2 == 1){
+                nova_pos.i = robo->pos.i + 1;
+                nova_pos.j = robo->pos.j;
+            }
+            else{
+                nova_pos.i = robo->pos.i + 1;
+                nova_pos.j = robo->pos.j - 1;
+            }
+            break;
+
+Essencial notar que, pelo fato de haver células válidas e células inválidas, o fato de a posição do robô ser ímpar ou par é influente na posição i,j de sua nova localização no grid.
+
+A arena também foi terminada. Sua implementação sofreu uma leve modificação em relação à fase anterior, para que não houvesse incompatibilidade com o gráfico provido pelo professor. Nesta fase, a matriz relativa à arena pôde ser inicializada com o tipo de terreno de cada célula, a célula em que cada base se instalou e a distribuição aleatória dos cristais pelo grid. 
+
+É importante mencionar que, quando o jogo se inicia, os robôs década time são dispostos em volta de sua base. As bases dos dois times apresentam-se em posições diametralmente opostas. 
+
+As chamadas ao sistema foram verificadas, desta vez com um teste mais “real” do jogo, visto que a visualização gráfica facilita a identificação de bugs antes não notados. Não houve, todavia, qualquer grande modificação nas chamadas, que se mostraram funcionais.
+
+**apresentação gráfica**
+
+Quanto à implementação da parte gráfica, não há muito a se comentar, uma vez que boa parte do programa fora escrita e disponibilizada pelo professor (apres). A função convert() foi adequada à nossa implementação do grid hexagonal. 
+
+Assim como solicitado no pdf do professor, os comandos de visualização dos cristais e das bases, assim como do terreno de cada célula, foram implementados. 
+
+Junto a cada robô, mostram-se sua vida (0-100) e a quantidade de cristais que carrega.
+
+
+
+
+—— 4ª FASE ——
+
+Na última fase, foram feitas alterações no compila.l, compila.y, motor.c. e no makefile, como segue:
+
+**compila.l e compila.y**
+
+Introdução dos comandos necessários ao jogo:
+
+	- Direções:
+		Leste
+		Oeste
+		Sudeste
+		Sudoeste
+		Nordeste
+		Noroeste		
+
+	- Ações especiais:
+		move (movimentação dos robôs)
+		deposita (depósito de um cristal na célula)
+		pega_cristal (retirada de um cristal da célula)
+		ataque (de um robô a outro)
+		cel_atributo (atributo da célula)
+		
+É importante frisar que, conforme a implementação dos tópicos acima para o flex e o bison, os comandos serão dados na forma “ação(Direção);”. Exemplos:
+
+	move(Leste);
+	deposita(Sudoeste);
+	ataque(Noroeste);
+	cel_atributo(Nodeste);
+ 
+No compila.y, também foi implementada a condicional com “else”, uma vez que, no arquivo original provido pelo professor, apenas o “if” tivera sua implementação feita.
+
+**motor.c**
+
+Até a 3ª fase, os testes (vetores de instruções) eram feitos a partir de modificações no próprio motor.c. Na 4ª fase, ele foi totalmente modificado, uma vez que as instruções passaram a ser obtidas do compilador (gerado pelo compila.l e compila.y), que lê códigos em alto nível e os converte para o baixo nível. No entanto, o motor.c continua responsável pela chamada das funções relativas à criação das máquinas (robôs), execução das instruções e posterior destruição, como sugere o trecho de código abaixo:
+  
+ 	Maquina *maq = cria_maquina(p1);
+  	exec_maquina(maq, 1000);
+  	destroi_maquina(maq);
+
+**makefile**
+
+Adaptações para inclusão dos novos arquivos (compila.l e compila.y) nos comandos make.
+
+
+
