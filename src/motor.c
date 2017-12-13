@@ -1,78 +1,21 @@
 #include <stdio.h>
-#include "compila.tab.h"
 #include "arena.h"
 
 #define SIZE 12
 
-// arrays de instruções - robôs do time 1
-INSTR p1[2000];
-INSTR p2[2000];
-INSTR p3[2000];
-INSTR p4[2000];
-INSTR p5[2000];
-
-// arrays de instruções - robôs do time 2
-INSTR p6[2000];
-INSTR p7[2000];
-INSTR p8[2000];
-INSTR p9[2000];
-INSTR p10[2000];
-
-int compilador(FILE *, INSTR *);
 
 int main(int ac, char **av) {
-
-    char program[10][3] = {{"p1"}, {"p2"}, {"p3"}, {"p4"}, {"p5"}, {"p6"}, {"p7"}, {"p8"}, {"p9"}, {"p0"}};
     
-    for (int i = 0; i < 10; i++) {
-        
-        FILE *p = fopen(program[i], "r");
-        int res;
-        
-        switch (i) {
-            case 0:
-                res = compilador(p, p1);
-                if (res) return 1;
-                break;
-            case 1:
-                res = compilador(p, p2);
-                if (res) return 1;
-                break;
-            case 2:
-                res = compilador(p, p3);
-                if (res) return 1;
-                break;
-            case 3:
-                res = compilador(p, p4);
-                if (res) return 1;
-                break;
-            case 4:
-                res = compilador(p, p5);
-                if (res) return 1;
-                break;
-            case 5:
-                res = compilador(p, p6);
-                if (res) return 1;
-                break;
-            case 6:
-                res = compilador(p, p7);
-                if (res) return 1;
-                break;
-            case 7:
-                res = compilador(p, p8);
-                if (res) return 1;
-                break;
-            case 8:
-                res = compilador(p, p9);
-                if (res) return 1;
-                break;
-            case 9:
-                res = compilador(p, p10);
-                if (res) return 1;
-                break;
-        }
-    }
+    /* para fazer os testes, comente a linha acima e descomente a relativa ao teste desejado
+     lembre-se de que a saída de cada teste será dada 10 vezes (uma para cada robô) */
     
+    //FILE *p = fopen("fat", "r");
+    //FILE *p = fopen("fatorial", "r");
+    //FILE *p = fopen("fat", "r");
+    //FILE *p = fopen("errado", "r");
+    //FILE *p = fopen("exemplo", "r");
+    //FILE *p = fopen("função", "r");
+    //FILE *p = fopen("função2", "r");
     
     display = popen("./apres", "w");
     
@@ -83,10 +26,12 @@ int main(int ac, char **av) {
     
     cria_arena(SIZE);
     
-    insere_exercito(SIZE, p1, p2, p3, p4, p5, 1);
-    insere_exercito(SIZE, p6, p7, p8, p9, p10, 2);
+    int length = 0;
     
-    atualiza(5);
+    insere_exercito(SIZE, 1);
+    insere_exercito(SIZE, 2);
+    
+    atualiza(50);
     puts("---");
     fprintf(display, "fim\n");
     pclose(display);

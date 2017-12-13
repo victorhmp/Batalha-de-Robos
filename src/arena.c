@@ -161,15 +161,32 @@ void atualiza(int rodadas){
 // as insruções de cada robô são passadas como argumento da função
 // os robôs são também registrados pela arena no vetor de robôs
 // assim que o robô é adicionado, a célula é marcada como ocupada
-void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob3, INSTR *rob4, int time){
+void insere_exercito(int size, int time){
 
+    INSTR p1[2000];
+    INSTR p2[2000];
+    INSTR p3[2000];
+    INSTR p4[2000];
+    INSTR p5[2000];
+    INSTR p6[2000];
+    INSTR p7[2000];
+    INSTR p8[2000];
+    INSTR p9[2000];
+    INSTR p10[2000];
+    
+    char program[10][3] = {{"p1"}, {"p2"}, {"p3"}, {"p4"}, {"p5"}, {"p6"}, {"p7"}, {"p8"}, {"p9"}, {"p0"}};
+    
     for (int k = 0; k < NUMROBOS; k++) {
 
         if (time == 1) {
+            
+            FILE *p = fopen(program[k], "r");
+            int res;
+            
             switch (k) {
-                //rob[k]->reg = r++;
                 case 0:
-                    rob[k] = cria_maquina(rob0);
+                    res = compilador(p, p1);
+                    rob[k] = cria_maquina(p1);
                     rob[k]->team = arena->times;
                     rob[k]->hp = 100;
                     rob[k]->pos.i = size-3;
@@ -180,7 +197,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 1:
-                    rob[k] = cria_maquina(rob1);
+                    res = compilador(p, p2);
+                    rob[k] = cria_maquina(p2);
                     rob[k]->team = arena->times;
                     rob[k]->hp = 100;
                     rob[k]->pos.i = size-5;
@@ -191,7 +209,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 2:
-                    rob[k] = cria_maquina(rob2);
+                    res = compilador(p, p3);
+                    rob[k] = cria_maquina(p3);
                     rob[k]->team = arena->times;
                     rob[k]->hp = 100;
                     rob[k]->pos.i = size-2;
@@ -202,7 +221,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 3:
-                    rob[k] = cria_maquina(rob3);
+                    res = compilador(p, p4);
+                    rob[k] = cria_maquina(p4);
                     rob[k]->team = arena->times;
                     rob[k]->hp = 100;
                     rob[k]->pos.i = size-1;
@@ -213,7 +233,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 4:
-                    rob[k] = cria_maquina(rob4);
+                    res = compilador(p, p5);
+                    rob[k] = cria_maquina(p5);
                     rob[k]->team = arena->times;
                     rob[k]->hp = 100;
                     rob[k]->pos.i = size-3;
@@ -224,13 +245,19 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
             }
+            
+            fclose(p);
         }
         else if (time == 2) {
+            
+            FILE *p = fopen(program[k+NUMROBOS], "r");
+            int res;
             arena->times = 2;
             switch (k) {
                 rob[k + NUMROBOS]->reg = r++;
                 case 0:
-                    rob[k + NUMROBOS] = cria_maquina(rob0);
+                    res = compilador(p, p6);
+                    rob[k + NUMROBOS] = cria_maquina(p6);
                     rob[k + NUMROBOS]->team = arena->times;
                     rob[k + NUMROBOS]->hp = 100;
                     rob[k + NUMROBOS]->pos.i = 2;
@@ -241,7 +268,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 1:
-                    rob[k + NUMROBOS] = cria_maquina(rob1);
+                    res = compilador(p, p7);
+                    rob[k + NUMROBOS] = cria_maquina(p7);
                     rob[k + NUMROBOS]->team = arena->times;
                     rob[k + NUMROBOS]->hp = 100;
                     rob[k + NUMROBOS]->pos.i = 4;
@@ -252,7 +280,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 2:
-                    rob[k + NUMROBOS] = cria_maquina(rob2);
+                    res = compilador(p, p8);
+                    rob[k + NUMROBOS] = cria_maquina(p8);
                     rob[k + NUMROBOS]->team = arena->times;
                     rob[k + NUMROBOS]->hp = 100;
                     rob[k + NUMROBOS]->pos.i = 1;
@@ -263,7 +292,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 3:
-                    rob[k + NUMROBOS] = cria_maquina(rob3);
+                    res = compilador(p, p9);
+                    rob[k + NUMROBOS] = cria_maquina(p9);
                     rob[k + NUMROBOS]->team = arena->times;
                     rob[k + NUMROBOS]->hp = 100;
                     rob[k + NUMROBOS]->pos.i = 0;
@@ -274,7 +304,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
                 case 4:
-                    rob[k + NUMROBOS] = cria_maquina(rob4);
+                    res = compilador(p, p10);
+                    rob[k + NUMROBOS] = cria_maquina(p10);
                     rob[k + NUMROBOS]->team = arena->times;
                     rob[k + NUMROBOS]->hp = 100;
                     rob[k + NUMROBOS]->pos.i = 2;
@@ -285,6 +316,8 @@ void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob
                     fflush(display);
                     break;
             }
+            
+            fclose(p);
         }
     }
 }

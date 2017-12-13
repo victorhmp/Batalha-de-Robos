@@ -1,3 +1,4 @@
+#include "compila.tab.h"
 #include "maq.h"
 #define MAXRO 50
 #define MAXSIZE 20
@@ -21,6 +22,8 @@ void cria_arena(int size);
 
 void atualiza();
 
-void insere_exercito(int size, INSTR *rob0, INSTR *rob1, INSTR *rob2, INSTR *rob3, INSTR *rob4, int time);
+void insere_exercito(int size, int time);
 
 extern int sistema(int op, Maquina* robo, Dir dir);
+
+int compilador(FILE *, INSTR *);

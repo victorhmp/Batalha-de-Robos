@@ -156,13 +156,13 @@ static INSTR *prog;
 static int parmcnt = 0;		/* contador de parâmetros */
 
 void AddInstr(OpCode op, int val, char *dir) {
-    if(strncmp(dir, "", 2) == 0) {printf("%d", ip);
+    if(strncmp(dir, "", 2) == 0) {
   	prog[ip++] = (INSTR) {op,  {NUM, {val}}};
     }
-    else if(strncmp(dir, "", 2) != 0 && val == -1) {printf("%d", ip);
+    else if(strncmp(dir, "", 2) != 0 && val == -1) {
   	prog[ip++] = (INSTR) {op, {ACAO, {*dir}}};
     }
-    else{printf("%d", ip);
+    else{
   	prog[ip++] = (INSTR) {op, {DIR, {*dir}}};
     }
 }
@@ -515,11 +515,11 @@ static const yytype_int8 yyrhs[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    60,    60,    61,    64,    65,    66,    67,    68,    69,
-      70,    74,    81,    85,    89,    93,    99,   100,   105,   116,
-     117,   118,   119,   120,   121,   122,   123,   124,   125,   126,
-     127,   128,   131,   131,   139,   140,   139,   147,   149,   150,
-     154,   165,   153,   177,   178,   181,   187,   192,   186,   207,
-     208,   209,   209
+      70,    74,    81,    84,    87,    90,    95,    96,   101,   112,
+     113,   114,   115,   116,   117,   118,   119,   120,   121,   122,
+     123,   124,   127,   127,   135,   136,   135,   143,   145,   146,
+     150,   161,   149,   173,   174,   177,   183,   188,   182,   203,
+     204,   205,   205
 };
 #endif
 
@@ -1530,43 +1530,39 @@ yyreduce:
 
   case 12:
 #line 81 "./src/compila.y"
-    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod)); printf("{PUSH, DIR, %s}\n", (yyvsp[(3) - (4)].cod));
+    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod));
        				 AddInstr(SIS, -1, "MOVE");
-                     printf("{SIS, ACAO, MOVE}\n");
 		;}
     break;
 
   case 13:
-#line 85 "./src/compila.y"
-    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod)); printf("{PUSH, DIR, %s}\n", (yyvsp[(3) - (4)].cod));
+#line 84 "./src/compila.y"
+    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod));
 				   AddInstr(SIS, -1, "DEPOSITA");
-                   printf("{SIS, ACAO, DEPOSITA}\n");
 		;}
     break;
 
   case 14:
-#line 89 "./src/compila.y"
-    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod)); printf("{PUSH, DIR, %s}\n", (yyvsp[(3) - (4)].cod));
+#line 87 "./src/compila.y"
+    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod));
 			          AddInstr(SIS, -1, "RECOLHE");
-                      printf("{SIS, ACAO, RECOLHE}\n");
 		;}
     break;
 
   case 15:
-#line 93 "./src/compila.y"
-    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod)); printf("{PUSH, DIR, %s}\n", (yyvsp[(3) - (4)].cod));
+#line 90 "./src/compila.y"
+    { AddInstr(PUSH, 0, (yyvsp[(3) - (4)].cod));
 				  AddInstr(SIS, -1, "TIPOATAQUE");
-                  printf("{SIS, ACAO, TIPOATAQUE}\n");
 		;}
     break;
 
   case 16:
-#line 99 "./src/compila.y"
+#line 95 "./src/compila.y"
     {  AddInstr(PUSH, (yyvsp[(1) - (1)].val), "");;}
     break;
 
   case 17:
-#line 100 "./src/compila.y"
+#line 96 "./src/compila.y"
     {
 	         symrec *s = getsym((yyvsp[(1) - (1)].cod));
 			 if (s==0) s = putsym((yyvsp[(1) - (1)].cod)); /* não definida */
@@ -1575,7 +1571,7 @@ yyreduce:
     break;
 
   case 18:
-#line 105 "./src/compila.y"
+#line 101 "./src/compila.y"
     {
 	         symrec *s = getsym((yyvsp[(1) - (3)].cod));
 			 if (s==0) s = putsym((yyvsp[(1) - (3)].cod)); /* não definida */
@@ -1584,62 +1580,62 @@ yyreduce:
     break;
 
   case 20:
-#line 117 "./src/compila.y"
+#line 113 "./src/compila.y"
     { AddInstr(ADD,  0, "");;}
     break;
 
   case 21:
-#line 118 "./src/compila.y"
+#line 114 "./src/compila.y"
     { AddInstr(SUB,  0, "");;}
     break;
 
   case 22:
-#line 119 "./src/compila.y"
+#line 115 "./src/compila.y"
     { AddInstr(MUL,  0, "");;}
     break;
 
   case 23:
-#line 120 "./src/compila.y"
+#line 116 "./src/compila.y"
     { AddInstr(DIV,  0, "");;}
     break;
 
   case 24:
-#line 121 "./src/compila.y"
+#line 117 "./src/compila.y"
     { printf("  {CHS,  0},\n"); ;}
     break;
 
   case 26:
-#line 123 "./src/compila.y"
+#line 119 "./src/compila.y"
     { AddInstr(LT,   0, "");;}
     break;
 
   case 27:
-#line 124 "./src/compila.y"
+#line 120 "./src/compila.y"
     { AddInstr(GT,   0, "");;}
     break;
 
   case 28:
-#line 125 "./src/compila.y"
+#line 121 "./src/compila.y"
     { AddInstr(LE,   0, "");;}
     break;
 
   case 29:
-#line 126 "./src/compila.y"
+#line 122 "./src/compila.y"
     { AddInstr(GE,   0, "");;}
     break;
 
   case 30:
-#line 127 "./src/compila.y"
+#line 123 "./src/compila.y"
     { AddInstr(EQ,   0, "");;}
     break;
 
   case 31:
-#line 128 "./src/compila.y"
+#line 124 "./src/compila.y"
     { AddInstr(NE,   0, "");;}
     break;
 
   case 32:
-#line 131 "./src/compila.y"
+#line 127 "./src/compila.y"
     {
   	  	 	   salva_end(ip);
 			   AddInstr(JIF,  0, "");
@@ -1647,24 +1643,24 @@ yyreduce:
     break;
 
   case 33:
-#line 135 "./src/compila.y"
+#line 131 "./src/compila.y"
     {
 		   prog[pega_end()].op.val.n = ip;
 		 ;}
     break;
 
   case 34:
-#line 139 "./src/compila.y"
+#line 135 "./src/compila.y"
     {salva_end(ip);;}
     break;
 
   case 35:
-#line 140 "./src/compila.y"
+#line 136 "./src/compila.y"
     { salva_end(ip); AddInstr(JIF,0, ""); ;}
     break;
 
   case 36:
-#line 141 "./src/compila.y"
+#line 137 "./src/compila.y"
     {
 			  int ip2 = pega_end();
 			  AddInstr(JMP, pega_end(), "");
@@ -1673,7 +1669,7 @@ yyreduce:
     break;
 
   case 40:
-#line 154 "./src/compila.y"
+#line 150 "./src/compila.y"
     {
 		salva_end(ip);
 		AddInstr(JMP,  0, "");
@@ -1688,14 +1684,14 @@ yyreduce:
     break;
 
   case 41:
-#line 165 "./src/compila.y"
+#line 161 "./src/compila.y"
     {
 		newtab(0);
 	  ;}
     break;
 
   case 42:
-#line 169 "./src/compila.y"
+#line 165 "./src/compila.y"
     {
 		AddInstr(LEAVE, 0, "");
 		AddInstr(RET, 0, "");
@@ -1705,21 +1701,21 @@ yyreduce:
     break;
 
   case 44:
-#line 178 "./src/compila.y"
+#line 174 "./src/compila.y"
     {
 	  	 putsym((yyvsp[(1) - (1)].cod));
 	  ;}
     break;
 
   case 45:
-#line 181 "./src/compila.y"
+#line 177 "./src/compila.y"
     {
 	  	 putsym((yyvsp[(3) - (3)].cod));
 	  ;}
     break;
 
   case 46:
-#line 187 "./src/compila.y"
+#line 183 "./src/compila.y"
     {
 			 parmcnt = 0;
 			 /* posição da memória mais avançada */
@@ -1727,7 +1723,7 @@ yyreduce:
     break;
 
   case 47:
-#line 192 "./src/compila.y"
+#line 188 "./src/compila.y"
     {
 		   symrec *s = getsym((yyvsp[(1) - (4)].cod));
 		   if (s == 0) {
@@ -1743,18 +1739,18 @@ yyreduce:
     break;
 
   case 50:
-#line 208 "./src/compila.y"
+#line 204 "./src/compila.y"
     { parmcnt++;;}
     break;
 
   case 51:
-#line 209 "./src/compila.y"
+#line 205 "./src/compila.y"
     { parmcnt++;;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1758 "compila.tab.c"
+#line 1754 "compila.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1968,7 +1964,7 @@ yyreturn:
 }
 
 
-#line 212 "./src/compila.y"
+#line 208 "./src/compila.y"
 
 extern FILE *yyin;
 

@@ -98,15 +98,15 @@ int del_frame(Maquina *m){
 #define pil (&m->pil)
 #define exec (&m->exec)
 #define prg (m->prog)
-
+int y = 0;
 // função que faz o robô (maquina) executar um número n de instruções
 void exec_maquina(Maquina *m, int n) {
     int i;
     
     // garantia de que o topo é inicializado em 0
     // problemas observados sem essa linha, no MacOS
-    exec->topo = 0;
-    
+    //exec->topo = 0;
+
     for (i = 0; i < n; i++) {
         OpCode   opc = prg[ip].instr;
         OPERANDO arg = prg[ip].op;
@@ -338,6 +338,7 @@ void exec_maquina(Maquina *m, int n) {
                 empilha(pil,m->Mem[arg.val.n+m->bp[m->ib]]);
                 break;
             case END:
+                printf("TA ENDANDO\n");
 				pil->topo = 0;
                 return;
             case PRN: // print do valor numérico do OPERANDO no topo da pilha
