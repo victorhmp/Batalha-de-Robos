@@ -67,12 +67,12 @@ typedef struct{
 } Acao;
 
 typedef enum {
-    LES,
-    OES,
-    NOD,
-    SOE,
-    SUD,
-    NOE
+    Leste,
+    Oeste,
+    Nordeste,
+    Sudoeste,
+    Sudeste,
+    Noroeste
 } Dir;
 
 typedef struct {

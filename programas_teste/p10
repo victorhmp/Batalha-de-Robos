@@ -1,0 +1,6 @@
+move(Sudoeste);
+recolhe(Sudoeste);
+move(Sudoeste);
+recolhe(Sudoeste);
+move(Sudoeste);
+ataque(Sudoeste);

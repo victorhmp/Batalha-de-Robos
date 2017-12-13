@@ -17,12 +17,15 @@ static INSTR *prog;
 static int parmcnt = 0;		/* contador de parâmetros */
 
 void AddInstr(OpCode op, int val, char *dir) {
-  if(strncmp(dir, "", 2) == 0) 
+    if(strncmp(dir, "", 2) == 0) {printf("%d", ip);
   	prog[ip++] = (INSTR) {op,  {NUM, {val}}};
-  else if(strncmp(dir, "", 2) != 0 && val == -1)
-  	prog[ip++] = (INSTR) {op, {ACAO, {dir}}};
-  else
-  	prog[ip++] = (INSTR) {op, {DIR, {dir}}};
+    }
+    else if(strncmp(dir, "", 2) != 0 && val == -1) {printf("%d", ip);
+  	prog[ip++] = (INSTR) {op, {ACAO, {*dir}}};
+    }
+    else{printf("%d", ip);
+  	prog[ip++] = (INSTR) {op, {DIR, {*dir}}};
+    }
 }
 %}
 
@@ -75,17 +78,21 @@ Comando: Expr EOL
 	   /* | EOL {printf("--> %d\n", ip);} */
 ;
 
-Sistema: MOVEt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3);
+Sistema: MOVEt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3); printf("{PUSH, DIR, %s}\n", $3);
        				 AddInstr(SIS, -1, "MOVE");
+                     printf("{SIS, ACAO, MOVE}\n");
 		}
-	| DEPOSt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3);
+	| DEPOSt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3); printf("{PUSH, DIR, %s}\n", $3);
 				   AddInstr(SIS, -1, "DEPOSITA");
+                   printf("{SIS, ACAO, DEPOSITA}\n");
 		}
-	| RECOt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3);
+	| RECOt OPEN DIRt CLOSE { AddInstr(PUSH, 0, $3); printf("{PUSH, DIR, %s}\n", $3);
 			          AddInstr(SIS, -1, "RECOLHE");
+                      printf("{SIS, ACAO, RECOLHE}\n");
 		}
-	| ATAt OPEN DIRt CLOSE  { AddInstr(PUSH, 0, $3);
+	| ATAt OPEN DIRt CLOSE  { AddInstr(PUSH, 0, $3); printf("{PUSH, DIR, %s}\n", $3);
 				  AddInstr(SIS, -1, "TIPOATAQUE");
+                  printf("{SIS, ACAO, TIPOATAQUE}\n");
 		}
 	/* | ATRt OPEN DIRt CLOSE  { } */
 

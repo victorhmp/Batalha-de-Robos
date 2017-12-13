@@ -1,0 +1,6 @@
+move(Sudoeste);
+pega_cristal(Sudoeste);
+move(Sudoeste);
+pega_cristal(Sudoeste);
+move(Sudoeste);
+pega_cristal(Sudoeste);

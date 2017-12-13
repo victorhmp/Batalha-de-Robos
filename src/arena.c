@@ -315,15 +315,15 @@ int sistema(int op, Maquina* robo, Dir dir){
     POSICAO original_pos;
     int force = op*10;
     switch(dir) {
-        case LES:
+        case Leste:
             nova_pos.i = robo->pos.i;
             nova_pos.j = robo->pos.j + 1;
             break;
-        case OES:
+        case Oeste:
             nova_pos.i = robo->pos.i;
             nova_pos.j = robo->pos.j - 1;
             break;
-        case NOD:
+        case Nordeste:
             if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;
@@ -333,7 +333,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.j = robo->pos.j + 1;
             }
             break;
-        case SOE:
+        case Sudoeste:
             if(robo->pos.i % 2 == 1){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
@@ -343,7 +343,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.j = robo->pos.j - 1;
             }
             break;
-        case SUD:
+        case Sudeste:
             if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
@@ -353,7 +353,7 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.j = robo->pos.j + 1;
             }
             break;
-        case NOE:
+        case Noroeste:
             if(robo->pos.i % 2 == 1){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;
