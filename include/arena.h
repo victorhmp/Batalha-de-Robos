@@ -24,6 +24,6 @@ void atualiza();
 
 void insere_exercito(int size, int time);
 
-extern int sistema(int op, Maquina* robo, Dir dir);
+extern int sistema(int op, Maquina* robo, char *dir);
 
 int compilador(FILE *, INSTR *);

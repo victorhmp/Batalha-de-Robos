@@ -127,6 +127,7 @@ void exec_maquina(Maquina *m, int n) {
                 OPERANDO resp;
             case PUSH:
                 empilha(pil, arg);
+		printf("PUSH %s\n", arg.val.dir);
                 break;
             case POP:
                 desempilha(pil);
@@ -338,35 +339,13 @@ void exec_maquina(Maquina *m, int n) {
                 empilha(pil,m->Mem[arg.val.n+m->bp[m->ib]]);
                 break;
             case END:
-                printf("TA ENDANDO\n");
-				pil->topo = 0;
+                //printf("TA ENDANDO\n");
+		pil->topo = 0;
                 return;
             case PRN: // print do valor numérico do OPERANDO no topo da pilha
                 op1 = desempilha(pil);
                 printf("%d\n", op1.val.n);
                 break;
-            /*case STL: // salva na pilha de execução o elemento no topo da pilha de dados
-                if(arg.t==NUM){
-                    op1 = desempilha(pil);
-                    exec->val[arg.val.n + m->rbp] = op1;
-                }
-                break;
-            case RCE: // restaura o STL
-                if(arg.t==NUM){
-                    empilha(pil, exec->val[arg.val.n + m->rbp]);
-                }
-                break;
-            case ALC: // aloca espaço na pilha de execução
-                if(arg.t==NUM){
-                    exec->topo += arg.val.n;
-                }
-                break;
-            case FRE: // libera espaço da pilha de execução
-                if(arg.t==NUM){
-                    exec->topo -= arg.val.n;
-                }
-                break;
-            */
             case ATR: // função especial para checar propriedades de uma célula
                 op1 = desempilha(pil);
                 
@@ -387,12 +366,16 @@ void exec_maquina(Maquina *m, int n) {
                 }
                 break;
             case SIS:
+		printf("Tezte.\n");
                 op1 = desempilha(pil);
-                if(arg.t == ACAO && op1.t == DIR){
+                if(arg.t == ACAO){
                     switch(arg.val.acao.c){
                             int ok = 0;
                         case MOVE:
-                            if(sistema(1, m, op1.val.dir)) ok = 1;
+                            if(sistema(1, m, op1.val.dir)){
+				    ok = 1;
+				    if(ok) printf("Comando de mover lido.\n");
+				}
                             break;
                         case RECOLHE:
                             if(sistema(2, m, op1.val.dir)) ok = 1;

@@ -180,8 +180,9 @@ void insere_exercito(int size, int time){
 
         if (time == 1) {
             
-            FILE *p = fopen(program[k], "r");
+            FILE* p = fopen(program[k], "r");
             int res;
+	    if(p != NULL) printf("Leu o programa.\n"); 
             
             switch (k) {
                 case 0:
@@ -250,8 +251,9 @@ void insere_exercito(int size, int time){
         }
         else if (time == 2) {
             
-            FILE *p = fopen(program[k+NUMROBOS], "r");
+            FILE* p = fopen(program[k+NUMROBOS], "r");
             int res;
+	    if(p != NULL) printf("Leu arquivo.\n");
             arena->times = 2;
             switch (k) {
                 rob[k + NUMROBOS]->reg = r++;
@@ -343,20 +345,25 @@ void remove_exercito(int t){
 // Direção =  LES || OES || NOD || SOE || SUD || NOE (leste-oeste e diagonais)
 // return 1 se o sistema autorizar o que o robo pede
 // return 0 se o sistema não autorizar
-int sistema(int op, Maquina* robo, Dir dir){
+int sistema(int op, Maquina* robo, /*Dir dir*/ char dir[]){
     POSICAO nova_pos;
     POSICAO original_pos;
     int force = op*10;
-    switch(dir) {
-        case Leste:
+    //switch(dir) {
+        //case Leste:
+	if(strncmp(dir, "Leste", 5)){
             nova_pos.i = robo->pos.i;
             nova_pos.j = robo->pos.j + 1;
-            break;
-        case Oeste:
+            //break;
+	}
+        //case Oeste:
+	if(strncmp(dir, "Oeste", 5)){
             nova_pos.i = robo->pos.i;
             nova_pos.j = robo->pos.j - 1;
-            break;
-        case Nordeste:
+            //break;
+	}
+        //case Nordeste:
+	if(strncmp(dir, "Nordeste", 8)){
             if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;
@@ -365,8 +372,10 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j + 1;
             }
-            break;
-        case Sudoeste:
+            //break;
+	}
+        //case Sudoeste:
+	if(strncmp(dir, "Sudoeste", 8)){
             if(robo->pos.i % 2 == 1){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
@@ -375,9 +384,11 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j - 1;
             }
-            break;
-        case Sudeste:
-            if(robo->pos.i % 2 == 0){
+            //break;
+	}
+        //case Sudeste:
+        if(strncmp(dir, "Sudeste", 7)){
+	    if(robo->pos.i % 2 == 0){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j;
             }
@@ -385,8 +396,10 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.i = robo->pos.i + 1;
                 nova_pos.j = robo->pos.j + 1;
             }
-            break;
-        case Noroeste:
+            //break;
+	}
+        //case Noroeste:
+	if(strncmp(dir, "Noroeste", 8)){
             if(robo->pos.i % 2 == 1){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j;
@@ -395,8 +408,9 @@ int sistema(int op, Maquina* robo, Dir dir){
                 nova_pos.i = robo->pos.i - 1;
                 nova_pos.j = robo->pos.j - 1;
             }
-            break;
-    }
+            //break;
+	}
+    //}
 
     // checar se o robô não está penalizado
     if(robo->counter != 0){

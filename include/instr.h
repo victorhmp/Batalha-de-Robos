@@ -82,9 +82,10 @@ typedef struct {
         int n;
         int ac;
         int v;
+	//Dir dir;
+	char *dir;
         Celula c;
         Acao acao;
-        Dir dir;
     } val;
 } OPERANDO;
 

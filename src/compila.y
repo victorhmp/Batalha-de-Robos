@@ -16,15 +16,15 @@ static int mem = 6;					/* ponteiro da memória */
 static INSTR *prog;
 static int parmcnt = 0;		/* contador de parâmetros */
 
-void AddInstr(OpCode op, int val, char *dir) {
+void AddInstr(OpCode op, int val, char dir[]) {
     if(strncmp(dir, "", 2) == 0) {
   	prog[ip++] = (INSTR) {op,  {NUM, {val}}};
     }
     else if(strncmp(dir, "", 2) != 0 && val == -1) {
-  	prog[ip++] = (INSTR) {op, {ACAO, {*dir}}};
+  	prog[ip++] = (INSTR) {op, {ACAO, .val.dir={dir}}};
     }
     else{
-  	prog[ip++] = (INSTR) {op, {DIR, {*dir}}};
+  	prog[ip++] = (INSTR) {op, {DIR, .val.dir={dir}}};
     }
 }
 %}
